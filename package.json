@@ -1,0 +1,25 @@
+{
+  "name": "litelement",
+  "version": "1.0.0",
+  "description": "simple lit element",
+  "main": "index.js",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "2.4.2",
+    "lit-element": "^2.2.1"
+  },
+  "extraDependencies": [
+    "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/@webcomponents/webcomponentsjs/bundles/**"
+  ],
+  "devDependencies": {},
+  "builds": [
+    {
+      "preset": "es5-bundled"
+    }
+  ],
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
