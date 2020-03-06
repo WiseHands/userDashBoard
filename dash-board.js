@@ -66,11 +66,19 @@ class DashBoard extends LitElement {
             <div class="body-dash-board-container">
                 <div class="tools-dash-board-container border"></div>
                 <div class="container row shops-place border">
-                    <div class="shop-element create-shop border"></div>
+                    <div class="shop-element create-shop border">
+                        <a href="/ua/wizard">
+                            <div class="shop-element create-shop border">
+                                <p>+</p>
+                            </div>
+                        </a>
+                    </div>
                         ${this.shopList.map(item => html`
-                               <div class="shop-element border">
-                                    <p>${item.shopName}</p>
-                               </div>
+                               <a href="${this._buildUrlForShop(item)}">
+                                   <div class="shop-element border">
+                                        <p>${item.shopName}</p>
+                                   </div>
+                               </a>    
                         `)}                    
                 </div>
             </div>
@@ -92,6 +100,10 @@ class DashBoard extends LitElement {
         this.shopList = [{shopName:"shop0"}, {shopName:"shop1"}, {shopName:"shop3"}, {shopName:"shop4"}, {shopName:"shop5"}];
     }
 
+    _buildUrlForShop(item){
+        return `${window.location.protocol}//${item.domain}:${window.location.port}/admin`;
+        console.log("_buildUrlForShop => ", item);
+    }
 
     getShopList(){
         const _this = this;
