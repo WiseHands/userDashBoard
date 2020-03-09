@@ -96,7 +96,7 @@ class DashBoard extends LitElement {
     constructor() {
         super();
         this.getShopList();
-        this.shopList = [{shopName:"shop0"}, {shopName:"shop1"}, {shopName:"shop3"}, {shopName:"shop4"}, {shopName:"shop5"}];
+        this.shopList = [];
     }
 
     _buildUrlForShop(item){
@@ -106,7 +106,7 @@ class DashBoard extends LitElement {
 
     getShopList(){
         const _this = this;
-        const url ='/shops';
+        const url ='/api/dashboard/shops';
         let token = localStorage.getItem('JWT_TOKEN');
         fetch(url, {
             method: 'GET',
@@ -117,7 +117,10 @@ class DashBoard extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
-            _this.shopList = data;
+            console.log('data: ', data);
+            if (data){
+                _this.shopList = data;
+            }
             console.log("response data: ", data);
         });
     }
