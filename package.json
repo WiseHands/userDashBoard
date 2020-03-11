@@ -6,10 +6,12 @@
   "entrypoint": "index.html",
   "dependencies": {
     "@webcomponents/webcomponentsjs": "2.4.2",
+    "fa-icons": "^0.2.0",
     "lit-element": "^2.2.1"
   },
   "extraDependencies": [
     "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/fa-icons/fa-icon.js",
     "node_modules/@webcomponents/webcomponentsjs/bundles/**"
   ],
   "devDependencies": {
