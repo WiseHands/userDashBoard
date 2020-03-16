@@ -29,7 +29,7 @@ class DashBoard extends LitElement {
                         font-family: 'Roboto', 'Helvetica', sans-serif;
                         font-size: 20px;
                     }
-                    .profile-info, .logo{
+                    .logo{
                         height: 48px;
                         width: 48px;
                         margin: 5px;
@@ -38,6 +38,11 @@ class DashBoard extends LitElement {
                         margin-left: 5px;
                         color: rgba(0,0,0, .9);
                     }
+                    .profile-info{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    } 
                 .body-dash-board-container{
                     display: flex;
                     height: calc(100% - 56px)
@@ -53,9 +58,10 @@ class DashBoard extends LitElement {
                         border-bottom: 1px solid lightgrey;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
                     }
-                    fa-icon{
+                    .menu-item-logo{
+                        height: 24px;
+                        width: 24px;
                         margin: 5px;
-                        
                     }
                 .shops-place{
                     display: flex;
@@ -72,30 +78,35 @@ class DashBoard extends LitElement {
                         height: 200px;
                         width: 200px;
                     }
+                    .create-shop-plus-logo{
+                        height: 24px;
+                        width: 24px;
+                    }
             </style>
             
             <div class="main-container">
                 <div class="header-profile-container border">
                     <div class="logo-container">
-                        <img class="logo" src="images/logo.jpg">
+                        <img class="logo" src="images/main_logo_black.png">
                         <p class="product-name">WSTORE</p>
                     </div>
                     <div class="profile-info">
                         <p>${this.userFullName}</p>
+                        <img class="logo" src="images/user-header-info.svg">
                     </div>
                 </div>
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
                         <div class="menu-item">
-                            <fa-icon class="fas fa-house-damage"></fa-icon>
+                            <img class="menu-item-logo" src="images/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>
                         <div class="menu-item">
-                            <fa-icon class="fas fa-book"></fa-icon>
+                            <img class="menu-item-logo" src="images/icon-subscr-dashboard.svg">
                             <p>Підписки</p>
                         </div>
                         <div class="menu-item">
-                            <fa-icon class="fas fa-user-circle"></fa-icon>
+                            <img class="menu-item-logo" src="images/icon-user-dashboard.svg">
                             <p>Профіль</p>
                         </div>
                     </div>
@@ -103,7 +114,7 @@ class DashBoard extends LitElement {
                         <div class="shop-element create-shop border">
                             <a href="/ua/wizard">
                                 <div class="shop-element create-shop border">
-                                    <p>+</p>
+                                    <img class="create-shop-plus-logo" src="/images/plus.svg">
                                 </div>
                             </a>
                         </div>
@@ -180,7 +191,7 @@ class DashBoard extends LitElement {
         }).then(function (data) {
             console.log('data for users: ', data);
             if (data){
-                _this.userFullName = `${data.givenName}${data.familyName}`;
+                _this.userFullName = `${data.givenName} ${data.familyName}`;
             }
         });
     }
