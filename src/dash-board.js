@@ -1,6 +1,5 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
-import 'fa-icons';
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -38,11 +37,22 @@ class DashBoard extends LitElement {
                         margin-left: 5px;
                         color: rgba(0,0,0, .9);
                     }
-                    .profile-info{
+                    .profile-info-container{
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
-                    } 
+                    }
+                        .profile-info{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-end; 
+                        }
+                        .profile-info p{
+                            margin: 0;
+                        }
+                        .profile-info-balance{
+                            display: flex;                            
+                        } 
                 .body-dash-board-container{
                     display: flex;
                     height: calc(100% - 56px)
@@ -63,68 +73,102 @@ class DashBoard extends LitElement {
                         width: 24px;
                         margin: 5px;
                     }
-                .shops-place{
+                .work-place-dash-board-container{
                     display: flex;
-                    flex-direction: row;
-                    align-items: flex-start;
-                    flex-wrap: wrap;
                     width: 75%;
                 }
-                    .shop-element{
+                    .shop-list-container{
+                        flex-direction: row;
+                        align-items: flex-start;
+                        flex-wrap: wrap;
+                    }
+                        .shop-element{
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin: 15px;
+                            height: 200px;
+                            width: 200px;
+                        }
+                        .shop-element p{
+                             color: black;
+                        }
+                        .create-shop-plus-logo{
+                            height: 24px;
+                            width: 24px;
+                        }
+                    .subscription-container{
                         display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 15px;
-                        height: 200px;
-                        width: 200px;
+                        margin-left: 10px;
                     }
-                    .create-shop-plus-logo{
-                        height: 24px;
-                        width: 24px;
-                    }
+                    .profile-container{
+                        display: flex;
+                        margin-left: 10px;
+
+                    }    
+                                     
             </style>
             
             <div class="main-container">
                 <div class="header-profile-container border">
                     <div class="logo-container">
-                        <img class="logo" src="images/main_logo_black.png">
+                        <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
                         <p class="product-name">WSTORE</p>
                     </div>
-                    <div class="profile-info">
-                        <p>${this.userFullName}</p>
-                        <img class="logo" src="images/user-header-info.svg">
+                    <div class="profile-info-container">
+                        <div class="profile-info">
+                            <p>${this.userFullName}</p>
+                            <div class="profile-info-balance">
+                                <p>Баланс:</p>
+                                <p>1000 грн</p>
+                            </div>
+                            
+                        </div>
+                        <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
                     </div>
                 </div>
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
                         <div class="menu-item">
-                            <img class="menu-item-logo" src="images/icon-store-dashboard.svg">
-                            <p>Магазини</p>
+                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
+                            <button @click="${this.showShopListContainer}">магазини</button>
                         </div>
                         <div class="menu-item">
-                            <img class="menu-item-logo" src="images/icon-subscr-dashboard.svg">
-                            <p>Підписки</p>
+                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
+                           <button @click="${this.showSubscriptionContainer}">Підписки</button>
                         </div>
-                        <div class="menu-item">
-                            <img class="menu-item-logo" src="images/icon-user-dashboard.svg">
-                            <p>Профіль</p>
+                        <div class="menu-item" >
+                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
+                            <button @click="${this.showProfileContainer}">Профіль</button>
                         </div>
                     </div>
-                    <div class="shops-place border">
-                        <div class="shop-element create-shop border">
-                            <a href="/ua/wizard">
-                                <div class="shop-element create-shop border">
-                                    <img class="create-shop-plus-logo" src="/images/plus.svg">
-                                </div>
-                            </a>
-                        </div>
-                        ${this.shopList.map(item => html`
-                               <a href="${this._buildUrlForShop(item)}">
-                                   <div class="shop-element border">
-                                        <p>${item.shopName}</p>
-                                   </div>
-                               </a>    
-                        `)}                    
+                    <div class="work-place-dash-board-container border">
+                        ${this.isShowShopListContainer ? html`                                            
+                        <div class="shop-list-container">
+                            <div class="shop-element border">
+                                <a href="/ua/wizard">
+                                    <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.svg">
+                                </a>
+                            </div>
+                             ${this.shopList.map(item => html`
+                                   <a href="${this._buildUrlForShop(item)}">
+                                       <div class="shop-element border">
+                                            <p>${item.shopName}</p>
+                                       </div>
+                                   </a>    
+                            `)}                    
+                        </div>` : html ``} 
+                        
+                        ${this.isShowSubscriptionContainer ? html `                        
+                        <div class="subscription-container">
+                            <p>subscription-container </p>
+                        </div>` : html ``}
+                        
+                        ${this.isShowProfileContainer ? html `
+                        <div class="profile-container">
+                            <p>profile-container</p>
+                        </div>` : html ``}
+                        
                     </div>
                 </div>
             </div>
@@ -139,7 +183,16 @@ class DashBoard extends LitElement {
             },
             userFullName: {
                 type: String,
-            }
+            },
+            isShowShopListContainer: {
+                type: Boolean
+            },
+            isShowSubscriptionContainer: {
+                type: Boolean
+            },
+            isShowProfileContainer: {
+                type: Boolean
+            },
         };
     }
 
@@ -148,11 +201,31 @@ class DashBoard extends LitElement {
         this.getShopList();
         this.getUserInfo();
         this.shopList = [];
+        this.userFullName = 'Ім. Пр.';
+
     }
 
     _buildUrlForShop(item){
         const token = localStorage.getItem('JWT_TOKEN');
         return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
+    }
+
+    showShopListContainer() {
+        this.isShowShopListContainer = true;
+        this.isShowSubscriptionContainer = false;
+        this.isShowProfileContainer = false;
+    }
+
+    showSubscriptionContainer() {
+        this.isShowShopListContainer = false;
+        this.isShowSubscriptionContainer = true;
+        this.isShowProfileContainer = false;
+    }
+
+    showProfileContainer() {
+        this.isShowShopListContainer = false;
+        this.isShowSubscriptionContainer = false;
+        this.isShowProfileContainer = true;
     }
 
     getShopList(){
