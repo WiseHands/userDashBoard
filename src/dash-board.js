@@ -1,5 +1,6 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
+import './subcription-container.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -97,10 +98,7 @@ class DashBoard extends LitElement {
                             height: 24px;
                             width: 24px;
                         }
-                    .subscription-container{
-                        display: flex;
-                        margin-left: 10px;
-                    }
+                    
                     .profile-container{
                         display: flex;
                         margin-left: 10px;
@@ -139,7 +137,7 @@ class DashBoard extends LitElement {
                         </div>
                         <div class="menu-item" >
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
-                            <button @click="${this.showProfileContainer}">Профіль</button>
+                            <div @click="${this.showProfileContainer}">Профіль</div>
                         </div>
                     </div>
                     <div class="work-place-dash-board-container border">
@@ -159,10 +157,8 @@ class DashBoard extends LitElement {
                             `)}                    
                         </div>` : html ``} 
                         
-                        ${this.isShowSubscriptionContainer ? html `                        
-                        <div class="subscription-container">
-                            <p>subscription-container </p>
-                        </div>` : html ``}
+                        ${this.isShowSubscriptionContainer ? html `
+                        <subcription-container></subcription-container>` : html ``}
                         
                         ${this.isShowProfileContainer ? html `
                         <div class="profile-container">
@@ -172,7 +168,7 @@ class DashBoard extends LitElement {
                     </div>
                 </div>
             </div>
-
+            
     `;}
 
     static get properties() {
