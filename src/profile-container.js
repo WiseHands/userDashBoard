@@ -1,7 +1,7 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
 // Extend the LitElement base class
-class SubcriptionContainer extends LitElement {
+class ProfileContainer extends LitElement {
 
     render(){
         return html`
@@ -11,7 +11,8 @@ class SubcriptionContainer extends LitElement {
                 }
                 .main-container{
                     display: flex;
-                    margin: 15px;                   
+                    margin: 15px;
+                    
                 }
                                      
             </style>
@@ -25,7 +26,8 @@ class SubcriptionContainer extends LitElement {
     static get properties() {
         return {
             balance: {
-                type: Number,
+                type: String,
+                value: '0.0.0.0'
             },
 
         };
@@ -34,7 +36,7 @@ class SubcriptionContainer extends LitElement {
     constructor() {
         super();
         this.getUserInfo();
-        this.balance = 12536.5;
+        this.balance = '0.0.0.1';
 
     }
 
@@ -85,4 +87,4 @@ class SubcriptionContainer extends LitElement {
 
 }
 // Register the new element with the browser.
-customElements.define('subcription-container', SubcriptionContainer);
+customElements.define('profile-container', ProfileContainer);

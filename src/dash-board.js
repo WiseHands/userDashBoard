@@ -1,6 +1,7 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
 import './subcription-container.js'
+import './profile-container.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -74,11 +75,18 @@ class DashBoard extends LitElement {
                         width: 24px;
                         margin: 5px;
                     }
+                    .menu-item:hover{
+                        background-color: darkgray;
+                        cursor: pointer;
+                    }
                 .work-place-dash-board-container{
                     display: flex;
                     width: 75%;
                 }
                     .shop-list-container{
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
                         flex-direction: row;
                         align-items: flex-start;
                         flex-wrap: wrap;
@@ -103,6 +111,11 @@ class DashBoard extends LitElement {
                         display: flex;
                         margin-left: 10px;
 
+                    }
+                    subcription-container{
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
                     }    
                                      
             </style>
@@ -127,17 +140,17 @@ class DashBoard extends LitElement {
                 </div>
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
-                        <div class="menu-item">
+                        <div class="menu-item" @click="${this.showShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
-                            <button @click="${this.showShopListContainer}">магазини</button>
+                            <p>магазини</p>
                         </div>
-                        <div class="menu-item">
-                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
-                           <button @click="${this.showSubscriptionContainer}">Підписки</button>
+                        <div class="menu-item" @click="${this.showSubscriptionContainer}">
+                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
+                           <p>Підписки</p>
                         </div>
-                        <div class="menu-item" >
+                        <div class="menu-item" @click="${this.showProfileContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
-                            <div @click="${this.showProfileContainer}">Профіль</div>
+                            <p>Профіль</p>
                         </div>
                     </div>
                     <div class="work-place-dash-board-container border">
@@ -158,12 +171,12 @@ class DashBoard extends LitElement {
                         </div>` : html ``} 
                         
                         ${this.isShowSubscriptionContainer ? html `
-                        <subcription-container></subcription-container>` : html ``}
+                            <subcription-container></subcription-container>
+                        ` : ''}
                         
                         ${this.isShowProfileContainer ? html `
-                        <div class="profile-container">
-                            <p>profile-container</p>
-                        </div>` : html ``}
+                            <profile-container></profile-container>
+                        ` : html ``}
                         
                     </div>
                 </div>
@@ -198,6 +211,7 @@ class DashBoard extends LitElement {
         this.getUserInfo();
         this.shopList = [];
         this.userFullName = 'Ім. Пр.';
+        this.isShowShopListContainer = true;
 
     }
 
