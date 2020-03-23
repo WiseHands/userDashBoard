@@ -106,16 +106,17 @@ class DashBoard extends LitElement {
                             height: 24px;
                             width: 24px;
                         }
-                    
-                    .profile-container{
-                        display: flex;
-                        margin-left: 10px;
-
-                    }
+                                      
                     subcription-container{
                         width: 100%;
                         height: 100%;
                         display: flex;
+                    }
+                    profile-container{
+                        display: flex;
+                        margin-left: 10px;
+                        width: 100%;
+
                     }    
                                      
             </style>
@@ -275,6 +276,7 @@ class DashBoard extends LitElement {
             console.log('data for users: ', data);
             if (data){
                 _this.userFullName = `${data.givenName} ${data.familyName}`;
+                console.log(`user UUID: ${data.uuid}`);
             }
         });
     }

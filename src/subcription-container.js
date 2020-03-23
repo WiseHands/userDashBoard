@@ -1,6 +1,5 @@
-// Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
-// Extend the LitElement base class
+
 class SubcriptionContainer extends LitElement {
 
     render(){

@@ -1,6 +1,5 @@
-// Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
-// Extend the LitElement base class
+
 class ProfileContainer extends LitElement {
 
     render(){
@@ -12,13 +11,45 @@ class ProfileContainer extends LitElement {
                 .main-container{
                     display: flex;
                     margin: 15px;
-                    
+                    width: 100%;
                 }
+                    .balance-container{
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                    }
+                        .payment-form-container form{
+                            display: flex;
+                            flex-direction: column;
+                        }
                                      
             </style>
             
             <div class="main-container">
-              <p>Balance: ${this.balance}</p>
+                <div class="balance-container">
+                    <p>Баланс: ${this.balance} UAH</p>
+                    <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
+                    
+                    <button @click="${this.generateSignatureForPayment}">поповнити</button>  
+                    
+                    <div class="payment-form-container">
+                        <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
+                            <input id="merchantAccount" name="merchantAccount" value="">
+                            <input id="merchantDomainName" name="merchantDomainName" value="">
+                            <input id="merchantSignature" name="merchantSignature" value="">
+                            <input id="merchantTransactionSecureType" name="merchantTransactionSecureType" value="AUTO">
+                            <input id="orderReference" name="orderReference" value="USER_ID">
+                            <input id="orderDate" name="orderDate" value="TIME">
+                            <input id="amount" name="amount" value="">
+                            <input id="currency" name="currency" value="UAH">
+                            <input id="productName" name="productName[]" value="Поповнення рахунку користувача USER_ID">
+                            <input id="productPrice" name="productPrice[]" value="">
+                            <input id="productCount" name="productCount[]" value="1">
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
+                
             </div>
 
     `;}
@@ -26,56 +57,46 @@ class ProfileContainer extends LitElement {
     static get properties() {
         return {
             balance: {
-                type: String,
-                value: '0.0.0.0'
+                type: Number
             },
-
+            amountPayment: {
+                type: Number
+            }
         };
     }
 
     constructor() {
         super();
-        this.getUserInfo();
-        this.balance = '0.0.0.1';
+        this.balance = 0;
+        this.amountPayment = 0;
 
     }
 
-    _buildUrlForShop(item){
-        const token = localStorage.getItem('JWT_TOKEN');
-        return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
+    handleAmountPayment(e){
+        this.amountPayment = e.target.value;
     }
 
+    generateSignatureForPayment(){
+        const url = `/api/wayforpay/generate-signature?amount=${this.amountPayment}`;
+        this.generatePostRequest(url);
+        console.log(`get amount from value ${this.amountPayment}`)
+    }
 
-    getShopList(){
-        const _this = this;
-        const url ='/api/dashboard/shops';
-        let token = localStorage.getItem('JWT_TOKEN');
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                authorization:  'Bearer ' + token
-            }
-        }).then(function (response) {
-            console.log("response response: ", response);
-            return response.json();
-        }).then(function (data) {
-            console.log('data for shopList: ', data);
-            if (data){
-                _this.shopList = data;
-            }
+    submitFormForPayment(){
+        const firstForm = document.getElementById('firstForm');
+        firstForm.addEventListener('submit', function(event) {
 
         });
     }
 
-    getUserInfo(){
-        const _this = this;
-        const url ='/api/dashboard/user';
-        let token = localStorage.getItem('JWT_TOKEN');
+    replenishCoinAccount(){
+        const url = '';
+        this.generateGetRequest(url);
+    }
+
+    generateGetRequest(url){
         fetch(url, {
             method: 'GET',
-            headers: {
-                authorization:  'Bearer ' + token
-            }
         }).then(function (response) {
             console.log("response response: ", response);
             return response.json();
@@ -85,6 +106,36 @@ class ProfileContainer extends LitElement {
         });
     }
 
+
+    generatePostRequest(url){
+        let _this = this;
+        let token = localStorage.getItem('JWT_TOKEN');
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                authorization:  'Bearer ' + token
+            }
+        }).then(function (response) {
+            console.log("response response: ", response);
+            return response.json();
+        }).then(function (data) {
+            console.log('data from generatePostRequest: ', data);
+            _this.setPaymentWayForPayForm(data);
+        });
+    }
+
+    setPaymentWayForPayForm(data){
+        this.shadowRoot.querySelector('#merchantAccount').value = data.merchantAccount;
+        this.shadowRoot.querySelector('#merchantDomainName').value = data.merchantDomainName;
+        this.shadowRoot.querySelector('#merchantSignature').value = data.signature;
+        this.shadowRoot.querySelector('#orderReference').value = data.orderReference;
+        this.shadowRoot.querySelector('#orderDate').value = data.orderDate;
+        this.shadowRoot.querySelector('#amount').value = data.amount;
+        this.shadowRoot.querySelector('#currency').value = data.currency;
+        this.shadowRoot.querySelector('#productName').value = data.productName;
+        this.shadowRoot.querySelector('#productCount').value = data.productCount;
+        this.shadowRoot.querySelector('#productPrice').value = data.productPrice;
+    }
 }
 // Register the new element with the browser.
 customElements.define('profile-container', ProfileContainer);
