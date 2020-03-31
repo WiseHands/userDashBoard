@@ -129,6 +129,9 @@ class DashBoard extends LitElement {
                                 .shop-info-container p {
                                     color: black;
                                 }
+                                .shop-info-container img:hover{
+                                    cursor: pointer;
+                                }
                                 .shop-balance, .shop-link{
                                     display: flex;
                                     justify-content: center;
@@ -192,12 +195,15 @@ class DashBoard extends LitElement {
                                             <p>${item.shopName}</p>
                                         </a>    
                                         <div class="shop-info-container">
-                                            <div class="shop-balance">
-                                                <p>balance:</p>                                            
+                                             <div class="shop-balance">
+                                                <img class="menu-item-logo"
+                                                 @click="${this.showProfileContainer}"
+                                                 src="wisehands/assets/images/dashboard/money.png">
                                             </div>
-                                            <div class="shop-link">
-                                                <a href="${this._buildUrlForShop(item)}"><p>link</p></a>
-                                            </div>
+                                            <a class="shop-link" href="${this._buildUrlForShop(item)}">
+                                                 <img class="menu-item-logo"
+                                                 src="wisehands/assets/images/dashboard/link.png">                         
+                                            </a>
                                         </div>
                                     </div>
                              `)}                    
