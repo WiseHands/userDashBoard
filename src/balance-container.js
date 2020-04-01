@@ -35,6 +35,7 @@ class BalanceContainer extends LitElement {
                     <div class="payment-form-container" hidden>
                         <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
                             <input id="account" name="merchantAccount" value="">
+                            <input id="serviceUrl" name="serviceUrl" value="">
                             <input id="domainName" name="merchantDomainName" value="">
                             <input id="signature" name="merchantSignature" value="">
                             <input name="merchantTransactionSecureType" value="AUTO">
@@ -44,7 +45,7 @@ class BalanceContainer extends LitElement {
                             <input id="currencyCash" name="currency" value="UAH">
                             <input id="name" name="productName[]" value="Поповнення рахунку користувача USER_ID">
                             <input id="price" name="productPrice[]" value="">
-                            <input id="count" name="productCount[]" value="">
+                            <input id="count" name="productCount[]" value="">serviceUrl
                             <input type="submit" value="Submit">
                         </form>
                     </div>
@@ -131,6 +132,7 @@ class BalanceContainer extends LitElement {
         this.shadowRoot.querySelector('#name').value = data.productName;
         this.shadowRoot.querySelector('#count').value = data.productCount;
         this.shadowRoot.querySelector('#price').value = data.productPrice;
+        this.shadowRoot.querySelector('#serviceUrl').value = data.serviceUrl;
         this.shadowRoot.querySelector('form').submit();
     }
 }
