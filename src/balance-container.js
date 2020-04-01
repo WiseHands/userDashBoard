@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 
-class ProfileContainer extends LitElement {
+class BalanceContainer extends LitElement {
 
     render(){
         return html`
@@ -27,7 +27,7 @@ class ProfileContainer extends LitElement {
             
             <div class="main-container">
                 <div class="balance-container">
-                    <p>Баланс: ${this.balance} UAH</p>
+                    <p>Магазин: ${this.shop.shopName} Баланс: ${this.balance} UAH</p>
                     <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
                     
                     <button @click="${this.generateSignatureForPayment}">поповнити</button>  
@@ -61,6 +61,9 @@ class ProfileContainer extends LitElement {
             },
             amountPayment: {
                 type: Number
+            },
+            shop: {
+                type: Object
             }
         };
     }
@@ -133,4 +136,4 @@ class ProfileContainer extends LitElement {
     }
 }
 // Register the new element with the browser.
-customElements.define('profile-container', ProfileContainer);
+customElements.define('balance-container', BalanceContainer);

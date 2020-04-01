@@ -1,7 +1,7 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
 import './subcription-container.js'
-import './profile-container.js'
+import './balance-container.js'
 import './shop-tile.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
@@ -141,7 +141,7 @@ class DashBoard extends LitElement {
                         height: 100%;
                         display: flex;
                     }
-                    profile-container{
+                    balance-container{
                         display: flex;
                         margin-left: 10px;
                         width: 100%;
@@ -200,7 +200,7 @@ class DashBoard extends LitElement {
                         ` : ''}
                         
                         ${this.isShowProfileContainer ? html `
-                            <profile-container></profile-container>
+                            <balance-container .shop="${this.selectedShop}"></balance-container>
                         ` : html ``}
                         
                     </div>
@@ -242,7 +242,6 @@ class DashBoard extends LitElement {
         this.addEventListener('open-balance', event => {
                 this.selectedShop = event.detail;
                 this.showProfileContainer();
-
             }
         );
     }
