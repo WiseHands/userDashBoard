@@ -45,7 +45,7 @@ class BalanceContainer extends LitElement {
                             <input id="currencyCash" name="currency" value="UAH">
                             <input id="name" name="productName[]" value="Поповнення рахунку користувача USER_ID">
                             <input id="price" name="productPrice[]" value="">
-                            <input id="count" name="productCount[]" value="">serviceUrl
+                            <input id="count" name="productCount[]" value="">
                             <input type="submit" value="Submit">
                         </form>
                     </div>
