@@ -166,7 +166,7 @@ class DashBoard extends LitElement {
                     <div class="tools-dash-board-container border">
                         <div class="menu-item" @click="${this.showShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
-                            <p>магазини</p>
+                            <p>Магазини</p>
                         </div>
                         <div class="menu-item" @click="${this.showSubscriptionContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
