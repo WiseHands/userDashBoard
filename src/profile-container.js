@@ -100,9 +100,10 @@ class ProfileContainer extends LitElement {
     }
 
     generatePostRequest(url){
+        const params = `?shopUuid=${this.selectedShop.uuid}`;
         let _this = this;
         let token = localStorage.getItem('JWT_TOKEN');
-        fetch(url, {
+        fetch(url + params, {
             method: 'POST',
             headers: {
                 authorization:  'Bearer ' + token

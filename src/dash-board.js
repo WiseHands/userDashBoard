@@ -2,6 +2,7 @@
 import { LitElement, html } from 'lit-element';
 import './subcription-container.js'
 import './profile-container.js'
+import './shop-tile.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -90,12 +91,19 @@ class DashBoard extends LitElement {
                     }
                         .create-shop-element{
                             display: flex;
+                            flex-direction: column;
                             justify-content: center;
                             align-items: center;
                             margin: 15px;
                             height: 200px;
                             width: 200px;
                         }                        
+                        .create-shop-text-container{
+                            display: flex;                            
+                            align-items: center;
+                            padding-top: 10px;
+                            height: 40px;
+                        }
                         .create-shop-element p{
                              color: black;
                         }
@@ -103,41 +111,30 @@ class DashBoard extends LitElement {
                                 height: 24px;
                                 width: 24px;
                             }
-                        .shop-element-container{
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                            margin: 15px;
-                            height: 200px;
-                            width: 200px;
-                        }
-                            .shop-name{
+                    
+                        .shop-name{
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
+                                color: white;
                                 height: 60%;
+                                width: 90%;
+                                border-radius: 5px;
+                                background-color: #00BCD4;
                             }
-                            .shop-info-container{
-                                display: flex;
-                                flex-direction: row;
-                                justify-content: space-between;
-                                align-items: center;
-                                height: 20%;
-                                width: 100%;
-                            }
-                                .shop-info-container p {
-                                    color: black;
+                                .shop-name p{
+                                    font-size: 2em;
                                 }
-                                .shop-info-container img:hover{
-                                    cursor: pointer;
-                                }
-                                .shop-balance, .shop-link{
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    padding: 10px;
-                                }
+                                
+                    shop-tile{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 15px;
+                        height: 200px;
+                        width: 200px;
+                    }                        
                                                                     
                     subcription-container{
                         width: 100%;
@@ -148,7 +145,6 @@ class DashBoard extends LitElement {
                         display: flex;
                         margin-left: 10px;
                         width: 100%;
-
                     }    
                                      
             </style>
@@ -186,26 +182,16 @@ class DashBoard extends LitElement {
                         <div class="shop-list-container">
                              <a @click="${this.creatingShopThroughWizard}">
                                 <div class="create-shop-element border">
-                                    <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.svg">
+                                    <div class="shop-name">
+                                        <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
+                                    </div>
+                                    <div class="create-shop-text-container">
+                                        <p>Створити магазин</p>
+                                    </div>
                                 </div>
                              </a>
                              ${this.shopList.map(item => html`
-                                    <div class="shop-element-container border">
-                                        <a class="shop-name" href="${this._buildUrlForShop(item)}">
-                                            <p>${item.shopName}</p>
-                                        </a>    
-                                        <div class="shop-info-container">
-                                             <div class="shop-balance">
-                                                <img class="menu-item-logo"
-                                                 @click="${this.showProfileContainer}"
-                                                 src="wisehands/assets/images/dashboard/money.png">
-                                            </div>
-                                            <a class="shop-link" href="${this._buildUrlForShop(item)}">
-                                                 <img class="menu-item-logo"
-                                                 src="wisehands/assets/images/dashboard/link.png">                         
-                                            </a>
-                                        </div>
-                                    </div>
+                                    <shop-tile .shop="${item}"></shop-tile>
                              `)}                    
                         </div>` : html ``} 
                         
@@ -244,6 +230,8 @@ class DashBoard extends LitElement {
         };
     }
 
+
+
     constructor() {
         super();
         this.getShopList();
@@ -251,8 +239,15 @@ class DashBoard extends LitElement {
         this.shopList = [];
         this.userFullName = 'Ім. Пр.';
         this.isShowShopListContainer = true;
+        this.addEventListener('open-balance', event => {
+                this.selectedShop = event.detail;
+                this.showProfileContainer();
 
+            }
+        );
     }
+
+
 
     creatingShopThroughWizard(){
         localStorage.setItem('isShopCreated', 'false');
@@ -260,10 +255,6 @@ class DashBoard extends LitElement {
     }
 
 
-    _buildUrlForShop(item){
-        const token = localStorage.getItem('JWT_TOKEN');
-        return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
-    }
 
     showShopListContainer() {
         this.isShowShopListContainer = true;
@@ -282,6 +273,8 @@ class DashBoard extends LitElement {
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = true;
     }
+
+
 
     getShopList(){
         const _this = this;
