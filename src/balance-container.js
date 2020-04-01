@@ -80,7 +80,7 @@ class BalanceContainer extends LitElement {
     }
 
     generateSignatureForPayment(){
-        const url = `/api/wayforpay/generate-signature?amount=${this.amountPayment}`;
+        const url = `/api/wayforpay/generate-signature?amount=${this.amountPayment}&shopUuid=${this.shop.uuid}`;
         this.generatePostRequest(url);
         console.log(`get amount from value ${this.amountPayment}`)
     }
@@ -103,10 +103,9 @@ class BalanceContainer extends LitElement {
     }
 
     generatePostRequest(url){
-        const params = `?shopUuid=${this.selectedShop.uuid}`;
         let _this = this;
         let token = localStorage.getItem('JWT_TOKEN');
-        fetch(url + params, {
+        fetch(url, {
             method: 'POST',
             headers: {
                 authorization:  'Bearer ' + token

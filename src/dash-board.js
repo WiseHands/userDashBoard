@@ -82,12 +82,12 @@ class DashBoard extends LitElement {
                     width: 75%;
                 }
                     .shop-list-container{
-                        width: 100%;
-                        height: 100%;
+
+                    }
+                    .inner-container{
                         display: flex;
-                        flex-direction: row;
-                        align-items: flex-start;
                         flex-wrap: wrap;
+                        
                     }
                         .create-shop-element{
                             display: flex;
@@ -180,7 +180,8 @@ class DashBoard extends LitElement {
                     <div class="work-place-dash-board-container border">
                         ${this.isShowShopListContainer ? html`                                            
                         <div class="shop-list-container">
-                             <a @click="${this.creatingShopThroughWizard}">
+                             <div class="inner-container">
+                                <a @click="${this.creatingShopThroughWizard}">
                                 <div class="create-shop-element border">
                                     <div class="shop-name">
                                         <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
@@ -192,7 +193,8 @@ class DashBoard extends LitElement {
                              </a>
                              ${this.shopList.map(item => html`
                                     <shop-tile .shop="${item}"></shop-tile>
-                             `)}                    
+                             `)}   
+                            </div>                 
                         </div>` : html ``} 
                         
                         ${this.isShowSubscriptionContainer ? html `
