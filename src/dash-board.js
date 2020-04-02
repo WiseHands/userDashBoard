@@ -225,7 +225,6 @@ class DashBoard extends LitElement {
                     }
                     balance-container{
                         display: flex;
-                        margin-left: 10px;
                         width: 100%;
                     }    
                 @media screen and (max-width: 768px) {
