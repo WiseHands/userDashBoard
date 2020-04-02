@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit-element';
+import './table-transaction.js'
 
 class BalanceContainer extends LitElement {
 
@@ -79,9 +80,10 @@ class BalanceContainer extends LitElement {
                     </div>
                     <div class="transaction-table-container">
                         <p>Table here</p>
-                    </div>
+                            <table-transaction></table-transaction>
+                        </div>
                 </section>
-
+    
                 <div class="payment-form-container" hidden>
                     <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
                         <input id="account" name="merchantAccount" value="">
@@ -100,9 +102,9 @@ class BalanceContainer extends LitElement {
                     </form>
                 </div>
             </div>
-            
-
-    `;}
+                
+    
+`;}
 
     static get properties() {
         return {

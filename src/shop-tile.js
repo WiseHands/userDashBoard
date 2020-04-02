@@ -92,19 +92,12 @@ class ShopTile extends LitElement {
         super();
     }
 
-    updated(changedProperties) {
-        changedProperties.forEach((oldValue, propName) => {
-            console.log(`${propName} changed. oldValue: ${oldValue}`);
-        });
-    }
-
     _buildUrlForShop(item){
         const token = localStorage.getItem('JWT_TOKEN');
         return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
     }
 
     showBalanceWidgetForShop(){
-        console.log("here");
         this.dispatchEvent(new CustomEvent('open-balance',
             {
                 bubbles: true,
