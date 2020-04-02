@@ -40,7 +40,7 @@ class DashBoard extends LitElement {
                         margin-left: 5px;
                         color: rgba(0,0,0, .9);
                     }
-                    .profile-info-container{
+                    .profile-info-container {
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
@@ -52,14 +52,96 @@ class DashBoard extends LitElement {
                         }
                         .profile-info p{
                             margin: 0;
-                        }                        
+                        } 
+                         
+#overlay-mobile {
+    display: none;
+    background-color: rgba(0,0,0,0);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 400;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-mobile {
+    width: 85%;
+    height: 100%;
+    background-color: rgba(255,255,255,1);
+    opacity: 1;
+    animation: sidebarmove 0.3s linear;
+    position: fixed;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+@keyframes sidebarmove {
+    from {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+.sibebar-swipe-off {
+    width: 0%;
+    height: 100%;
+    background-color: rgba(255,255,255,1);
+    opacity: 1;
+    transition-delay: 0.3s;
+    animation: sidebarswipeoff 0.3s linear;
+}
+@keyframes sidebarswipeoff {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        visibility: hidden;
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    height: 58px;
+    padding: 0.5rem;
+}
+.sidebar-logo img {
+    width: 36px;
+    height: 36px;
+    padding-right: 0.7rem;
+}
+.sidebar-logo p {
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+.sidebar-panel {
+    display: flex;
+    flex-direction: column;
+    line-height: 2;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+.sidebar-panel a {
+    cursor: pointer;
+    color: #262626;
+    line-height: 2.5;
+}
+.sidebar-panel p {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+}
+                .mobile-logo-container, .mobile-profile-info-container  {
+                    display: none;
+                }
                 .body-dash-board-container{
                     display: flex;
                     height: calc(100% - 56px)
                 }
                 .tools-dash-board-container{
                     width: 25%;
-                }
+                }                                                                                               
                     .menu-item {
                         display: flex;
                         align-items: center;
@@ -146,10 +228,51 @@ class DashBoard extends LitElement {
                         margin-left: 10px;
                         width: 100%;
                     }    
-                                     
+                @media screen and (max-width: 768px) {
+                    .tools-dash-board-container, .profile-info-container, .logo-container  {
+                        display: none;
+                    }
+                    .work-place-dash-board-container {
+                        width: 100%
+                    }     
+                    .mobile-logo-container, .mobile-profile-info-container {
+                        display: flex;
+                        align-items: center;
+                    }
+                        
             </style>
             
             <div class="main-container">
+                <div  id="overlay-mobile" class="null-style">
+                    <div class="sidebar-mobile sibebar-swipe-off">
+                        <a class="link" href="/dashboard">
+                            <div class="logo-container">
+                                <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
+                                <p class="product-name">WSTORE</p>
+                            </div>
+                        </a>
+                        <div class="sidebar-panel">
+                            <div class="tools-dash-board-container border">
+                                <div class="menu-item" @click="${this.showShopListContainer}">
+                                    <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
+                                    <p>Магазини</p>
+                                </div>
+                                <div class="menu-item" @click="${this.showSubscriptionContainer}">
+                                   <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
+                                   <p>Підписки</p>
+                                </div>
+                                <div class="menu-item" @click="${this.showProfileContainer}">
+                                    <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
+                                    <p>Профіль</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="blur-block">
+            
+                    </div>
+                </div>       
                 <div class="header-profile-container border">
                     <div class="logo-container">
                         <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
@@ -161,7 +284,19 @@ class DashBoard extends LitElement {
                         </div>
                         <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
                     </div>
+                    
+                    <div class="mobile-logo-container">
+                        <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
+                    </div>
+                    <div class="mobile-profile-info-container">
+                        <div class="profile-info">
+                            <p>${this.userFullName}</p>                                                        
+                        </div>
+                        <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
+                    </div>
+                                     
                 </div>
+
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
                         <div class="menu-item" @click="${this.showShopListContainer}">
@@ -320,5 +455,6 @@ class DashBoard extends LitElement {
     }
 
 }
+
 // Register the new element with the browser.
 customElements.define('dash-board', DashBoard);
