@@ -8,50 +8,99 @@ class BalanceContainer extends LitElement {
                 .border{
                     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
                 }
-                .main-container{
+                .line{
+                    border-top: 1px solid lightgray;
+                }
+                .main-balance-container{
                     display: flex;
                     margin: 15px;
+                    flex-direction: column;
                     width: 100%;
                 }
+                .main-balance-container p {
+                    margin: 5px;
+                } 
                     .balance-container{
                         display: flex;
                         flex-direction: column;
-                        width: 100%;
                     }
-                        .payment-form-container form{
+                        .row-container{
                             display: flex;
-                            flex-direction: column;
+                            flex-direction: row;
+                            justify-content: flex-start;
                         }
+                        .row-container input, button{
+                            margin: 5px;
+                        }
+                    .status-plane-container{
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .administration-container{
+                        display: flex;
+                        flex-direction: column;
+                    }    
+                    .payment-form-container form{
+                        display: flex;
+                        flex-direction: column;
+                    }
                                      
             </style>
             
-            <div class="main-container">
-                <div class="balance-container">
-                    <p>Магазин: ${this.shop.shopName} Баланс: ${this.balance} UAH</p>
-                    <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
-                    
-                    <button @click="${this.generateSignatureForPayment}">поповнити</button>  
-                    
-                    <div class="payment-form-container" hidden>
-                        <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
-                            <input id="account" name="merchantAccount" value="">
-                            <input id="serviceUrl" name="serviceUrl" value="">
-                            <input id="domainName" name="merchantDomainName" value="">
-                            <input id="signature" name="merchantSignature" value="">
-                            <input name="merchantTransactionSecureType" value="AUTO">
-                            <input id="reference" name="orderReference" value="USER_ID">
-                            <input id="date" name="orderDate" value="TIME">
-                            <input id="allPrice" name="amount" value="">
-                            <input id="currencyCash" name="currency" value="UAH">
-                            <input id="name" name="productName[]" value="Поповнення рахунку користувача USER_ID">
-                            <input id="price" name="productPrice[]" value="">
-                            <input id="count" name="productCount[]" value="">
-                            <input type="submit" value="Submit">
-                        </form>
+            <div class="main-balance-container">
+                <p>Магазин: ${this.shop.shopName}</p>
+                <!--<p>Інформація:</p>-->
+                <span class="line"></span>
+                <section class="balance-container">
+                    <p> Баланс: ${this.balance} UAH</p>
+                    <div class="row-container">
+                        <p>Поповнити на суму:</p>
+                        <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
+                        <button @click="${this.generateSignatureForPayment}">поповнити</button>  
                     </div>
+                </section>
+                <span class="line"></span>
+                <section class="status-plane-container">
+                    <div class="row-container">
+                        <p>Тариф: ${this.plane}</p>
+                        <button @click="${this.getPlaneForShop}">змінити</button>  
+                    </div>
+                    <div class="row-container">
+                        <p>Статус: ${this.status}</p>
+                    </div>
+                </section>
+                <span class="line"></span>
+                <section class="administration-container">
+                    <!--<p>Адміністрування:</p>-->
+                    <p>Зарахування офлайн поповнення</p>
+                    <div class="row-container">
+                        <input id="adminPayment" .value=${this.adminPayment} @input="${this.handleRefillAdminPayment}">
+                        <button @click="${this.refillAdminPayment}">поповнити</button>
+                    </div>
+                    <div class="transaction-table-container">
+                        <p>Table here</p>
+                    </div>
+                </section>
+
+                <div class="payment-form-container" hidden>
+                    <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
+                        <input id="account" name="merchantAccount" value="">
+                        <input id="serviceUrl" name="serviceUrl" value="">
+                        <input id="domainName" name="merchantDomainName" value="">
+                        <input id="signature" name="merchantSignature" value="">
+                        <input name="merchantTransactionSecureType" value="AUTO">
+                        <input id="reference" name="orderReference" value="USER_ID">
+                        <input id="date" name="orderDate" value="TIME">
+                        <input id="allPrice" name="amount" value="">
+                        <input id="currencyCash" name="currency" value="UAH">
+                        <input id="name" name="productName[]" value="Поповнення рахунку користувача USER_ID">
+                        <input id="price" name="productPrice[]" value="">
+                        <input id="count" name="productCount[]" value="">
+                        <input type="submit" value="Submit">
+                    </form>
                 </div>
-                
             </div>
+            
 
     `;}
 
@@ -64,7 +113,8 @@ class BalanceContainer extends LitElement {
                 type: Number
             },
             shop: {
-                type: Object
+                type: Object,
+
             }
         };
     }
@@ -73,7 +123,6 @@ class BalanceContainer extends LitElement {
         super();
         this.balance = 0;
         this.amountPayment = 0;
-
     }
 
     handleAmountPayment(e){

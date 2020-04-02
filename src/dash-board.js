@@ -143,7 +143,6 @@ class DashBoard extends LitElement {
                     }
                     balance-container{
                         display: flex;
-                        margin-left: 10px;
                         width: 100%;
                     }    
                                      
