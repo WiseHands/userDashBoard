@@ -80,7 +80,7 @@ class BalanceContainer extends LitElement {
                     </div>
                     <div class="transaction-table-container">
                         <p>Table here</p>
-                            <table-transaction></table-transaction>
+                            <table-transaction .shop="${this.shop}" .tranasctionList="${this.coinAccount.transactionList}"></table-transaction>
                         </div>
                 </section>
     
