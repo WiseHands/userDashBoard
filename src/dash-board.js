@@ -248,7 +248,6 @@ class DashBoard extends LitElement {
     }
 
 
-
     creatingShopThroughWizard(){
         localStorage.setItem('isShopCreated', 'false');
         window.location="/ua/wizard";
@@ -273,8 +272,6 @@ class DashBoard extends LitElement {
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = true;
     }
-
-
 
     getShopList(){
         const _this = this;

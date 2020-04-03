@@ -53,7 +53,7 @@ class BalanceContainer extends LitElement {
                 <!--<p>Інформація:</p>-->
                 <span class="line"></span>
                 <section class="balance-container">
-                    <p> Баланс: ${this.balance} UAH</p>
+                    <p> Баланс: ${this.coinAccount.balance} UAH</p>
                     <div class="row-container">
                         <p>Поповнити на суму:</p>
                         <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
@@ -108,23 +108,45 @@ class BalanceContainer extends LitElement {
 
     static get properties() {
         return {
-            balance: {
-                type: Number
+            coinAccount: {
+                type: Object,
             },
             amountPayment: {
                 type: Number
             },
             shop: {
                 type: Object,
-
             }
         };
     }
 
     constructor() {
         super();
-        this.balance = 0;
+        this.coinAccount = {
+            balance: 0
+        };
         this.amountPayment = 0;
+
+    }
+
+    updated(changedProperties) {
+        changedProperties.forEach((oldValue, propName) => {
+            if(propName === 'shop' && !!this.shop && !this.isBalanceRetrieved) {
+                this.isBalanceRetrieved = true;
+                this.getBalanceForThisShop();
+            }
+            console.log(`${propName} changed. oldValue: ${oldValue}`);
+        });
+    }
+
+    getBalanceForThisShop(){
+        const url = `/api/dashboard/shop/info?shopUuid=${this.shop.uuid}`;
+        this.generateGetRequest(url);
+    }
+
+    setBalanceForThisShop(data){
+        this.coinAccount = data;
+        console.log(`setBalanceForThisShop: ${data}`);
     }
 
     handleAmountPayment(e){
@@ -137,19 +159,17 @@ class BalanceContainer extends LitElement {
         console.log(`get amount from value ${this.amountPayment}`)
     }
 
-    replenishCoinAccount(){
-        const url = '';
-        this.generateGetRequest(url);
-    }
-
-    generateGetRequest(url){
+    generateGetRequest(url, params){
+        let _this = this;
         fetch(url, {
             method: 'GET',
+            body: params
         }).then(function (response) {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
             console.log('data for users: ', data);
+            _this.setBalanceForThisShop(data);
 
         });
     }
