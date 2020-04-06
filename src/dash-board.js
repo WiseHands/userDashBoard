@@ -295,7 +295,6 @@ class DashBoard extends LitElement {
                         <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
                     </div>
                     
-                    
                     <div class="mobile-profile-info-container">
                         <div class="profile-info">
                             <p>${this.userFullName}</p>                                                        
@@ -437,20 +436,26 @@ class DashBoard extends LitElement {
         this.isShowShopListContainer = true;
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = false;
+        this.isShowPricePlanContainer = false;
+
     }
 
     showSubscriptionContainer() {
         this.hideSidebar();
-        this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = true;
+        this.isShowShopListContainer = false;
         this.isShowProfileContainer = false;
+        this.isShowPricePlanContainer = false;
+
     }
 
     showProfileContainer() {
         this.hideSidebar();
+        this.isShowProfileContainer = true;
         this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = false;
-        this.isShowProfileContainer = true;
+        this.isShowPricePlanContainer = false;
+
     }
 
     showPricePlanContainer(){

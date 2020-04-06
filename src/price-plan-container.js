@@ -73,7 +73,7 @@ class PricePlanContainer extends LitElement {
                 .creating-price-plan-container{
                   display: flex;
                   flex-direction: column;  
-                  margin: 5px;
+                  margin: 10px;
                 }
                 .plan-name-container, .plan-commission-container {
                   display: flex;
@@ -84,6 +84,10 @@ class PricePlanContainer extends LitElement {
                 }
                 .plan-commission-container input, p{
                   margin: 5px;
+                }
+                creating-price-plan-container button {
+                  margin: 5px;
+                   
                 }  
             </style>
             
