@@ -460,7 +460,6 @@ class DashBoard extends LitElement {
 
     showPricePlanContainer(){
         this.hideSidebar();
-        console.log("here");
         this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = false;
