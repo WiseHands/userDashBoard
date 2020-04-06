@@ -162,7 +162,6 @@ class PricePlanContainer extends LitElement {
         this.commissionForPlane = e.target.value;
     }
 
-
     creatingPricePlanForShops(){
         this.isShowCreatingPricePlan = true;
         this.isShowPricePlanContainer = false;
@@ -186,16 +185,12 @@ class PricePlanContainer extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
-            console.log('data from generatePostRequest: ', data);
+            console.log('data from generatePostRequest PLAN:: ', data);
             _this.isShowCreatingPricePlan = false;
             _this.isShowPricePlanContainer = true;
         });
     }
 
-    setValueForpricingPlanContainer(data){
-        this.shadowRoot.querySelector('#planMame').value = data.pricingPlanName;
-        this.shadowRoot.querySelector('#commission').value = data.pricingPlanCommissionFree;
-    }
 
 //     ${this.pricePlanList.map(item => html`
 //        <price-plane-tile .pricePlan="${item}"></price-plane-tile>
@@ -203,4 +198,4 @@ class PricePlanContainer extends LitElement {
 
 }
 // Register the new element with the browser.
-customElements.define('price-plane-container', PricePlanContainer);
+customElements.define('price-plan-container', PricePlanContainer);
