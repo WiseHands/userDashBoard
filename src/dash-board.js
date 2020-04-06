@@ -238,40 +238,37 @@ class DashBoard extends LitElement {
                         display: flex;
                         align-items: center;
                     }
+                    .mobile-tools-dash-board-container {
+                        width: 300px;
+                       
+                        background-color: #fff);
+                      
+                    }
                         
             </style>
-            
-            <div class="main-container">
-                <div  id="overlay-mobile" class="null-style">
-                    <div class="sidebar-mobile sibebar-swipe-off">
-                        <a class="link" href="/dashboard">
-                            <div class="logo-container">
-                                <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
-                                <p class="product-name">WSTORE</p>
-                            </div>
-                        </a>
-                        <div class="sidebar-panel">
-                            <div class="tools-dash-board-container border">
-                                <div class="menu-item" @click="${this.showShopListContainer}">
-                                    <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
-                                    <p>Магазини</p>
-                                </div>
-                                <div class="menu-item" @click="${this.showSubscriptionContainer}">
-                                   <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
-                                   <p>Підписки</p>
-                                </div>
-                                <div class="menu-item" @click="${this.showProfileContainer}">
-                                    <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
-                                    <p>Профіль</p>
-                                </div>
-                            </div>
+             <div  id="overlay-mobile" class="null-style">
+                <div class="sidebar-mobile sibebar-swipe-off">
+                    <div class="mobile-tools-dash-board-container">
+                        <div class="menu-item" @click="${this.showShopListContainer}">
+                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
+                            <p>Магазини</p>
                         </div>
-                        
+                        <div class="menu-item" @click="${this.showSubscriptionContainer}">
+                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
+                           <p>Підписки</p>
+                        </div>
+                        <div class="menu-item" @click="${this.showProfileContainer}">
+                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
+                            <p>Профіль</p>
+                        </div>
                     </div>
-                    <div class="blur-block">
-            
-                    </div>
-                </div>       
+                </div>
+                <div class="blur-block">
+        
+                </div>
+            </div>
+            <div class="main-container">
+                                
                 <div class="header-profile-container border">
                     <div class="logo-container">
                         <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
@@ -284,9 +281,11 @@ class DashBoard extends LitElement {
                         <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
                     </div>
                     
-                    <div class="mobile-logo-container">
+                    <div class="mobile-logo-container" @click="${this.showSideMenu}">
                         <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
                     </div>
+                    
+                    
                     <div class="mobile-profile-info-container">
                         <div class="profile-info">
                             <p>${this.userFullName}</p>                                                        
@@ -342,6 +341,7 @@ class DashBoard extends LitElement {
                     </div>
                 </div>
             </div>
+                           
             
     `;}
 
@@ -363,6 +363,9 @@ class DashBoard extends LitElement {
             isShowProfileContainer: {
                 type: Boolean
             },
+            isShowSideMenu: {
+                type: Boolean
+            }
         };
     }
 
@@ -382,27 +385,49 @@ class DashBoard extends LitElement {
         );
     }
 
+    showSideMenu() {
+        console.log('click');
+        this.isShowSideMenu = true;
+
+        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
+        this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
+    }
+    setDisplayNoneToSidebarOverlay() {
+
+        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
+
+        this.shadowRoot.getElementById("overlay-mobile").addEventListener("click", closeMenu);
+    }
+    closeMenu() {
+        this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
+        setTimeout(setDisplayNoneToSidebarOverlay, 300);
+    }
+    hideSidebar() {
+        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
+
+    }
 
     creatingShopThroughWizard(){
         localStorage.setItem('isShopCreated', 'false');
         window.location="/ua/wizard";
-    }
-
-
+    };
 
     showShopListContainer() {
+        this.hideSidebar();
         this.isShowShopListContainer = true;
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = false;
     }
 
     showSubscriptionContainer() {
+        this.hideSidebar();
         this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = true;
         this.isShowProfileContainer = false;
     }
 
     showProfileContainer() {
+        this.hideSidebar();
         this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = true;
