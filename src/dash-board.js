@@ -3,11 +3,13 @@ import { LitElement, html } from 'lit-element';
 import './subcription-container.js'
 import './balance-container.js'
 import './shop-tile.js'
+import './price-plan-container.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
     render(){
         return html`
+
             <style>
                 .border{
                     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
@@ -54,84 +56,84 @@ class DashBoard extends LitElement {
                             margin: 0;
                         } 
                          
-#overlay-mobile {
-    display: none;
-    background-color: rgba(0,0,0,0);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 100;
-    padding: 0;
-    margin: 0;
-}
-.sidebar-mobile {
-    width: 85%;
-    height: 100%;
-    background-color: rgba(255,255,255,1);
-    opacity: 1;
-    animation: sidebarmove 0.3s linear;
-    position: fixed;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-}
-@keyframes sidebarmove {
-    from {
-        opacity: 0;
-        transform: translate3d(-100%, 0, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-.sibebar-swipe-off {
-    width: 0%;
-    height: 100%;
-    background-color: rgba(255,255,255,1);
-    opacity: 1;
-    transition-delay: 0.3s;
-    animation: sidebarswipeoff 0.3s linear;
-}
-@keyframes sidebarswipeoff {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-
-    to {
-        visibility: hidden;
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-.sidebar-logo {
-    display: flex;
-    align-items: center;
-    height: 58px;
-    padding: 0.5rem;
-}
-.sidebar-logo img {
-    width: 36px;
-    height: 36px;
-    padding-right: 0.7rem;
-}
-.sidebar-logo p {
-    font-size: 2rem;
-    margin: 0;
-}
-.sidebar-panel {
-    display: flex;
-    flex-direction: column;
-    line-height: 2;
-    padding: 10px;
-    font-size: 1.2rem;
-}
-.sidebar-panel a {
-    cursor: pointer;
-    color: #262626;
-    line-height: 2.5;
-}
-.sidebar-panel p {
-    font-size: 1.3rem;
-    margin-bottom: 0;
-}
+                #overlay-mobile {
+                    display: none;
+                    background-color: rgba(0,0,0,0);
+                    width: 100%;
+                    height: 100%;
+                    position: fixed;
+                    z-index: 400;
+                    padding: 0;
+                    margin: 0;
+                }
+                .sidebar-mobile {
+                    width: 85%;
+                    height: 100%;
+                    background-color: rgba(255,255,255,1);
+                    opacity: 1;
+                    animation: sidebarmove 0.3s linear;
+                    position: fixed;
+                    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+                }
+                @keyframes sidebarmove {
+                    from {
+                        opacity: 0;
+                        transform: translate3d(-100%, 0, 0);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translate3d(0, 0, 0);
+                    }
+                }
+                .sibebar-swipe-off {
+                    width: 0%;
+                    height: 100%;
+                    background-color: rgba(255,255,255,1);
+                    opacity: 1;
+                    transition-delay: 0.3s;
+                    animation: sidebarswipeoff 0.3s linear;
+                }
+                @keyframes sidebarswipeoff {
+                    from {
+                        transform: translate3d(0, 0, 0);
+                    }
+                
+                    to {
+                        visibility: hidden;
+                        transform: translate3d(-100%, 0, 0);
+                    }
+                }
+                .sidebar-logo {
+                    display: flex;
+                    align-items: center;
+                    height: 58px;
+                    padding: 0.5rem;
+                }
+                .sidebar-logo img {
+                    width: 36px;
+                    height: 36px;
+                    padding-right: 0.7rem;
+                }
+                .sidebar-logo p {
+                    font-size: 2rem;
+                    margin-bottom: 0;
+                }
+                .sidebar-panel {
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 2;
+                    padding: 10px;
+                    font-size: 1.2rem;
+                }
+                .sidebar-panel a {
+                    cursor: pointer;
+                    color: #262626;
+                    line-height: 2.5;
+                }
+                .sidebar-panel p {
+                    font-size: 1.3rem;
+                    margin-bottom: 0;
+                }
                 .mobile-logo-container, .mobile-profile-info-container  {
                     display: none;
                 }
@@ -226,7 +228,11 @@ class DashBoard extends LitElement {
                     balance-container{
                         display: flex;
                         width: 100%;
-                    }    
+                    } 
+                    price-plan-container{
+                        display: flex;
+                        width: 100%;
+                    }
                 @media screen and (max-width: 768px) {
                     .tools-dash-board-container, .profile-info-container, .logo-container  {
                         display: none;
@@ -239,18 +245,15 @@ class DashBoard extends LitElement {
                         align-items: center;
                     }
                     .mobile-tools-dash-board-container {
-                                         
+                        width: 300px;
+                        background-color: #fff);
                     }
+                }
                         
             </style>
-             <div  id="overlay-mobile" class="null-style" @click="${this.closeSidebar}">
-                <div class="sidebar-mobile sibebar-swipe-off" @click="${this.showSidebar}">
-                    <a class="link" href="/dashboard">
-                        <div class="sidebar-logo">
-                            <img src="/wisehands/assets/images/wiseblack.png">
-                            <p>WSTORE</p>
-                        </div>
-                    </a>
+            
+             <div  id="overlay-mobile" class="null-style">
+                <div class="sidebar-mobile sibebar-swipe-off">
                     <div class="mobile-tools-dash-board-container">
                         <div class="menu-item" @click="${this.showShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
@@ -259,6 +262,10 @@ class DashBoard extends LitElement {
                         <div class="menu-item" @click="${this.showSubscriptionContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
                            <p>Підписки</p>
+                        </div>
+                        <div class="menu-item" @click="${this.showPricePlanContainer}">
+                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
+                           <p>Тарифи</p>
                         </div>
                         <div class="menu-item" @click="${this.showProfileContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
@@ -288,7 +295,6 @@ class DashBoard extends LitElement {
                         <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
                     </div>
                     
-                    
                     <div class="mobile-profile-info-container">
                         <div class="profile-info">
                             <p>${this.userFullName}</p>                                                        
@@ -308,6 +314,10 @@ class DashBoard extends LitElement {
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
                            <p>Підписки</p>
                         </div>
+                        <div class="menu-item" @click="${this.showPricePlanContainer}">
+                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
+                           <p>Тарифи</p>
+                        </div>
                         <div class="menu-item" @click="${this.showProfileContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
                             <p>Профіль</p>
@@ -318,19 +328,19 @@ class DashBoard extends LitElement {
                         <div class="shop-list-container">
                              <div class="inner-container">
                                 <a @click="${this.creatingShopThroughWizard}">
-                                <div class="create-shop-element border">
-                                    <div class="shop-name">
-                                        <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
+                                    <div class="create-shop-element border">
+                                        <div class="shop-name">
+                                            <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
+                                        </div>
+                                        <div class="create-shop-text-container">
+                                            <p>Створити магазин</p>
+                                        </div>
                                     </div>
-                                    <div class="create-shop-text-container">
-                                        <p>Створити магазин</p>
-                                    </div>
-                                </div>
-                             </a>
-                             ${this.shopList.map(item => html`
-                                    <shop-tile .shop="${item}"></shop-tile>
-                             `)}   
-                            </div>                 
+                                </a>
+                                ${this.shopList.map(item => html`
+                                     <shop-tile .shop="${item}"></shop-tile>
+                                `)}   
+                             </div>                 
                         </div>` : html ``} 
                         
                         ${this.isShowSubscriptionContainer ? html `
@@ -339,6 +349,10 @@ class DashBoard extends LitElement {
                         
                         ${this.isShowProfileContainer ? html `
                             <balance-container .shop="${this.selectedShop}"></balance-container>
+                        ` : html ``}
+                        
+                        ${this.isShowPricePlanContainer ? html `
+                            <price-plan-container></price-plan-container>
                         ` : html ``}
                         
                     </div>
@@ -368,6 +382,9 @@ class DashBoard extends LitElement {
             },
             isShowSideMenu: {
                 type: Boolean
+            },
+            isShowPricePlanContainer: {
+                type: Boolean
             }
         };
     }
@@ -382,46 +399,31 @@ class DashBoard extends LitElement {
         this.userFullName = 'Ім. Пр.';
         this.isShowShopListContainer = true;
         this.addEventListener('open-balance', event => {
-            this.selectedShop = event.detail;
-        this.showProfileContainer();
-    }
-    );
+                this.selectedShop = event.detail;
+                this.showProfileContainer();
+            }
+        );
     }
 
     showSideMenu() {
         console.log('click');
         this.isShowSideMenu = true;
-
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
         this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
     }
 
-
-    closeSidebar() {
-        this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
-        setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
-
-        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-
-    }
     setDisplayNoneToSidebarOverlay() {
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
+        this.shadowRoot.getElementById("overlay-mobile").addEventListener("click", closeMenu);
     }
 
-    // showSidebar(e) {
-    //     e.stopPropagation();
-    // }
+    closeMenu() {
+        this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
+        setTimeout(setDisplayNoneToSidebarOverlay, 300);
+    }
 
-    // closeMenu() {
-    //
-    //     this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-    //
-    //     this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
-    //     setTimeout(hideSidebar, 300);
-    // }
     hideSidebar() {
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-
     }
 
     creatingShopThroughWizard(){
@@ -434,20 +436,35 @@ class DashBoard extends LitElement {
         this.isShowShopListContainer = true;
         this.isShowSubscriptionContainer = false;
         this.isShowProfileContainer = false;
+        this.isShowPricePlanContainer = false;
+
     }
 
     showSubscriptionContainer() {
         this.hideSidebar();
-        this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = true;
+        this.isShowShopListContainer = false;
         this.isShowProfileContainer = false;
+        this.isShowPricePlanContainer = false;
+
     }
 
     showProfileContainer() {
         this.hideSidebar();
+        this.isShowProfileContainer = true;
         this.isShowShopListContainer = false;
         this.isShowSubscriptionContainer = false;
-        this.isShowProfileContainer = true;
+        this.isShowPricePlanContainer = false;
+
+    }
+
+    showPricePlanContainer(){
+        this.hideSidebar();
+        console.log("here");
+        this.isShowShopListContainer = false;
+        this.isShowSubscriptionContainer = false;
+        this.isShowProfileContainer = false;
+        this.isShowPricePlanContainer = true;
     }
 
     getShopList(){
