@@ -75,7 +75,7 @@ class BalanceContainer extends LitElement {
                     <!--<p>Адміністрування:</p>-->
                     <p>Зарахування офлайн поповнення</p>
                     <div class="row-container">
-                        <input id="adminPayment" .value=${this.adminPayment} @input="${this.handleRefillAdminPayment}">
+                        <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleRefillAdminPayment}">
                         <button @click="${this.refillAdminPayment}">поповнити</button>
                     </div>
                     <div class="transaction-table-container">
@@ -114,6 +114,9 @@ class BalanceContainer extends LitElement {
             amountPayment: {
                 type: Number
             },
+            offlinePayment: {
+                type: Number
+            },
             shop: {
                 type: Object,
             }
@@ -126,6 +129,7 @@ class BalanceContainer extends LitElement {
             balance: 0
         };
         this.amountPayment = 0;
+        this.offlinePayment = 0;
 
     }
 
