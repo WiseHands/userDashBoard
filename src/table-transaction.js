@@ -223,6 +223,8 @@ class TableTransaction extends LitElement {
             status = 'Переказ'
         } else if (statusCode === 'COMMISSION_FEE') {
             status = 'Списання комісії'
+        } else if (statusCode === 'OFFLINE_REFILL'){
+            status = 'Поповнення рахунку (офлайн)'
         }
         return status;
     }
