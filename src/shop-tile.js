@@ -23,6 +23,7 @@ class ShopTile extends LitElement {
                         margin: 15px 10px 0 10px;
                         border-radius: 5px;
                         background-color: #00BCD4;
+                        text-decoration: none;
                     }
                         .shop-name p{
                             font-size: 2em;

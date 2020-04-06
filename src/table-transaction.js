@@ -77,9 +77,6 @@ class TableTransaction extends LitElement {
                   font-size: 2em;
                   color: #333;
                 }
-                .Rtable .Rtable-row .Rtable-cell .Rtable-cell--content .webinar-date {
-                  font-weight: 700;
-                }
                /* Responsive
                 ==================================== */
                 @media all and (max-width: 875px) {
@@ -151,7 +148,7 @@ class TableTransaction extends LitElement {
                 <div class="Rtable Rtable--5cols Rtable--collapse">
                   <div class="Rtable-row Rtable-row--head">
                     <div class="Rtable-cell date-cell column-heading">Дата</div>
-                    <div class="Rtable-cell topic-cell column-heading">Кому</div>
+                    <div class="Rtable-cell topic-cell column-heading">Магазин</div>
                     <div class="Rtable-cell type-cell column-heading">Тип</div>
                     <div class="Rtable-cell amount-cell column-heading">Сума</div>
                     <div class="Rtable-cell status-cell column-heading">Статус</div>
@@ -226,6 +223,8 @@ class TableTransaction extends LitElement {
             status = 'Переказ'
         } else if (statusCode === 'COMMISSION_FEE') {
             status = 'Списання комісії'
+        } else if (statusCode === 'OFFLINE_REFILL'){
+            status = 'Поповнення рахунку (офлайн)'
         }
         return status;
     }
