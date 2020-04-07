@@ -71,10 +71,14 @@ class PricePlanMain extends LitElement {
         this.pricePlan.commissionFee = e.target.value;
     }
 
-
-    showPricePlanWidget(){
-        this.isShowPricePlanContainer = true;
-        this.isShowPricePlanMainContainer = false;
+    showPricingPlanWidgetForShop(){
+        this.dispatchEvent(new CustomEvent('open-pricing-plan-list',
+            {
+                bubbles: true,
+                composed: true,
+                detail: this.pricePlan
+            })
+        );
     }
 
     savingPricePlan(){
@@ -86,7 +90,7 @@ class PricePlanMain extends LitElement {
             return response.json();
         }).then(function (data) {
             console.log('savingPricePlan', data);
-            _this.showPricePlanWidget();
+            _this.showPricingPlanWidgetForShop();
         });
     }
 
@@ -99,7 +103,7 @@ class PricePlanMain extends LitElement {
             return response.json();
         }).then(function (data) {
             console.log('savingPricePlan', data);
-            _this.showPricePlanWidget();
+            _this.showPricingPlanWidgetForShop();
         });
     }
 

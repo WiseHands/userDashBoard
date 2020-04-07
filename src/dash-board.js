@@ -402,6 +402,11 @@ class DashBoard extends LitElement {
                 this.showPricingPlanMainContainer();
             }
         );
+        this.addEventListener('open-pricing-plan-list', event => {
+                this.selectedPricePlan = event.detail;
+                this.showPricePlanContainer();
+            }
+        );
         this.checkIfUserIsLogIn();
     }
 
