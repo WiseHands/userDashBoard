@@ -269,9 +269,9 @@ class DashBoard extends LitElement {
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
-                        <div class="menu-item" @click="${this.showProfileContainer}">
+                        <div class="menu-item" @click="${this.logOutUser}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
-                            <p>Профіль</p>
+                            <p>Вихід</p>
                         </div>
                     </div>
                 </div>
@@ -320,9 +320,9 @@ class DashBoard extends LitElement {
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
-                        <div class="menu-item" @click="${this.showProfileContainer}">
+                        <div class="menu-item" @click="${this.logOutUser}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
-                            <p>Профіль</p>
+                            <p>Вихід</p>
                         </div>
                     </div>
                     <div class="work-place-dash-board-container border">
@@ -405,6 +405,19 @@ class DashBoard extends LitElement {
                 this.showProfileContainer();
             }
         );
+        this.checkIfUserIsLogIn();
+    }
+
+    checkIfUserIsLogIn(){
+        let token = localStorage.getItem('JWT_TOKEN');
+        if(!token){
+            window.location = '/';
+        }
+    }
+
+    logOutUser(){
+       localStorage.removeItem('JWT_TOKEN');
+       window.location = '/';
     }
 
     showSideMenu() {
