@@ -31,15 +31,15 @@ class PricePlanMain extends LitElement {
               <p>Редагування тарифного плану</p>
               <div class="container row">
                 <p>Тариф: </p>
-                <input .value="${this.pricePlan.name}">
+                <input .value="${this.pricePlan.name}" @input="${this.handlePricePlanName}">
               </div>
               <div class="container row">
                 <p>Відсоток: </p>
-                <input .value="${this.pricePlan.commissionFree}">
+                <input .value="${this.pricePlan.commissionFee}" @input="${this.handlePricePlanCommissionFee}">
               </div>
               <div class="container row">
-                <button>Зберегти</button>
-                <button>Видалити</button>
+                <button @click="${this.savingPricePlan}">Зберегти</button>
+                <button @click="${this.removingPricePlan}">Видалити</button>
               </div>  
             </div>
 
@@ -49,16 +49,59 @@ class PricePlanMain extends LitElement {
         return {
             pricePlan: {
                 type: Object,
+            },
+            isShowPricePlanContainer: {
+                type: Boolean
+            },
+            isShowPricePlanMainContainer: {
+                type: Boolean
             }
         };
     }
 
     constructor() {
         super();
+    }
 
+    handlePricePlanName(e){
+        this.pricePlan.name = e.target.value;
+    }
+
+    handlePricePlanCommissionFee(e){
+        this.pricePlan.commissionFee = e.target.value;
     }
 
 
+    showPricePlanWidget(){
+        this.isShowPricePlanContainer = true;
+        this.isShowPricePlanMainContainer = false;
+    }
+
+    savingPricePlan(){
+        const _this = this;
+        const url = `/api/pricing-plan/update?name=${this.pricePlan.name}&commissionFee=${this.pricePlan.commissionFee}&uuid=${this.pricePlan.uuid}`;
+        fetch(url, {
+            method: 'POST'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log('savingPricePlan', data);
+            _this.showPricePlanWidget();
+        });
+    }
+
+    removingPricePlan(){
+        const _this = this;
+        const url = `/api/pricing-plan/delete?uuid=${this.pricePlan.uuid}`;
+        fetch(url, {
+            method: 'DELETE'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log('savingPricePlan', data);
+            _this.showPricePlanWidget();
+        });
+    }
 
 }
 // Register the new element with the browser.

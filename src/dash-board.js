@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit-element';
 import './price-plan-main-container.js'
 import './balance-container.js'
 import './shop-tile.js'
-import './price-plan-container.js'
+import './price-plan-list-container.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -342,7 +342,7 @@ class DashBoard extends LitElement {
                         ` : html ``}
                         
                         ${this.isShowPricePlanContainer ? html `
-                            <price-plan-container></price-plan-container>
+                            <price-plan-list-container></price-plan-list-container>
                         ` : html ``}
                         
                         ${this.isShowPricePlanMainContainer ? html `

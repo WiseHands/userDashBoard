@@ -49,7 +49,7 @@ class PricePlanTile extends LitElement {
                     <p>${this.pricePlan.name}</p>
                   </div>
                   <div class="create-shop-text-container">
-                    <p>${this.pricePlan.commissionFree} %</p>
+                    <p>${this.pricePlan.commissionFee} %</p>
                   </div>
                 </div>
 
@@ -66,11 +66,6 @@ class PricePlanTile extends LitElement {
 
     constructor() {
         super();
-    }
-
-    _buildUrlForShop(item){
-        const token = localStorage.getItem('JWT_TOKEN');
-        return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
     }
 
     showPricingPlanWidgetForShop(){

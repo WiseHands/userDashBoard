@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit-element';
 import './price-plan-tile.js'
 
-class PricePlanContainer extends LitElement {
+class PricePlanListContainer extends LitElement {
 
     render(){
         return html`
@@ -184,7 +184,7 @@ class PricePlanContainer extends LitElement {
     }
 
     savingPricePlane(){
-        const url = `/api/pricing-plan/create?planName=${this.planName}&commissionFree=${this.commissionForPlane}`;
+        const url = `/api/pricing-plan/create?planName=${this.planName}&commissionFee=${this.commissionForPlane}`;
         this.generatePostRequestForCreatingPricingPlan(url);
 
     }
@@ -222,4 +222,4 @@ class PricePlanContainer extends LitElement {
 
 }
 // Register the new element with the browser.
-customElements.define('price-plan-container', PricePlanContainer);
+customElements.define('price-plan-list-container', PricePlanListContainer);
