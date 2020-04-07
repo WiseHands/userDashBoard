@@ -13,6 +13,15 @@ class PricePlanTile extends LitElement {
                     height: 100%;
                     width: 100%;
                 }
+                .create-shop-element{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 15px;
+                    min-height: 200px;
+                    width: 200px;
+                } 
                     .shop-name{
                         display: flex;
                         justify-content: center;
@@ -20,7 +29,6 @@ class PricePlanTile extends LitElement {
                         color: white;
                         height: 60%;
                         width: 90%;
-                        margin: 15px 10px 0 10px;
                         border-radius: 5px;
                         background-color: #00BCD4;
                         text-decoration: none;
@@ -28,43 +36,25 @@ class PricePlanTile extends LitElement {
                         .shop-name p{
                             font-size: 2em;
                         }
-                    .shop-info-container{
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        align-items: center;
-                        height: 20%;
-                        width: 100%;
-                        margin-top: 10px;
+                    .create-shop-text-container{
+                    display: flex;                            
+                    align-items: center;
+                    padding-top: 10px;
+                    height: 40px;
                     }
-                        .shop-info-container p {
-                            color: black;
-                        }
-                        .shop-info-container img:hover{
-                            cursor: pointer;
-                        }
-                        .shop-balance, .shop-link{
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            padding: 10px;
-                        }
-                .menu-item-logo{
-                    height: 24px;
-                    width: 24px;
-                    margin: 5px;
-                }
-                .menu-item:hover{
-                    background-color: darkgray;
-                    cursor: pointer;
-                }
                                      
             </style>
-              <div class="container border">
-                <div class="shop-info-container">
-                   <p>${this.pricePlan.name}</p>
+              
+                <div class="create-shop-element border">
+                        <div class="shop-name">
+                          <p>${this.pricePlan.name}</p>
+                        </div>
+                        <div class="create-shop-text-container">
+                          <p>${this.pricePlan.commissionFree} %</p>
+                        </div>
                 </div>
-              </div>
+                
+              
            
 
     `;}
