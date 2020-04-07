@@ -61,19 +61,8 @@ class PricePlanTile extends LitElement {
                                      
             </style>
               <div class="container border">
-                <a class="shop-name" href="${this._buildUrlForShop(this.shop)}">
-                    <p>${this.shop.shopName}</p>
-                </a>    
                 <div class="shop-info-container">
-                     <div class="shop-balance">
-                        <img class="menu-item-logo"
-                         @click="${this.showBalanceWidgetForShop}"
-                         src="wisehands/assets/images/dashboard/money.png">
-                    </div>
-                    <a class="shop-link" href="${this._buildUrlForShop(this.shop)}">
-                         <img class="menu-item-logo"
-                         src="wisehands/assets/images/dashboard/link.png">                         
-                    </a>
+                   <p>${this.pricePlan.name}</p>
                 </div>
               </div>
            
@@ -82,7 +71,7 @@ class PricePlanTile extends LitElement {
 
     static get properties() {
         return {
-            shop: {
+            pricePlan: {
                 type: Object,
             },
 

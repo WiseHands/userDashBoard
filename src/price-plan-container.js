@@ -104,6 +104,10 @@ class PricePlanContainer extends LitElement {
                         </div>
                       </div>
                     </a>
+                    
+                  ${this.pricePlanList.map(item => html`
+                    <price-plane-tile .pricePlan="${item}"></price-plane-tile>
+                  `)}
                       
                   </section> ` : html ``
               }
@@ -147,15 +151,23 @@ class PricePlanContainer extends LitElement {
             },
             isShowCreatingPricePlan : {
               type: Boolean
+            },
+            pricePlanList: {
+                type: Array
             }
-        };
-    }
+        }
+
+    };
+
+
 
     constructor() {
         super();
         this.planName = '';
         this.commissionForPlane = '';
         this.isShowPricePlanContainer = true;
+        this.pricePlanList = [];
+        this.getPricingPlanList();
     }
 
     handlePlanName(e){
@@ -190,15 +202,23 @@ class PricePlanContainer extends LitElement {
             return response.json();
         }).then(function (data) {
             console.log('data from generatePostRequest PLAN:: ', data);
+            // TODO: redirect to new component
             _this.isShowCreatingPricePlan = false;
             _this.isShowPricePlanContainer = true;
         });
     }
 
-
-//     ${this.pricePlanList.map(item => html`
-//        <price-plane-tile .pricePlan="${item}"></price-plane-tile>
-//     `)}
+    getPricingPlanList(){
+        const _this = this;
+        const url = '/api/pricing-plan/get-list';
+        fetch(url, {
+            method: 'GET'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            _this.pricePlanList = data;
+        })
+    }
 
 }
 // Register the new element with the browser.
