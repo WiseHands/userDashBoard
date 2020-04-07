@@ -1,6 +1,6 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
-import './subcription-container.js'
+import './price-plan-main-container.js'
 import './balance-container.js'
 import './shop-tile.js'
 import './price-plan-container.js'
@@ -260,11 +260,7 @@ class DashBoard extends LitElement {
                         <div class="menu-item" @click="${this.showShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
-                        </div>
-                        <div class="menu-item" @click="${this.showSubscriptionContainer}">
-                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
-                           <p>Підписки</p>
-                        </div>
+                        </div>                        
                         <div class="menu-item" @click="${this.showPricePlanContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
@@ -311,11 +307,7 @@ class DashBoard extends LitElement {
                         <div class="menu-item" @click="${this.showShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
-                        </div>
-                        <div class="menu-item" @click="${this.showSubscriptionContainer}">
-                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-subscr-dashboard.svg">
-                           <p>Підписки</p>
-                        </div>
+                        </div>                        
                         <div class="menu-item" @click="${this.showPricePlanContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
@@ -345,16 +337,16 @@ class DashBoard extends LitElement {
                              </div>                 
                         </div>` : html ``} 
                         
-                        ${this.isShowSubscriptionContainer ? html `
-                            <subcription-container></subcription-container>
-                        ` : ''}
-                        
-                        ${this.isShowProfileContainer ? html `
+                        ${this.isShowBalanceContainer ? html `
                             <balance-container .shop="${this.selectedShop}"></balance-container>
                         ` : html ``}
                         
                         ${this.isShowPricePlanContainer ? html `
                             <price-plan-container></price-plan-container>
+                        ` : html ``}
+                        
+                        ${this.isShowPricePlanMainContainer ? html `
+                            <price-plan-main-container .pricePlan="${this.selectedPricePlan}"></price-plan-main-container>
                         ` : html ``}
                         
                     </div>
@@ -376,16 +368,16 @@ class DashBoard extends LitElement {
             isShowShopListContainer: {
                 type: Boolean
             },
-            isShowSubscriptionContainer: {
-                type: Boolean
-            },
-            isShowProfileContainer: {
+            isShowBalanceContainer: {
                 type: Boolean
             },
             isShowSideMenu: {
                 type: Boolean
             },
             isShowPricePlanContainer: {
+                type: Boolean
+            },
+            isShowPricePlanMainContainer: {
                 type: Boolean
             }
         };
@@ -402,7 +394,12 @@ class DashBoard extends LitElement {
         this.isShowShopListContainer = true;
         this.addEventListener('open-balance', event => {
                 this.selectedShop = event.detail;
-                this.showProfileContainer();
+                this.showBalanceContainer();
+            }
+        );
+        this.addEventListener('open-pricing-plan', event => {
+                this.selectedPricePlan = event.detail;
+                this.showPricingPlanMainContainer();
             }
         );
         this.checkIfUserIsLogIn();
@@ -426,7 +423,6 @@ class DashBoard extends LitElement {
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
         this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
     }
-
     closeSidebar() {
         this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
         setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
@@ -449,37 +445,38 @@ class DashBoard extends LitElement {
     showShopListContainer() {
         this.hideSidebar();
         this.isShowShopListContainer = true;
-        this.isShowSubscriptionContainer = false;
-        this.isShowProfileContainer = false;
+        this.isShowBalanceContainer = false;
         this.isShowPricePlanContainer = false;
+        this.isShowPricePlanMainContainer = false;
 
     }
 
-    showSubscriptionContainer() {
+    showBalanceContainer() {
         this.hideSidebar();
-        this.isShowSubscriptionContainer = true;
+        this.isShowBalanceContainer = true;
         this.isShowShopListContainer = false;
-        this.isShowProfileContainer = false;
         this.isShowPricePlanContainer = false;
-
-    }
-
-    showProfileContainer() {
-        this.hideSidebar();
-        this.isShowProfileContainer = true;
-        this.isShowShopListContainer = false;
-        this.isShowSubscriptionContainer = false;
-        this.isShowPricePlanContainer = false;
+        this.isShowPricePlanMainContainer = false;
 
     }
 
     showPricePlanContainer(){
         this.hideSidebar();
         this.isShowShopListContainer = false;
-        this.isShowSubscriptionContainer = false;
-        this.isShowProfileContainer = false;
+        this.isShowBalanceContainer = false;
         this.isShowPricePlanContainer = true;
+        this.isShowPricePlanMainContainer = false;
     }
+
+    showPricingPlanMainContainer() {
+        this.hideSidebar();
+        this.isShowShopListContainer = false;
+        this.isShowBalanceContainer = false;
+        this.isShowPricePlanContainer = false;
+        this.isShowPricePlanMainContainer = true;
+
+    }
+
 
     getShopList(){
         const _this = this;

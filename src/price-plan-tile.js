@@ -8,11 +8,6 @@ class PricePlanTile extends LitElement {
                 .border{
                     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
                 }
-                
-                .container{
-                    height: 100%;
-                    width: 100%;
-                }
                 .create-shop-element{
                     display: flex;
                     flex-direction: column;
@@ -21,7 +16,10 @@ class PricePlanTile extends LitElement {
                     margin: 15px;
                     min-height: 200px;
                     width: 200px;
-                } 
+                }
+                .create-shop-element:hover{
+                    cursor: pointer;
+                }
                     .shop-name{
                         display: flex;
                         justify-content: center;
@@ -37,25 +35,23 @@ class PricePlanTile extends LitElement {
                             font-size: 2em;
                         }
                     .create-shop-text-container{
-                    display: flex;                            
-                    align-items: center;
-                    padding-top: 10px;
-                    height: 40px;
+                        display: flex;                            
+                        align-items: center;
+                        padding-top: 10px;
+                        height: 40px;
                     }
                                      
             </style>
               
-                <div class="create-shop-element border">
-                        <div class="shop-name">
-                          <p>${this.pricePlan.name}</p>
-                        </div>
-                        <div class="create-shop-text-container">
-                          <p>${this.pricePlan.commissionFree} %</p>
-                        </div>
+                <div class="create-shop-element border"
+                  @click="${this.showPricingPlanWidgetForShop}">
+                  <div class="shop-name">
+                    <p>${this.pricePlan.name}</p>
+                  </div>
+                  <div class="create-shop-text-container">
+                    <p>${this.pricePlan.commissionFree} %</p>
+                  </div>
                 </div>
-                
-              
-           
 
     `;}
 
@@ -77,12 +73,12 @@ class PricePlanTile extends LitElement {
         return `${window.location.protocol}//${item.domain}:${window.location.port}/admin?JWT_TOKEN=${token}`;
     }
 
-    showBalanceWidgetForShop(){
-        this.dispatchEvent(new CustomEvent('open-balance',
+    showPricingPlanWidgetForShop(){
+        this.dispatchEvent(new CustomEvent('open-pricing-plan',
             {
                 bubbles: true,
                 composed: true,
-                detail: this.shop
+                detail: this.pricePlan
             })
         );
     }
