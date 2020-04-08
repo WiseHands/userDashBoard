@@ -152,13 +152,16 @@ class DashBoard extends LitElement {
                         border-bottom: 1px solid lightgrey;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
                     }
+                    .menu-item[selected="true"] {
+                        background-color: darkgrey;
+                    }
                     .menu-item-logo{
                         height: 24px;
                         width: 24px;
                         margin: 5px;
                     }
                     .menu-item:hover{
-                        background-color: darkgray;
+                        background-color: darkgrey;
                         cursor: pointer;
                     }
                 .work-place-dash-board-container{
@@ -181,7 +184,10 @@ class DashBoard extends LitElement {
                             margin: 15px;
                             height: 200px;
                             width: 200px;
-                        }                        
+                        }
+                        .create-shop-element:hover {
+                            cursor: pointer;
+                        }                                           
                         .create-shop-text-container{
                             display: flex;                            
                             align-items: center;
@@ -257,11 +263,11 @@ class DashBoard extends LitElement {
                         </div>
                     </a>
                     <div class="mobile-tools-dash-board-container">
-                        <div class="menu-item" @click="${this.showShopListContainer}">
+                        <div class="menu-item" @click="${this.showShopListContainer}" selected="${this.isShowShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanContainer}" selected="${!this.isShowShopListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -304,11 +310,11 @@ class DashBoard extends LitElement {
 
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
-                        <div class="menu-item" @click="${this.showShopListContainer}">
+                        <div class="menu-item" @click="${this.showShopListContainer}" selected="${this.isShowShopListContainer}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanContainer}" selected="${!this.isShowShopListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -363,7 +369,7 @@ class DashBoard extends LitElement {
                 value: []
             },
             userFullName: {
-                type: String,
+                type: String
             },
             isShowShopListContainer: {
                 type: Boolean
@@ -445,7 +451,7 @@ class DashBoard extends LitElement {
     creatingShopThroughWizard(){
         localStorage.setItem('isShopCreated', 'false');
         window.location="/ua/wizard";
-    };
+    }
 
     showShopListContainer() {
         this.hideSidebar();
@@ -453,7 +459,6 @@ class DashBoard extends LitElement {
         this.isShowBalanceContainer = false;
         this.isShowPricePlanContainer = false;
         this.isShowPricePlanMainContainer = false;
-
     }
 
     showBalanceContainer() {
@@ -462,7 +467,6 @@ class DashBoard extends LitElement {
         this.isShowShopListContainer = false;
         this.isShowPricePlanContainer = false;
         this.isShowPricePlanMainContainer = false;
-
     }
 
     showPricePlanContainer(){
