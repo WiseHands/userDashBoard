@@ -152,7 +152,7 @@ class DashBoard extends LitElement {
                         border-bottom: 1px solid lightgrey;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
                     }
-                    .menu-item[selected="true"] {
+                    .menu-item[selected] {
                         background-color: darkgrey;
                     }
                     .menu-item-logo{
@@ -263,11 +263,11 @@ class DashBoard extends LitElement {
                         </div>
                     </a>
                     <div class="mobile-tools-dash-board-container">
-                        <div class="menu-item" @click="${this.showShopListContainer}" selected="${this.isShowShopListContainer}">
+                        <div class="menu-item" @click="${this.showShopListContainer}" selected>
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanListContainer}" selected="${this.isShowPricePlanListContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -310,11 +310,11 @@ class DashBoard extends LitElement {
 
                 <div class="body-dash-board-container">
                     <div class="tools-dash-board-container border">
-                        <div class="menu-item" @click="${this.showShopListContainer}" selected="${this.isShowShopListContainer}">
+                        <div class="menu-item" @click="${this.showShopListContainer}" selected>
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanListContainer}" selected="${this.isShowPricePlanListContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -466,13 +466,23 @@ class DashBoard extends LitElement {
         window.location="/ua/wizard";
     }
 
-    showShopListContainer() {
+    showShopListContainer(event) {
         this.hideSidebar();
         this.isShowShopListContainer = true;
         this.isShowBalanceContainer = false;
         this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
+        this.setSelectedState(event.currentTarget);
     }
+
+      setSelectedState(clickedMenuItem) {
+        const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
+        if (!isClickedMenuItemSelected) {
+            const selectedMenuItem = this.shadowRoot.querySelectorAll('[selected]');
+          selectedMenuItem.forEach(item => item.removeAttribute('selected'));
+          clickedMenuItem.setAttribute('selected', '');
+        }
+      }
 
     showBalanceContainer() {
         this.hideSidebar();
@@ -482,12 +492,14 @@ class DashBoard extends LitElement {
         this.isShowPricePlanMainContainer = false;
     }
 
-    showPricePlanListContainer(){
+    showPricePlanListContainer(event){
         this.hideSidebar();
         this.isShowPricePlanListContainer = true;
         this.isShowShopListContainer = false;
         this.isShowBalanceContainer = false;
         this.isShowPricePlanMainContainer = false;
+      this.setSelectedState(event.currentTarget);
+
     }
 
     showPricingPlanMainContainer() {

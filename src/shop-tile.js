@@ -58,6 +58,10 @@ class ShopTile extends LitElement {
                     background-color: darkgray;
                     cursor: pointer;
                 }
+                
+                img:hover {
+                transform: scale(1.1);
+                }
                                      
             </style>
               <div class="container border">
@@ -83,8 +87,8 @@ class ShopTile extends LitElement {
     static get properties() {
         return {
             shop: {
-                type: Object,
-            },
+                type: Object
+            }
 
         };
     }
