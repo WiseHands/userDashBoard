@@ -68,20 +68,20 @@ class BalanceContainer extends LitElement {
                 <span class="line"></span>
                 <section class="status-plane-container">
                     <div class="row-container">
+                        <p>Поточний тариф: ${this.plan}</p>
+                    </div>
+                    <div class="row-container">
                         <div class="drop-down-list">
                           <label for="plans">Тариф:</label>
                             <select id="plans">
                               ${this.pricePlanList.map(item => html`
-                                <option>${item.name}</option>
+                                <option id="${item.uuid}">${item.name}</option>
                               `)}
                             </select>
                             <button @click="${this.getPlaneForShop}">змінити</button>  
                         </div>
-                        
                     </div>
-                    <div class="row-container">
-                        <p>Статус: ${this.status}</p>
-                    </div>
+                    
                 </section>
                 <span class="line"></span>
                 <section class="administration-container">
@@ -132,6 +132,9 @@ class BalanceContainer extends LitElement {
             },
             shop: {
                 type: Object,
+            },
+            plan: {
+                type: String
             }
         };
     }
@@ -145,23 +148,55 @@ class BalanceContainer extends LitElement {
         this.offlinePayment = 0;
         this.pricePlanList = [];
         this.getPricingPlanList();
+        this.getShopInfoByUuid();
+
+    }
+
+    getShopInfoByUuid(){
+        let _this = this;
+        const url = `/api/pricing-plan/get-shop?shopUuid=${this.shop.uuid}`
+        fetch(url, {
+            method: 'GET'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log('getShopInfoByUuid', data, data.pricingPlan.name);
+            _this.plan = data.pricingPlan.name;
+        })
     }
 
     getPricingPlanList(){
-        const _this = this;
+        let _this = this;
         const url = '/api/pricing-plan/get-list';
         fetch(url, {
             method: 'GET'
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
-            console.log('here click and get selected value from drop-down', data);
+            console.log('get getPricingPlanList from drop-down', data);
             _this.pricePlanList = data;
         })
     }
 
     getPlaneForShop(){
-        console.log('here click and get selected value from drop-down', this.shop);
+        const plansList = this.shadowRoot.querySelector('#plans');
+        const selectedUuidByIndex = plansList.selectedIndex;
+        const pricingPlanUuid = plansList.querySelectorAll('option')[selectedUuidByIndex].id;
+        const url = `/api/pricing-plan/set-plan-to-shop?shopUuid=${this.shop.uuid}&pricingPlanUuid=${pricingPlanUuid}`;
+        this.setPricingPlanToThisShop(url);
+    }
+
+    setPricingPlanToThisShop(url){
+        let _this = this;
+        fetch(url, {
+            method: 'POST'
+        }).then(function (response) {
+            console.log("response response: ", response);
+            return response.json();
+        }).then(function (data) {
+            console.log('data from setPricingPlanToThisShop: ', data, data.pricingPlan.name);
+            _this.plan = data.pricingPlan.name;
+        });
     }
 
     updated(changedProperties) {
@@ -233,6 +268,8 @@ class BalanceContainer extends LitElement {
 
         });
     }
+
+
 
     generatePostRequestForOfflineRefillPayment(url){
         let _this = this;
