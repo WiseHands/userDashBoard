@@ -267,7 +267,7 @@ class DashBoard extends LitElement {
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanContainer}" selected="${!this.isShowShopListContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanListContainer}" selected="${this.isShowPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -314,7 +314,7 @@ class DashBoard extends LitElement {
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
                         </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanContainer}" selected="${!this.isShowShopListContainer}">
+                        <div class="menu-item" @click="${this.showPricePlanListContainer}" selected="${this.isShowPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
                            <p>Тарифи</p>
                         </div>
@@ -347,7 +347,7 @@ class DashBoard extends LitElement {
                             <balance-container .shop="${this.selectedShop}"></balance-container>
                         ` : html ``}
                         
-                        ${this.isShowPricePlanContainer ? html `
+                        ${this.isShowPricePlanListContainer ? html `
                             <price-plan-list-container></price-plan-list-container>
                         ` : html ``}
                         
@@ -380,7 +380,7 @@ class DashBoard extends LitElement {
             isShowSideMenu: {
                 type: Boolean
             },
-            isShowPricePlanContainer: {
+            isShowPricePlanListContainer: {
                 type: Boolean
             },
             isShowPricePlanMainContainer: {
@@ -398,22 +398,35 @@ class DashBoard extends LitElement {
         this.shopList = [];
         this.userFullName = 'Ім. Пр.';
         this.isShowShopListContainer = true;
+        this.checkIfUserIsLogIn();
+        this.openBalance();
+        this.openPricingPlan();
+        this.openPricingPlanList();
+
+    }
+
+    openBalance(){
         this.addEventListener('open-balance', event => {
                 this.selectedShop = event.detail;
                 this.showBalanceContainer();
             }
         );
+    }
+
+    openPricingPlan(){
         this.addEventListener('open-pricing-plan', event => {
                 this.selectedPricePlan = event.detail;
                 this.showPricingPlanMainContainer();
             }
         );
+    }
+
+    openPricingPlanList(){
         this.addEventListener('open-pricing-plan-list', event => {
                 this.selectedPricePlan = event.detail;
-                this.showPricePlanContainer();
+                this.showPricePlanListContainer();
             }
         );
-        this.checkIfUserIsLogIn();
     }
 
     checkIfUserIsLogIn(){
@@ -457,7 +470,7 @@ class DashBoard extends LitElement {
         this.hideSidebar();
         this.isShowShopListContainer = true;
         this.isShowBalanceContainer = false;
-        this.isShowPricePlanContainer = false;
+        this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
     }
 
@@ -465,15 +478,15 @@ class DashBoard extends LitElement {
         this.hideSidebar();
         this.isShowBalanceContainer = true;
         this.isShowShopListContainer = false;
-        this.isShowPricePlanContainer = false;
+        this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
     }
 
-    showPricePlanContainer(){
+    showPricePlanListContainer(){
         this.hideSidebar();
+        this.isShowPricePlanListContainer = true;
         this.isShowShopListContainer = false;
         this.isShowBalanceContainer = false;
-        this.isShowPricePlanContainer = true;
         this.isShowPricePlanMainContainer = false;
     }
 
@@ -481,7 +494,7 @@ class DashBoard extends LitElement {
         this.hideSidebar();
         this.isShowShopListContainer = false;
         this.isShowBalanceContainer = false;
-        this.isShowPricePlanContainer = false;
+        this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = true;
 
     }

@@ -159,8 +159,6 @@ class PricePlanListContainer extends LitElement {
 
     };
 
-
-
     constructor() {
         super();
         this.planName = '';
@@ -186,7 +184,6 @@ class PricePlanListContainer extends LitElement {
     savingPricePlane(){
         const url = `/api/pricing-plan/create?planName=${this.planName}&commissionFee=${this.commissionForPlane}`;
         this.generatePostRequestForCreatingPricingPlan(url);
-
     }
 
     generatePostRequestForCreatingPricingPlan(url){
@@ -202,7 +199,7 @@ class PricePlanListContainer extends LitElement {
             return response.json();
         }).then(function (data) {
             console.log('data from generatePostRequest PLAN:: ', data);
-            // TODO: redirect to new component
+            _this.pricePlanList = data;
             _this.isShowCreatingPricePlan = false;
             _this.isShowPricePlanContainer = true;
         });
