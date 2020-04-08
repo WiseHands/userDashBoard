@@ -478,8 +478,8 @@ class DashBoard extends LitElement {
       setSelectedState(clickedMenuItem) {
         const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
         if (!isClickedMenuItemSelected) {
-            const selectedMenuItem = this.shadowRoot.querySelectorAll('[selected]');
-          selectedMenuItem.forEach(item => item.removeAttribute('selected'));
+            const selectedMenuItems = this.shadowRoot.querySelectorAll('[selected]');
+          selectedMenuItems.forEach(item => item.removeAttribute('selected'));
           clickedMenuItem.setAttribute('selected', '');
         }
       }
