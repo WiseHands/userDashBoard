@@ -29,8 +29,13 @@ class BalanceContainer extends LitElement {
                             display: flex;
                             flex-direction: row;
                             justify-content: flex-start;
+                            align-items: center;
+                            margin: 2.5px;
                         }
                         .row-container input, button{
+                            margin: 5px;
+                        }
+                        drop-down-list{
                             margin: 5px;
                         }
                     .status-plane-container{
@@ -63,8 +68,17 @@ class BalanceContainer extends LitElement {
                 <span class="line"></span>
                 <section class="status-plane-container">
                     <div class="row-container">
-                        <p>Тариф: ${this.plane}</p>
-                        <button @click="${this.getPlaneForShop}">змінити</button>  
+                        <div class="drop-down-list">
+                           <label for="plans">Тариф:</label>
+                           <select id="plans">
+                              <option value="volvo">Volvo</option>
+                              <option value="saab">Saab</option>
+                              <option value="mercedes">Mercedes</option>
+                              <option value="audi">Audi</option>
+                           </select>
+                           <button @click="${this.getPlaneForShop}">змінити</button>  
+                        </div>
+                        
                     </div>
                     <div class="row-container">
                         <p>Статус: ${this.status}</p>
@@ -131,6 +145,10 @@ class BalanceContainer extends LitElement {
         this.amountPayment = 0;
         this.offlinePayment = 0;
 
+    }
+
+    getPlaneForShop(){
+        console.log('here click and get selected value from drop-down');
     }
 
     updated(changedProperties) {
