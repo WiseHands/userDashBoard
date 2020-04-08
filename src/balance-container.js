@@ -69,14 +69,13 @@ class BalanceContainer extends LitElement {
                 <section class="status-plane-container">
                     <div class="row-container">
                         <div class="drop-down-list">
-                           <label for="plans">Тариф:</label>
-                           <select id="plans">
-                              <option value="volvo">Volvo</option>
-                              <option value="saab">Saab</option>
-                              <option value="mercedes">Mercedes</option>
-                              <option value="audi">Audi</option>
-                           </select>
-                           <button @click="${this.getPlaneForShop}">змінити</button>  
+                          <label for="plans">Тариф:</label>
+                            <select id="plans">
+                              ${this.pricePlanList.map(item => html`
+                                <option>${item.name}</option>
+                              `)}
+                            </select>
+                            <button @click="${this.getPlaneForShop}">змінити</button>  
                         </div>
                         
                     </div>
@@ -144,11 +143,25 @@ class BalanceContainer extends LitElement {
         };
         this.amountPayment = 0;
         this.offlinePayment = 0;
+        this.pricePlanList = [];
+        this.getPricingPlanList();
+    }
 
+    getPricingPlanList(){
+        const _this = this;
+        const url = '/api/pricing-plan/get-list';
+        fetch(url, {
+            method: 'GET'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log('here click and get selected value from drop-down', data);
+            _this.pricePlanList = data;
+        })
     }
 
     getPlaneForShop(){
-        console.log('here click and get selected value from drop-down');
+        console.log('here click and get selected value from drop-down', this.shop);
     }
 
     updated(changedProperties) {
@@ -168,7 +181,7 @@ class BalanceContainer extends LitElement {
 
     setBalanceForThisShop(data){
         this.coinAccount = data;
-        console.log(`setBalanceForThisShop: ${data}`);
+        console.log(`setBalanceForThisShop: ${data.balance}`);
     }
 
     handleAmountPayment(e){
@@ -200,7 +213,6 @@ class BalanceContainer extends LitElement {
         }).then(function (data) {
             console.log('data for users: ', data);
             _this.setBalanceForThisShop(data);
-
         });
     }
 
