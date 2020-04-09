@@ -153,7 +153,7 @@ class TableTransaction extends LitElement {
                     <div class="Rtable-cell amount-cell column-heading">Сума</div>
                     <div class="Rtable-cell status-cell column-heading">Статус</div>
                   </div>
-                    ${this.tranasctionList.map(item => html`    
+                    ${this.transactionList.map(item => html`    
                        
                        <div class="Rtable-row">
                       <div class="Rtable-cell date-cell">
@@ -189,7 +189,7 @@ class TableTransaction extends LitElement {
             shop: {
                 type: Object,
             },
-            tranasctionList:{
+            transactionList:{
                 type: Array
             }
         };
@@ -197,6 +197,7 @@ class TableTransaction extends LitElement {
 
     constructor() {
         super();
+        this.transactionList = [];
     }
 
     setDateTime(secs) {

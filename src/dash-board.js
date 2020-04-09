@@ -403,6 +403,7 @@ class DashBoard extends LitElement {
         this.openPricingPlan();
         this.openPricingPlanList();
 
+
     }
 
     openBalance(){
@@ -450,7 +451,6 @@ class DashBoard extends LitElement {
     closeSidebar() {
         this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
         setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
-
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
 
     }
@@ -475,6 +475,7 @@ class DashBoard extends LitElement {
         this.setSelectedState(event.currentTarget);
     }
 
+
       setSelectedState(clickedMenuItem) {
         const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
         if (!isClickedMenuItemSelected) {
@@ -498,7 +499,7 @@ class DashBoard extends LitElement {
         this.isShowShopListContainer = false;
         this.isShowBalanceContainer = false;
         this.isShowPricePlanMainContainer = false;
-      this.setSelectedState(event.currentTarget);
+        this.setSelectedState(event.currentTarget);
 
     }
 

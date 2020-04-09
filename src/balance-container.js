@@ -50,6 +50,12 @@ class BalanceContainer extends LitElement {
                         display: flex;
                         flex-direction: column;
                     }
+                    option{
+                        width: 100%;
+                    }
+                    select{
+                        width: -webkit-fill-available;
+                    }
                                      
             </style>
             
@@ -68,7 +74,7 @@ class BalanceContainer extends LitElement {
                 <span class="line"></span>
                 <section class="status-plane-container">
                     <div class="row-container">
-                        <p>Поточний тариф: ${this.plan}</p>
+                        <p>Поточний тариф: ${this._getPlanName(this.shop.pricingPlan)}</p>
                     </div>
                     <div class="row-container">
                         <div class="drop-down-list">
@@ -93,7 +99,7 @@ class BalanceContainer extends LitElement {
                     </div>
                     <div class="transaction-table-container">
                         <p>Транзакції</p>
-                            <table-transaction .shop="${this.shop}" .tranasctionList="${this.coinAccount.transactionList}"></table-transaction>
+                            <table-transaction .shop="${this.shop}" .transactionList="${this.coinAccount.transactionList}"></table-transaction>
                         </div>
                 </section>
     
@@ -135,6 +141,9 @@ class BalanceContainer extends LitElement {
             },
             plan: {
                 type: String
+            },
+            pricePlanList: {
+                type: Array
             }
         };
     }
@@ -142,27 +151,37 @@ class BalanceContainer extends LitElement {
     constructor() {
         super();
         this.coinAccount = {
-            balance: 0
+            balance: 0,
+            transactionList: []
         };
         this.amountPayment = 0;
         this.offlinePayment = 0;
         this.pricePlanList = [];
         this.getPricingPlanList();
-        this.getShopInfoByUuid();
 
     }
 
-    getShopInfoByUuid(){
-        let _this = this;
-        const url = `/api/pricing-plan/get-shop?shopUuid=${this.shop.uuid}`
-        fetch(url, {
-            method: 'GET'
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            console.log('getShopInfoByUuid', data, data.pricingPlan.name);
-            _this.plan = data.pricingPlan.name;
-        })
+    updated(changedProperties) {
+        changedProperties.forEach((oldValue, propName) => {
+            if(propName === 'shop' && !!this.shop && !this.isBalanceRetrieved) {
+                this.isBalanceRetrieved = true;
+                this.getBalanceForThisShop();
+
+            }
+            console.log(`${propName} changed. oldValue: ${oldValue}`);
+        });
+    }
+
+    getBalanceForThisShop(){
+        const url = `/api/dashboard/shop/info?shopUuid=${this.shop.uuid}`;
+        this.generateGetRequest(url);
+    }
+
+
+
+    _getPlanName(plan) {
+        if(plan) return plan.name;
+        return 'NOT_SELECTED';
     }
 
     getPricingPlanList(){
@@ -182,6 +201,7 @@ class BalanceContainer extends LitElement {
         const plansList = this.shadowRoot.querySelector('#plans');
         const selectedUuidByIndex = plansList.selectedIndex;
         const pricingPlanUuid = plansList.querySelectorAll('option')[selectedUuidByIndex].id;
+
         const url = `/api/pricing-plan/set-plan-to-shop?shopUuid=${this.shop.uuid}&pricingPlanUuid=${pricingPlanUuid}`;
         this.setPricingPlanToThisShop(url);
     }
@@ -195,28 +215,29 @@ class BalanceContainer extends LitElement {
             return response.json();
         }).then(function (data) {
             console.log('data from setPricingPlanToThisShop: ', data, data.pricingPlan.name);
-            _this.plan = data.pricingPlan.name;
+            _this.shop = data;
+            _this.setPlanForShop();
         });
     }
 
-    updated(changedProperties) {
-        changedProperties.forEach((oldValue, propName) => {
-            if(propName === 'shop' && !!this.shop && !this.isBalanceRetrieved) {
-                this.isBalanceRetrieved = true;
-                this.getBalanceForThisShop();
-            }
-            console.log(`${propName} changed. oldValue: ${oldValue}`);
-        });
-    }
+    setPlanForShop(){
+       this.dispatchEvent(new CustomEvent('open-balance',
+            {
+                bubbles: true,
+                composed: true,
+                detail: this.shop
+            })
+       );
 
-    getBalanceForThisShop(){
-        const url = `/api/dashboard/shop/info?shopUuid=${this.shop.uuid}`;
-        this.generateGetRequest(url);
     }
-
     setBalanceForThisShop(data){
-        this.coinAccount = data;
-        console.log(`setBalanceForThisShop: ${data.balance}`);
+        if (data) {
+            this.coinAccount = data;
+        } else {
+            this.coinAccount.balance = 0;
+
+        }
+        console.log("ERROR no data for setBalanceForThisShop!!!")
     }
 
     handleAmountPayment(e){
@@ -246,8 +267,7 @@ class BalanceContainer extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
-            console.log('data for users: ', data);
-            _this.setBalanceForThisShop(data);
+                _this.setBalanceForThisShop(data);
         });
     }
 
@@ -268,8 +288,6 @@ class BalanceContainer extends LitElement {
 
         });
     }
-
-
 
     generatePostRequestForOfflineRefillPayment(url){
         let _this = this;
