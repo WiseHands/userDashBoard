@@ -107,7 +107,6 @@ class DashBoard extends LitElement {
                     display: flex;
                     align-items: center;
                     height: 58px;
-                    padding: 0.5rem;
                 }
                 .sidebar-logo img {
                     width: 36px;
@@ -285,7 +284,7 @@ class DashBoard extends LitElement {
                                 
                 <div class="header-profile-container border">
                     <div class="logo-container">
-                        <img class="logo" src="wisehands/assets/images/dashboard/main_logo_black.png">
+                        <img class="logo" src="/wisehands/assets/images/dashboard/main_logo_black.png">
                         <p class="product-name">WSTORE</p>
                     </div>
                     <div class="profile-info-container">
@@ -316,7 +315,7 @@ class DashBoard extends LitElement {
                         </div>                        
                         <div class="menu-item" @click="${this.showPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
-                           <p>Тарифи</p>
+                           <p>Тарифи</p>    
                         </div>
                         <div class="menu-item" @click="${this.logOutUser}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
