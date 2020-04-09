@@ -122,6 +122,10 @@ class PricePlanListContainer extends LitElement {
                     <p>Відсоток комісії (показати %)</p>
                     <input id="commission" .value=${this.commissionForPlane} @input="${this.handleCommissionForPlane}">                
                   </div>
+                   <div class="plan-commission-container">
+                    <p>Щомісячний платіж</p>
+                    <input id="monthly" .value=${this.monthlyFee} @input="${this.handleMonthlyFee}">                
+                  </div>
                   <div>
                     <button @click="${this.savingPricePlane}">Зберегти</button>                  
                   </div>
@@ -146,6 +150,9 @@ class PricePlanListContainer extends LitElement {
             commissionForPlane: {
               type: String
             },
+            monthlyFee : {
+                type: String
+            },
             isShowPricePlanContainer : {
               type: Boolean
             },
@@ -163,6 +170,7 @@ class PricePlanListContainer extends LitElement {
         super();
         this.planName = '';
         this.commissionForPlane = '';
+        this.monthlyFee = '';
         this.isShowPricePlanContainer = true;
         this.pricePlanList = [];
         this.getPricingPlanList();
@@ -176,13 +184,17 @@ class PricePlanListContainer extends LitElement {
         this.commissionForPlane = e.target.value;
     }
 
+    handleMonthlyFee(e){
+        this.monthlyFee = e.target.value;
+    }
+
     creatingPricePlanForShops(){
         this.isShowCreatingPricePlan = true;
         this.isShowPricePlanContainer = false;
     }
 
     savingPricePlane(){
-        const url = `/api/pricing-plan/create?planName=${this.planName}&commissionFee=${this.commissionForPlane}`;
+        const url = `/api/pricing-plan/create?planName=${this.planName}&commissionFee=${this.commissionForPlane}&monthlyFee=${this.monthlyFee}`;
         this.generatePostRequestForCreatingPricingPlan(url);
     }
 

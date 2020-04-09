@@ -38,6 +38,10 @@ class PricePlanMain extends LitElement {
                 <input .value="${this.pricePlan.commissionFee}" @input="${this.handlePricePlanCommissionFee}">
               </div>
               <div class="container row">
+                <p>Щомісячний платіж по тарифу: </p>
+                <input .value="${this.pricePlan.monthlyFee}" @input="${this.handlePricePlanMonthlyFee}">
+              </div>
+              <div class="container row">
                 <button @click="${this.savingPricePlan}">Зберегти</button>
                 <button @click="${this.removingPricePlan}">Видалити</button>
               </div>  
@@ -71,6 +75,10 @@ class PricePlanMain extends LitElement {
         this.pricePlan.commissionFee = e.target.value;
     }
 
+    handlePricePlanMonthlyFee(e){
+        this.pricePlan.monthlyFee = e.target.value;
+    }
+
     showPricingPlanWidgetForShop(){
         this.dispatchEvent(new CustomEvent('open-pricing-plan-list',
             {
@@ -83,7 +91,7 @@ class PricePlanMain extends LitElement {
 
     savingPricePlan(){
         const _this = this;
-        const url = `/api/pricing-plan/update?name=${this.pricePlan.name}&commissionFee=${this.pricePlan.commissionFee}&uuid=${this.pricePlan.uuid}`;
+        const url = `/api/pricing-plan/update?name=${this.pricePlan.name}&commissionFee=${this.pricePlan.commissionFee}&uuid=${this.pricePlan.uuid}&monthlyFee=${this.pricePlan.monthlyFee}`;
         fetch(url, {
             method: 'POST'
         }).then(function (response) {
