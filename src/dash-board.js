@@ -407,8 +407,15 @@ class DashBoard extends LitElement {
     }
 
     openBalance(){
+        const _this = this;
         this.addEventListener('open-balance', event => {
-                this.selectedShop = event.detail;
+                _this.selectedShop = event.detail;
+                console.log("open-balance in addEventListener: ", event.detail);
+                this.shopList.forEach(shop => {
+                    if (shop.uuid = _this.selectedShop.uuid){
+                        shop.pricingPlan = _this.selectedShop.pricingPlan
+                    }
+                });
                 this.showBalanceContainer();
             }
         );
