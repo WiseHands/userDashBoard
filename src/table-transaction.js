@@ -141,6 +141,11 @@ class TableTransaction extends LitElement {
                 .no-flexbox .Rtable.Rtable-cell {
                   width: 100%;
                 }
+                
+                .reference-link {
+                    font-size: 1em !important;
+                    text-decoration: none;
+                }
             </style>
             
             <div class="container">
@@ -165,7 +170,9 @@ class TableTransaction extends LitElement {
                       </div>
                       <div class="Rtable-cell type-cell">
                         <div class="Rtable-cell--heading">Тип</div>
-                        <div class="Rtable-cell--content access-link-content">${this.formatType(item.type)}</div>                        
+                        <div class="Rtable-cell--content access-link-content">
+                          <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
+                        </div>                        
                       </div>
                       <div class="Rtable-cell amount-cell">
                         <div class="Rtable-cell--heading">Сума</div>
@@ -216,25 +223,31 @@ class TableTransaction extends LitElement {
         return status;
     }
 
-    formatType(statusCode){
+    formatType(transaction){
         let status = '';
-        if (statusCode === 'REFILL') {
+        if (transaction.type === 'REFILL') {
             status = 'Поповнення рахунку'
-        } else if (statusCode === 'TRANSFER') {
+        } else if (transaction.type === 'TRANSFER') {
             status = 'Переказ'
-        } else if (statusCode === 'COMMISSION_FEE') {
-            status = 'Комісія за куплений товар'
-        } else if (statusCode === 'OFFLINE_REFILL'){
+        } else if (transaction.type === 'OFFLINE_REFILL'){
             status = 'Поповнення рахунку (офлайн)'
-        } else if (statusCode === 'MONTHLY_FEE'){
+        } else if (transaction.type === 'MONTHLY_FEE'){
             status = `Щомісячна оплата тарифу: ${this.shop.pricingPlan.name}`
-        } else if (statusCode === 'CHANGE_PRICING_PLAN'){
+        } else if (transaction.type === 'CHANGE_PRICING_PLAN'){
             status = `Зміна трафного плану: ${this.shop.pricingPlan.name}`
-        } else if (statusCode === 'ORDER_CANCELLED'){
+        } else if (transaction.type === 'ORDER_CANCELLED'){
             status = `Повернення комісії за куплений товар`
+
+        } else if (transaction.type === 'COMMISSION_FEE') {
+            status = 'Комісія за куплений товар'
+
         }
 
         return status;
+    }
+
+    _buildUrlForOrderTransaction(item, shop){
+        return `${window.location.protocol}//${shop.domain}:${window.location.port}/admin#/details/${item.orderUuid}`;
     }
 
 }
