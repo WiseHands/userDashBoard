@@ -28,19 +28,19 @@ class TableTransaction extends LitElement {
                 /* Table column sizing
                 ================================== */
                 .date-cell {
-                  width: 20%;
+                  width: 22%;
                 }
                 .topic-cell {
-                  width: 30%;
+                  width: 20%;
                 }
                 .type-cell {
-                  width: 18%;
+                  width: 20%;
                 }
                 .amount-cell {
-                  width: 16%;
+                  width: 18%;
                 }
                 .status-cell {
-                  width: 16%;
+                  width: 20%;
                 }
                 /* Apply styles
                 ================================== */
@@ -223,11 +223,11 @@ class TableTransaction extends LitElement {
         } else if (statusCode === 'TRANSFER') {
             status = 'Переказ'
         } else if (statusCode === 'COMMISSION_FEE') {
-            status = 'Списання комісії'
+            status = 'Комісія за куплений товар'
         } else if (statusCode === 'OFFLINE_REFILL'){
             status = 'Поповнення рахунку (офлайн)'
         } else if (statusCode === 'MONTHLY_FEE'){
-            status = 'Списання місячної плати'
+            status = `Щомісячна оплата тарифу: ${this.shop.pricingPlan.name}`
         }
         return status;
     }

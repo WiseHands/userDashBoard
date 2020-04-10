@@ -25,6 +25,13 @@ class BalanceContainer extends LitElement {
                         display: flex;
                         flex-direction: column;
                     }
+                        .column-container{
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            margin: 2.5px;
+
+                        }
                         .row-container{
                             display: flex;
                             flex-direction: row;
@@ -35,8 +42,9 @@ class BalanceContainer extends LitElement {
                         .row-container input, button{
                             margin: 5px;
                         }
-                        drop-down-list{
-                            margin: 5px;
+                        .drop-down-list{
+                            display: flex;
+                            margin: 10px;
                         }
                     .status-plane-container{
                         display: flex;
@@ -76,7 +84,7 @@ class BalanceContainer extends LitElement {
                     <div class="row-container">
                         <p>Поточний тариф: ${this._getPlanName(this.shop.pricingPlan)}</p>
                     </div>
-                    <div class="row-container">
+                    <div class="column-container">
                         <div class="drop-down-list">
                           <label for="plans">Тариф:</label>
                             <select id="plans">
@@ -84,8 +92,11 @@ class BalanceContainer extends LitElement {
                                 <option id="${item.uuid}">${item.name}</option>
                               `)}
                             </select>
-                            <button @click="${this.getPlaneForShop}">змінити</button>  
-                        </div>
+                        </div>    
+                        <div class="row-container">
+                          <button @click="${this.getPlaneForShop}">змінити</button>
+                          <p style="color: red">${this.errorForPricingPlan}</p>
+                        </div>    
                     </div>
                     
                 </section>
@@ -144,6 +155,9 @@ class BalanceContainer extends LitElement {
             },
             pricePlanList: {
                 type: Array
+            },
+            errorForPricingPlan:{
+                type: String
             }
         };
     }
@@ -154,6 +168,7 @@ class BalanceContainer extends LitElement {
             balance: 0,
             transactionList: []
         };
+        this.errorForPricingPlan = '';
         this.amountPayment = 0;
         this.offlinePayment = 0;
         this.pricePlanList = [];
@@ -181,7 +196,7 @@ class BalanceContainer extends LitElement {
 
     _getPlanName(plan) {
         if(plan) return plan.name;
-        return 'NOT_SELECTED';
+        return 'Не встановлено';
     }
 
     getPricingPlanList(){
@@ -214,13 +229,21 @@ class BalanceContainer extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
-            console.log('data from setPricingPlanToThisShop: ', data, data.pricingPlan.name);
-            _this.shop = data;
-            _this.setPlanForShop();
+            console.log('data from setPricingPlanToThisShop: ', data);
+            _this.setPlanForShop(data);
         });
     }
 
-    setPlanForShop(){
+    setPlanForShop(data){
+       if (data.status){
+            this.errorForPricingPlan = `${data.message}`;
+            this.shop = data.shop;
+       }
+       if (data.uuid) {
+           this.errorForPricingPlan = '';
+           this.transactionList = data.coinAccount.transactionList;
+           this.shop = data;
+       }
        this.dispatchEvent(new CustomEvent('open-balance',
             {
                 bubbles: true,
@@ -231,13 +254,14 @@ class BalanceContainer extends LitElement {
 
     }
     setBalanceForThisShop(data){
+
         if (data) {
             this.coinAccount = data;
         } else {
             this.coinAccount.balance = 0;
 
         }
-        console.log("ERROR no data for setBalanceForThisShop!!!")
+        console.log("ERROR no data for setBalanceForThisShop!!!", data);
     }
 
     handleAmountPayment(e){
