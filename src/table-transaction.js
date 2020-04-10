@@ -144,7 +144,6 @@ class TableTransaction extends LitElement {
                 
                 .reference-link {
                     font-size: 1em !important;
-                    text-decoration: none;
                 }
             </style>
             
