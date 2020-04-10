@@ -171,7 +171,11 @@ class TableTransaction extends LitElement {
                       <div class="Rtable-cell type-cell">
                         <div class="Rtable-cell--heading">Тип</div>
                         <div class="Rtable-cell--content access-link-content">
-                          <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
+                          ${!!item.orderUuid ? html`
+                            <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
+                          ` : html `
+                            <p>${this.formatType(item)}</p>
+                          `}           
                         </div>                        
                       </div>
                       <div class="Rtable-cell amount-cell">
