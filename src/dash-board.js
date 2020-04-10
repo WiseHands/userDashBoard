@@ -20,11 +20,19 @@ class DashBoard extends LitElement {
                 .main-container {
                     height: 100vh;
                 }
+                .dash-block {
+                    max-width: 900px;
+                    margin: 0 auto;
+                }    
                 .header-profile-container{
+                    width: 100%;
+                }
+                .header-dash-block {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    height: 56px;
+                    max-width: 900px;
+                    margin: 0 auto;
                 }
                     .logo-container{
                         display: flex;
@@ -32,6 +40,7 @@ class DashBoard extends LitElement {
                         justify-content: space-between;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
                         font-size: 20px;
+                        padding-left: 0.5rem;
                     }
                     .logo{
                         height: 48px;
@@ -106,7 +115,9 @@ class DashBoard extends LitElement {
                 .sidebar-logo {
                     display: flex;
                     align-items: center;
-                    height: 58px;
+                    height: 63px;
+                    padding-left: 0.7rem;
+
                 }
                 .sidebar-logo img {
                     width: 36px;
@@ -146,21 +157,23 @@ class DashBoard extends LitElement {
                     .menu-item {
                         display: flex;
                         align-items: center;
-                        justify-content: center;
                         height: 4em;
-                        border-bottom: 1px solid lightgrey;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
+                        padding-left: 1rem; 
+                        margin: 0.5rem;
+                        border-radius: 5px;
                     }
                     .menu-item[selected] {
-                        background-color: darkgrey;
+                        background-color: #eaf0fa;
                     }
                     .menu-item-logo{
                         height: 24px;
                         width: 24px;
                         margin: 5px;
+                        padding-right: 0.5rem;
                     }
                     .menu-item:hover{
-                        background-color: darkgrey;
+                        background-color: #eaf0fa;
                         cursor: pointer;
                     }
                 .work-place-dash-board-container{
@@ -238,6 +251,11 @@ class DashBoard extends LitElement {
                         display: flex;
                         width: 100%;
                     }
+                @media screen and (min-width: 1500px) {
+                    .dash-block, .header-dash-block {
+                    max-width: 1300px;
+                    }
+                }    
                 @media screen and (max-width: 768px) {
                     .tools-dash-board-container, .profile-info-container, .logo-container  {
                         display: none;
@@ -280,34 +298,35 @@ class DashBoard extends LitElement {
         
                 </div>
             </div>
-            <div class="main-container">
+            <div class="main-container ">
                                 
                 <div class="header-profile-container border">
-                    <div class="logo-container">
-                        <img class="logo" src="/wisehands/assets/images/dashboard/main_logo_black.png">
-                        <p class="product-name">WSTORE</p>
-                    </div>
-                    <div class="profile-info-container">
-                        <div class="profile-info">
-                            <p>${this.userFullName}</p>                                                        
+                    <div class="header-dash-block">
+                        <div class="logo-container">
+                            <img class="logo" src="/wisehands/assets/images/dashboard/main_logo_black.png">
+                            <p class="product-name">WSTORE</p>
                         </div>
-                        <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
-                    </div>
-                    
-                    <div class="mobile-logo-container" @click="${this.showSideMenu}">
-                        <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
-                    </div>
-                    
-                    <div class="mobile-profile-info-container">
-                        <div class="profile-info">
-                            <p>${this.userFullName}</p>                                                        
+                        <div class="profile-info-container">
+                            <div class="profile-info">
+                                <p>${this.userFullName}</p>                                                        
+                            </div>
+                            <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
                         </div>
-                        <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
-                    </div>
-                                     
+                        
+                        <div class="mobile-logo-container" @click="${this.showSideMenu}">
+                            <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
+                        </div>
+                        
+                        <div class="mobile-profile-info-container">
+                            <div class="profile-info">
+                                <p>${this.userFullName}</p>                                                        
+                            </div>
+                            <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
+                        </div>
+                    </div>                 
                 </div>
 
-                <div class="body-dash-board-container">
+                <div class="body-dash-board-container dash-block">
                     <div class="tools-dash-board-container border">
                         <div class="menu-item" @click="${this.showShopListContainer}" selected>
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
