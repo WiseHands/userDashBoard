@@ -228,7 +228,10 @@ class TableTransaction extends LitElement {
             status = 'Поповнення рахунку (офлайн)'
         } else if (statusCode === 'MONTHLY_FEE'){
             status = `Щомісячна оплата тарифу: ${this.shop.pricingPlan.name}`
+        } else if (statusCode === 'CHANGE_PRICING_PLAN'){
+            status = `Зміна трафного плану: ${this.shop.pricingPlan.name}`
         }
+
         return status;
     }
 

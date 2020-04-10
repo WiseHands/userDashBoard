@@ -235,9 +235,11 @@ class BalanceContainer extends LitElement {
     }
 
     setPlanForShop(data){
+       this.setBalanceForThisShop(data.coinAccount);
        if (data.status){
             this.errorForPricingPlan = `${data.message}`;
             this.shop = data.shop;
+            this.coinAccount = data.shop.coinAccount;
        }
        if (data.uuid) {
            this.errorForPricingPlan = '';
