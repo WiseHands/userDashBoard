@@ -473,15 +473,18 @@ class DashBoard extends LitElement {
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
         this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
     }
+
     closeSidebar() {
         this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
         setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
 
     }
+
     showSidebar(e) {
         e.stopPropagation();
     }
+
     hideSidebar() {
         this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
     }
@@ -500,8 +503,7 @@ class DashBoard extends LitElement {
         this.setSelectedState(event.currentTarget);
     }
 
-
-      setSelectedState(clickedMenuItem) {
+    setSelectedState(clickedMenuItem) {
         const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
         if (!isClickedMenuItemSelected) {
             const selectedMenuItems = this.shadowRoot.querySelectorAll('[selected]');
@@ -536,7 +538,6 @@ class DashBoard extends LitElement {
         this.isShowPricePlanMainContainer = true;
 
     }
-
 
     getShopList(){
         const _this = this;

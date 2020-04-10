@@ -230,6 +230,8 @@ class TableTransaction extends LitElement {
             status = `Щомісячна оплата тарифу: ${this.shop.pricingPlan.name}`
         } else if (statusCode === 'CHANGE_PRICING_PLAN'){
             status = `Зміна трафного плану: ${this.shop.pricingPlan.name}`
+        } else if (statusCode === 'ORDER_CANCELLED'){
+            status = `Повернення комісії за куплений товар`
         }
 
         return status;
