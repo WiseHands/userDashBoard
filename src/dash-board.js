@@ -4,6 +4,7 @@ import './price-plan-main-container.js'
 import './balance-container.js'
 import './shop-tile.js'
 import './price-plan-list-container.js'
+import './profile-picture.js'
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
@@ -257,13 +258,13 @@ class DashBoard extends LitElement {
                     }
                 }    
                 @media screen and (max-width: 768px) {
-                    .tools-dash-board-container, .profile-info-container, .logo-container  {
+                    .tools-dash-board-container, .logo-container  {
                         display: none;
                     }
                     .work-place-dash-board-container {
                         width: 100%
                     }     
-                    .mobile-logo-container, .mobile-profile-info-container {
+                    .mobile-logo-container {
                         display: flex;
                         align-items: center;
                     }
@@ -305,24 +306,12 @@ class DashBoard extends LitElement {
                         <div class="logo-container">
                             <img class="logo" src="/wisehands/assets/images/dashboard/main_logo_black.png">
                             <p class="product-name">WSTORE</p>
-                        </div>
-                        <div class="profile-info-container">
-                            <div class="profile-info">
-                                <p>${this.userFullName}</p>                                                        
-                            </div>
-                            <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
-                        </div>
-                        
+                        </div>                                                      
                         <div class="mobile-logo-container" @click="${this.showSideMenu}">
                             <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
                         </div>
-                        
-                        <div class="mobile-profile-info-container">
-                            <div class="profile-info">
-                                <p>${this.userFullName}</p>                                                        
-                            </div>
-                            <img class="logo" src="wisehands/assets/images/dashboard/user-header-info.svg">
-                        </div>
+                        <profile-picture .user="${this.user}"></profile-picture>   
+
                     </div>                 
                 </div>
 
@@ -575,6 +564,7 @@ class DashBoard extends LitElement {
         }).then(function (data) {
             console.log('data for users: ', data);
             if (data){
+                _this.user = data;
                 _this.userFullName = `${data.givenName} ${data.familyName}`;
                 console.log(`user UUID: ${data.uuid}`);
             }
