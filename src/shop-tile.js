@@ -24,9 +24,12 @@ class ShopTile extends LitElement {
                         border-radius: 5px;
                         background-color: #00BCD4;
                         text-decoration: none;
+                        white-space: nowrap;
                     }
                         .shop-name p{
                             font-size: 2em;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                     .shop-info-container{
                         display: flex;
