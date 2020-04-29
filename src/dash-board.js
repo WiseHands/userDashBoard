@@ -293,11 +293,15 @@ class DashBoard extends LitElement {
                         <div class="menu-item" @click="${this.showShopListContainer}" selected>
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
-                        </div>                        
-                        <div class="menu-item" @click="${this.showPricePlanListContainer}">
-                           <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
-                           <p>Тарифи</p>
                         </div>
+
+                         ${this.isHiddenPlansBlockInMenu ? html `` : html `
+                            <div class="menu-item" @click="${this.showPricePlanListContainer}">
+                               <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
+                               <p>Тарифи</p>
+                            </div>
+                        `}
+
                         <div class="menu-item" @click="${this.logOutUser}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
                             <p>Вихід</p>
@@ -329,11 +333,17 @@ class DashBoard extends LitElement {
                         <div class="menu-item" @click="${this.showShopListContainer}" selected>
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-store-dashboard.svg">
                             <p>Магазини</p>
-                        </div>                        
+                        </div>
+
+                        ${this.isHiddenPlansBlockInMenu ? html `` : html `
+
                         <div class="menu-item" @click="${this.showPricePlanListContainer}">
                            <img class="menu-item-logo" src="wisehands/assets/images/dashboard/priceplane.png">
-                           <p>Тарифи</p>    
+                           <p>Тарифи</p>
                         </div>
+
+                        `}
+
                         <div class="menu-item" @click="${this.logOutUser}">
                             <img class="menu-item-logo" src="wisehands/assets/images/dashboard/icon-user-dashboard.svg">
                             <p>Вихід</p>
@@ -401,6 +411,9 @@ class DashBoard extends LitElement {
             },
             isShowPricePlanMainContainer: {
                 type: Boolean
+            },
+            isHiddenPlansBlockInMenu: {
+                type: Boolean
             }
         };
     }
@@ -414,13 +427,27 @@ class DashBoard extends LitElement {
         this.shopList = [];
         this.userFullName = 'Ім. Пр.';
         this.isShowShopListContainer = true;
+        this.isHiddenPlansBlockInMenu = true;
         this.checkIfUserIsLogIn();
+        this.isUserSuperAdminThanHidePlansBlockInMenu();
         this.openBalance();
         this.openPricingPlan();
         this.openPricingPlanList();
 
-
     }
+
+    isUserSuperAdminThanHidePlansBlockInMenu(){
+        const _this = this;
+        let token = localStorage.getItem('JWT_TOKEN');
+        let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
+        let playLoad = JSON.parse(window.atob(tokenPlayLoad));
+        if (playLoad.isSuperAdmin == true){
+        console.log('JSON playload from JWT true: ', playLoad.isSuperAdmin);
+        _this.isHiddenPlansBlockInMenu = false;
+        }
+    }
+
+
 
     openBalance(){
         const _this = this;
