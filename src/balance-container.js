@@ -84,28 +84,29 @@ class BalanceContainer extends LitElement {
                     <div class="row-container">
                         <p>Поточний тариф: ${this._getPlanName(this.shop.pricingPlan)}</p>
                     </div>
-                    <div class="column-container">
-                        <div class="drop-down-list">
-                          <label for="plans">Тариф:</label>
-                            <select id="plans">
-                              ${this.pricePlanList.map(item => html`
-                                <option id="${item.uuid}">${item.name}</option>
-                              `)}
-                            </select>
-                        </div>    
-                        <div class="row-container">
-                          <button @click="${this.getPlaneForShop}">змінити</button>
-                          <p style="color: red">${this.errorForPricingPlan}</p>
-                        </div>    
-                    </div>
-                    
+
+                    ${this.isUserSuperAdmin ? html `` : html `
+                        <div class="column-container">
+                            <div class="drop-down-list">
+                              <label for="plans">Тариф:</label>
+                                <select id="plans">
+                                  ${this.pricePlanList.map(item => html`
+                                    <option id="${item.uuid}">${item.name}</option>
+                                  `)}
+                                </select>
+                            </div>
+                            <div class="row-container">
+                              <button @click="${this.getPlaneForShop}">змінити</button>
+                              <p style="color: red">${this.errorForPricingPlan}</p>
+                            </div>
+                        </div>
+                    `}
                 </section>
                 <span class="line"></span>
 
-
                 <section class="administration-container">
 
-                    ${this.isHiddenOfflinePaymentSection ? html `` : html `
+                    ${this.isUserSuperAdmin ? html `` : html `
                         <p>Зарахування офлайн поповнення</p>
                         <div class="row-container">
                             <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}">
@@ -165,7 +166,7 @@ class BalanceContainer extends LitElement {
             errorForPricingPlan: {
                 type: String
             },
-            isHiddenOfflinePaymentSection: {
+            isUserSuperAdmin: {
                 type: Boolean
             }
         };
@@ -182,21 +183,21 @@ class BalanceContainer extends LitElement {
         this.offlinePayment = 0;
         this.pricePlanList = [];
         this.getPricingPlanList();
-        this.isHiddenOfflinePaymentSection = true;
+        this.isUserSuperAdmin = true;
         this.isUserSuperAdminThenHideOfflinePaymentSection();
-        console.log('this.isUserSuperAdminThenHideOfflinePaymentSection();');
+        console.log('this.constructor balance-container', this.shop);
 
     }
 
     isUserSuperAdminThenHideOfflinePaymentSection(){
-            console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
+        console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
         const _this = this;
         let token = localStorage.getItem('JWT_TOKEN');
         let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
         let playLoad = JSON.parse(window.atob(tokenPlayLoad));
         if (playLoad.isSuperAdmin == true){
         console.log('JSON playload for balance: ', playLoad.isSuperAdmin);
-        _this.isHiddenOfflinePaymentSection = false;
+        _this.isUserSuperAdmin = false;
         }
     }
 
@@ -265,18 +266,20 @@ class BalanceContainer extends LitElement {
        }
        if (data.uuid) {
            this.errorForPricingPlan = '';
+           console.log('get transactionList ', data);
            this.transactionList = data.coinAccount.transactionList;
            this.shop = data;
        }
-       this.dispatchEvent(new CustomEvent('open-balance',
+       this.dispatchEvent(new CustomEvent('set-plan-for-shop',
             {
                 bubbles: true,
                 composed: true,
                 detail: this.shop
             })
        );
-
+        console.log('dispatchEvent set-plan-for-shop, ', this.shop);
     }
+
     setBalanceForThisShop(data){
 
         if (data) {
@@ -315,7 +318,7 @@ class BalanceContainer extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(function (data) {
-                _this.setBalanceForThisShop(data);
+             _this.setBalanceForThisShop(data);
         });
     }
 
@@ -346,7 +349,7 @@ class BalanceContainer extends LitElement {
                 authorization:  'Bearer ' + token
             }
         }).then(function (response) {
-            console.log("response response: ", response);
+            console.log("PostRequestForOfflineRefillPayment response: ", response);
             return response.json();
         }).then(function (data) {
             console.log('data from generatePostRequest: ', data);

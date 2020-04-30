@@ -98,6 +98,8 @@ class ShopTile extends LitElement {
 
     constructor() {
         super();
+        console.log('this.constructor shop-tile', this.shop);
+
     }
 
     _buildUrlForShop(item){

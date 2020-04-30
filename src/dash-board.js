@@ -433,6 +433,8 @@ class DashBoard extends LitElement {
         this.openBalance();
         this.openPricingPlan();
         this.openPricingPlanList();
+        console.log('this.constructor dash-board-container', this.shop);
+
 
     }
 
@@ -450,8 +452,15 @@ class DashBoard extends LitElement {
 
 
     openBalance(){
+        console.log('open balance container');
         const _this = this;
         this.addEventListener('open-balance', event => {
+                _this.selectedShop = event.detail;
+                this.showBalanceContainer();
+            }
+        );
+
+        this.addEventListener('set-plan-for-shop', event => {
                 _this.selectedShop = event.detail;
                 console.log("open-balance in addEventListener: ", event.detail);
                 this.shopList.forEach(shop => {
@@ -462,6 +471,8 @@ class DashBoard extends LitElement {
                 this.showBalanceContainer();
             }
         );
+
+
     }
 
     openPricingPlan(){
