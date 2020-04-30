@@ -1,15 +1,16 @@
 // Import the LitElement base class and html helper function
-import { LitElement, html } from 'lit-element';
+import {LitElement, html} from 'lit-element';
 import './price-plan-main-container.js'
 import './balance-container.js'
 import './shop-tile.js'
 import './price-plan-list-container.js'
 import './profile-picture.js'
+
 // Extend the LitElement base class
 class DashBoard extends LitElement {
 
-    render(){
-        return html`
+  render() {
+    return html`
 
             <style>
                 .border{
@@ -386,236 +387,232 @@ class DashBoard extends LitElement {
             </div>
                            
             
-    `;}
+    `;
+  }
 
-    static get properties() {
-        return {
-            shopList: {
-                type: Array,
-                value: []
-            },
-            userFullName: {
-                type: String
-            },
-            isShowShopListContainer: {
-                type: Boolean
-            },
-            isShowBalanceContainer: {
-                type: Boolean
-            },
-            isShowSideMenu: {
-                type: Boolean
-            },
-            isShowPricePlanListContainer: {
-                type: Boolean
-            },
-            isShowPricePlanMainContainer: {
-                type: Boolean
-            },
-            isHiddenPlansBlockInMenu: {
-                type: Boolean
-            }
-        };
+  static get properties() {
+    return {
+      shopList: {
+        type: Array,
+        value: []
+      },
+      userFullName: {
+        type: String
+      },
+      isShowShopListContainer: {
+        type: Boolean
+      },
+      isShowBalanceContainer: {
+        type: Boolean
+      },
+      isShowSideMenu: {
+        type: Boolean
+      },
+      isShowPricePlanListContainer: {
+        type: Boolean
+      },
+      isShowPricePlanMainContainer: {
+        type: Boolean
+      },
+      isHiddenPlansBlockInMenu: {
+        type: Boolean
+      }
+    };
+  }
+
+
+  constructor() {
+    super();
+    this.getShopList();
+    this.getUserInfo();
+    this.shopList = [];
+    this.userFullName = 'Ім. Пр.';
+    this.isShowShopListContainer = true;
+    this.isHiddenPlansBlockInMenu = true;
+    this.checkIfUserIsLogIn();
+    this.isUserSuperAdminThanHidePlansBlockInMenu();
+    this.openBalanceContainer();
+    this.openPricingPlan();
+    this.openPricingPlanList();
+    this.updateShopListUsePricingPlan();
+    console.log('this.constructor dash-board-container', this.shop);
+
+  }
+
+  isUserSuperAdminThanHidePlansBlockInMenu() {
+    const _this = this;
+    let token = localStorage.getItem('JWT_TOKEN');
+    let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
+    let playLoad = JSON.parse(window.atob(tokenPlayLoad));
+    if (playLoad.isSuperAdmin == true) {
+      console.log('JSON playload from JWT true: ', playLoad.isSuperAdmin);
+      _this.isHiddenPlansBlockInMenu = false;
     }
+  }
 
+  openBalanceContainer() {
+    const _this = this;
+    this.addEventListener('show-balance-container', event => {
+        console.log("show-balance-container in addEventListener: ", event.detail);
+        _this.selectedShop = event.detail;
+        this.showBalanceContainer();
+      }
+    );
+  }
 
+  updateShopListUsePricingPlan() {
+    this.addEventListener('update-shop-list', this._updateShopListHandler);
+  }
 
-    constructor() {
-        super();
-        this.getShopList();
-        this.getUserInfo();
-        this.shopList = [];
-        this.userFullName = 'Ім. Пр.';
-        this.isShowShopListContainer = true;
-        this.isHiddenPlansBlockInMenu = true;
-        this.checkIfUserIsLogIn();
-        this.isUserSuperAdminThanHidePlansBlockInMenu();
-        this.openBalanceContainer();
-        this.openPricingPlan();
-        this.openPricingPlanList();
-        this.updateShopListUsePricingPlan();
-        console.log('this.constructor dash-board-container', this.shop);
+  _updateShopListHandler(event) {
+    const affectedShop = event.detail;
+    const shop = this.shopList.find(shop => shop.uuid === affectedShop.uuid);
+    shop.pricingPlan = affectedShop.pricingPlan;
+    shop.coinAccount.balance = affectedShop.coinAccount.balance;
+  }
 
+  openPricingPlan() {
+    this.addEventListener('open-pricing-plan', event => {
+        this.selectedPricePlan = event.detail;
+        this.showPricingPlanMainContainer();
+      }
+    );
+  }
+
+  openPricingPlanList() {
+    this.addEventListener('open-pricing-plan-list', event => {
+        this.selectedPricePlan = event.detail;
+        this.showPricePlanListContainer();
+      }
+    );
+  }
+
+  checkIfUserIsLogIn() {
+    let token = localStorage.getItem('JWT_TOKEN');
+    if (!token) {
+      window.location = '/';
     }
+  }
 
-    isUserSuperAdminThanHidePlansBlockInMenu(){
-        const _this = this;
-        let token = localStorage.getItem('JWT_TOKEN');
-        let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
-        let playLoad = JSON.parse(window.atob(tokenPlayLoad));
-        if (playLoad.isSuperAdmin == true){
-        console.log('JSON playload from JWT true: ', playLoad.isSuperAdmin);
-        _this.isHiddenPlansBlockInMenu = false;
-        }
+  logOutUser() {
+    localStorage.removeItem('JWT_TOKEN');
+    window.location = '/';
+  }
+
+  showSideMenu() {
+    console.log('click');
+    this.isShowSideMenu = true;
+    this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
+    this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
+  }
+
+  closeSidebar() {
+    this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
+    setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
+    this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
+
+  }
+
+  showSidebar(e) {
+    e.stopPropagation();
+  }
+
+  hideSidebar() {
+    this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
+  }
+
+  creatingShopThroughWizard() {
+    localStorage.setItem('isShopCreated', 'false');
+    window.location = "/ua/wizard";
+  }
+
+  showShopListContainer(event) {
+    this.hideSidebar();
+    this.isShowShopListContainer = true;
+    this.isShowBalanceContainer = false;
+    this.isShowPricePlanListContainer = false;
+    this.isShowPricePlanMainContainer = false;
+    this.setSelectedState(event.currentTarget);
+  }
+
+  setSelectedState(clickedMenuItem) {
+    const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
+    if (!isClickedMenuItemSelected) {
+      const selectedMenuItems = this.shadowRoot.querySelectorAll('[selected]');
+      selectedMenuItems.forEach(item => item.removeAttribute('selected'));
+      clickedMenuItem.setAttribute('selected', '');
     }
+  }
 
-    openBalanceContainer(){
-        const _this = this;
-        this.addEventListener('show-balance-container', event => {
-                console.log("show-balance-container in addEventListener: ", event.detail);
-                _this.selectedShop = event.detail;
-                this.showBalanceContainer();
-            }
-        );
-    }
+  showBalanceContainer() {
+    this.hideSidebar();
+    this.isShowBalanceContainer = true;
+    this.isShowShopListContainer = false;
+    this.isShowPricePlanListContainer = false;
+    this.isShowPricePlanMainContainer = false;
+  }
 
-    updateShopListUsePricingPlan(){
-        const _this = this;
-        this.addEventListener('update-shop-list', event => {
-            console.log("update-shop-list in addEventListener: ", event.detail);
-            this.shopList.forEach(shop => {
-                if (shop.uuid == event.detail.uuid){
-                console.log('shop in shop List', shop);
-                    shop.pricingPlan = event.detail.pricingPlan;
-                    shop.coinAccount.balance = event.detail.coinAccount.balance;
-                }
-            });
-            console.log('shop in shop shopList', this.shopList);
-        });
-    }
+  showPricePlanListContainer(event) {
+    this.hideSidebar();
+    this.isShowPricePlanListContainer = true;
+    this.isShowShopListContainer = false;
+    this.isShowBalanceContainer = false;
+    this.isShowPricePlanMainContainer = false;
+    this.setSelectedState(event.currentTarget);
 
-    openPricingPlan(){
-        this.addEventListener('open-pricing-plan', event => {
-                this.selectedPricePlan = event.detail;
-                this.showPricingPlanMainContainer();
-            }
-        );
-    }
+  }
 
-    openPricingPlanList(){
-        this.addEventListener('open-pricing-plan-list', event => {
-                this.selectedPricePlan = event.detail;
-                this.showPricePlanListContainer();
-            }
-        );
-    }
+  showPricingPlanMainContainer() {
+    this.hideSidebar();
+    this.isShowShopListContainer = false;
+    this.isShowBalanceContainer = false;
+    this.isShowPricePlanListContainer = false;
+    this.isShowPricePlanMainContainer = true;
 
-    checkIfUserIsLogIn(){
-        let token = localStorage.getItem('JWT_TOKEN');
-        if(!token){
-            window.location = '/';
-        }
-    }
+  }
 
-    logOutUser(){
-       localStorage.removeItem('JWT_TOKEN');
-       window.location = '/';
-    }
-
-    showSideMenu() {
-        console.log('click');
-        this.isShowSideMenu = true;
-        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'block';
-        this.shadowRoot.querySelector(".sidebar-mobile").classList.remove('sibebar-swipe-off');
-    }
-
-    closeSidebar() {
-        this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
-        setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
-        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-
-    }
-
-    showSidebar(e) {
-        e.stopPropagation();
-    }
-
-    hideSidebar() {
-        this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-    }
-
-    creatingShopThroughWizard(){
-        localStorage.setItem('isShopCreated', 'false');
-        window.location="/ua/wizard";
-    }
-
-    showShopListContainer(event) {
-        this.hideSidebar();
-        this.isShowShopListContainer = true;
-        this.isShowBalanceContainer = false;
-        this.isShowPricePlanListContainer = false;
-        this.isShowPricePlanMainContainer = false;
-        this.setSelectedState(event.currentTarget);
-    }
-
-    setSelectedState(clickedMenuItem) {
-        const isClickedMenuItemSelected = clickedMenuItem.hasAttribute('selected');
-        if (!isClickedMenuItemSelected) {
-            const selectedMenuItems = this.shadowRoot.querySelectorAll('[selected]');
-          selectedMenuItems.forEach(item => item.removeAttribute('selected'));
-          clickedMenuItem.setAttribute('selected', '');
-        }
+  getShopList() {
+    const _this = this;
+    const url = '/api/dashboard/shops';
+    let token = localStorage.getItem('JWT_TOKEN');
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + token
+      }
+    }).then(function (response) {
+      console.log("response response: ", response);
+      return response.json();
+    }).then(function (data) {
+      console.log('data for shopList: ', data);
+      if (data) {
+        _this.shopList = data;
       }
 
-    showBalanceContainer() {
-        this.hideSidebar();
-        this.isShowBalanceContainer = true;
-        this.isShowShopListContainer = false;
-        this.isShowPricePlanListContainer = false;
-        this.isShowPricePlanMainContainer = false;
-    }
+    });
+  }
 
-    showPricePlanListContainer(event){
-        this.hideSidebar();
-        this.isShowPricePlanListContainer = true;
-        this.isShowShopListContainer = false;
-        this.isShowBalanceContainer = false;
-        this.isShowPricePlanMainContainer = false;
-        this.setSelectedState(event.currentTarget);
-
-    }
-
-    showPricingPlanMainContainer() {
-        this.hideSidebar();
-        this.isShowShopListContainer = false;
-        this.isShowBalanceContainer = false;
-        this.isShowPricePlanListContainer = false;
-        this.isShowPricePlanMainContainer = true;
-
-    }
-
-    getShopList(){
-        const _this = this;
-        const url ='/api/dashboard/shops';
-        let token = localStorage.getItem('JWT_TOKEN');
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                authorization:  'Bearer ' + token
-            }
-        }).then(function (response) {
-            console.log("response response: ", response);
-            return response.json();
-        }).then(function (data) {
-            console.log('data for shopList: ', data);
-            if (data){
-                _this.shopList = data;
-            }
-
-        });
-    }
-
-    getUserInfo(){
-        const _this = this;
-        const url ='/api/dashboard/user';
-        let token = localStorage.getItem('JWT_TOKEN');
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                authorization:  'Bearer ' + token
-            }
-        }).then(function (response) {
-            console.log("response response: ", response);
-            return response.json();
-        }).then(function (data) {
-            console.log('data for users: ', data);
-            if (data){
-                _this.user = data;
-                _this.userFullName = `${data.givenName} ${data.familyName}`;
-                console.log(`user UUID: ${data.uuid}`);
-            }
-        });
-    }
+  getUserInfo() {
+    const _this = this;
+    const url = '/api/dashboard/user';
+    let token = localStorage.getItem('JWT_TOKEN');
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + token
+      }
+    }).then(function (response) {
+      console.log("response response: ", response);
+      return response.json();
+    }).then(function (data) {
+      console.log('data for users: ', data);
+      if (data) {
+        _this.user = data;
+        _this.userFullName = `${data.givenName} ${data.familyName}`;
+        console.log(`user UUID: ${data.uuid}`);
+      }
+    });
+  }
 
 }
 
