@@ -96,7 +96,7 @@ class BalanceContainer extends LitElement {
                                 </select>
                             </div>
                             <div class="row-container">
-                              <button @click="${this.getPlaneForShop}">змінити</button>
+                              <button @click="${this.changePlaneForShop}">змінити</button>
                               <p style="color: red">${this.errorForPricingPlan}</p>
                             </div>
                         </div>
@@ -235,7 +235,7 @@ class BalanceContainer extends LitElement {
         })
     }
 
-    getPlaneForShop(){
+    changePlaneForShop(){
         const plansList = this.shadowRoot.querySelector('#plans');
         const selectedUuidByIndex = plansList.selectedIndex;
         const pricingPlanUuid = plansList.querySelectorAll('option')[selectedUuidByIndex].id;
@@ -270,6 +270,14 @@ class BalanceContainer extends LitElement {
            this.transactionList = data.coinAccount.transactionList;
            this.shop = data;
        }
+        console.log('update shop after add plan', this.shop);
+        this.dispatchEvent(new CustomEvent('updating-pricing-plan-in-unique-shop',
+            {
+                bubbles: true,
+                composed: true,
+                detail: this.shop
+            })
+        );
 
     }
 
@@ -281,7 +289,7 @@ class BalanceContainer extends LitElement {
             this.coinAccount.balance = 0;
 
         }
-        console.log("ERROR no data for setBalanceForThisShop!!!", data);
+        console.log("setBalanceForThisShop", data);
     }
 
     handleAmountPayment(e){

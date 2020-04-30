@@ -434,6 +434,8 @@ class DashBoard extends LitElement {
         this.openPricingPlan();
         this.openPricingPlanList();
         console.log('this.constructor dash-board-container', this.shop);
+        console.log('this.constructor dash-board-container', this.shopList);
+
 
 
     }
@@ -460,10 +462,6 @@ class DashBoard extends LitElement {
                 this.showBalanceContainer();
             }
         );
-
-
-
-
     }
 
     openPricingPlan(){
@@ -528,6 +526,19 @@ class DashBoard extends LitElement {
         this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
         this.setSelectedState(event.currentTarget);
+
+
+        this.addEventListener('updating-pricing-plan-in-unique-shop', event => {
+                console.log("updating-pricing-plan-in-unique-shop: ", event.detail.uuid);
+
+                const uniqueShop = event.detail;
+                this.shopList.forEach(shop => {
+                    if (shop.uuid = uniqueShop.uuid){
+                        shop.pricingPlan = uniqueShop.pricingPlan
+                    }
+                });
+            }
+        );
 
     }
 
