@@ -91,7 +91,7 @@ class BalanceContainer extends LitElement {
                               <label for="plans">Тариф:</label>
                                 <select id="plans">
                                   ${this.pricePlanList.map(item => html`
-                                    <option id="${item.uuid}">${item.name}</option>
+                                    <option id="${item.uuid}" >${item.name}</option>
                                   `)}
                                 </select>
                             </div>
@@ -241,6 +241,7 @@ class BalanceContainer extends LitElement {
         const pricingPlanUuid = plansList.querySelectorAll('option')[selectedUuidByIndex].id;
 
         const url = `/api/pricing-plan/set-plan-to-shop?shopUuid=${this.shop.uuid}&pricingPlanUuid=${pricingPlanUuid}`;
+
         this.setPricingPlanToThisShop(url);
     }
 
@@ -270,14 +271,14 @@ class BalanceContainer extends LitElement {
            this.transactionList = data.coinAccount.transactionList;
            this.shop = data;
        }
-        console.log('update shop after add plan', this.shop);
-        this.dispatchEvent(new CustomEvent('updating-pricing-plan-in-unique-shop',
-            {
-                bubbles: true,
-                composed: true,
-                detail: this.shop
-            })
-        );
+       console.log('updating-pricing-plan-in-unique-shop', this.shop);
+            this.dispatchEvent(new CustomEvent('update-shop-list',
+                {
+                    bubbles: true,
+                    composed: true,
+                    detail: this.shop
+                })
+            );
 
     }
 

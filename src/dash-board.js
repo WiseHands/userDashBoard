@@ -433,10 +433,8 @@ class DashBoard extends LitElement {
         this.openBalanceContainer();
         this.openPricingPlan();
         this.openPricingPlanList();
+        this.updateShopListUsePricingPlan();
         console.log('this.constructor dash-board-container', this.shop);
-        console.log('this.constructor dash-board-container', this.shopList);
-
-
 
     }
 
@@ -451,10 +449,7 @@ class DashBoard extends LitElement {
         }
     }
 
-
-
     openBalanceContainer(){
-        console.log('open balance container');
         const _this = this;
         this.addEventListener('show-balance-container', event => {
                 console.log("show-balance-container in addEventListener: ", event.detail);
@@ -462,6 +457,21 @@ class DashBoard extends LitElement {
                 this.showBalanceContainer();
             }
         );
+    }
+
+    updateShopListUsePricingPlan(){
+        const _this = this;
+        this.addEventListener('update-shop-list', event => {
+            console.log("update-shop-list in addEventListener: ", event.detail);
+            this.shopList.forEach(shop => {
+                if (shop.uuid == event.detail.uuid){
+                console.log('shop in shop List', shop);
+                    shop.pricingPlan = event.detail.pricingPlan;
+                    shop.coinAccount.balance = event.detail.coinAccount.balance;
+                }
+            });
+            console.log('shop in shop shopList', this.shopList);
+        });
     }
 
     openPricingPlan(){
@@ -526,20 +536,6 @@ class DashBoard extends LitElement {
         this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
         this.setSelectedState(event.currentTarget);
-
-
-        this.addEventListener('updating-pricing-plan-in-unique-shop', event => {
-                console.log("updating-pricing-plan-in-unique-shop: ", event.detail.uuid);
-
-                const uniqueShop = event.detail;
-                this.shopList.forEach(shop => {
-                    if (shop.uuid = uniqueShop.uuid){
-                        shop.pricingPlan = uniqueShop.pricingPlan
-                    }
-                });
-            }
-        );
-
     }
 
     setSelectedState(clickedMenuItem) {
