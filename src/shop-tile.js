@@ -108,7 +108,8 @@ class ShopTile extends LitElement {
     }
 
     showBalanceWidgetForShop(){
-        this.dispatchEvent(new CustomEvent('open-balance',
+        console.log('showBalanceWidgetForShop show-balance-container');
+        this.dispatchEvent(new CustomEvent('show-balance-container',
             {
                 bubbles: true,
                 composed: true,

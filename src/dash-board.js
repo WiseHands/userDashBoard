@@ -430,7 +430,7 @@ class DashBoard extends LitElement {
         this.isHiddenPlansBlockInMenu = true;
         this.checkIfUserIsLogIn();
         this.isUserSuperAdminThanHidePlansBlockInMenu();
-        this.openBalance();
+        this.openBalanceContainer();
         this.openPricingPlan();
         this.openPricingPlanList();
         console.log('this.constructor dash-board-container', this.shop);
@@ -451,26 +451,17 @@ class DashBoard extends LitElement {
 
 
 
-    openBalance(){
+    openBalanceContainer(){
         console.log('open balance container');
         const _this = this;
-        this.addEventListener('open-balance', event => {
+        this.addEventListener('show-balance-container', event => {
+                console.log("show-balance-container in addEventListener: ", event.detail);
                 _this.selectedShop = event.detail;
                 this.showBalanceContainer();
             }
         );
 
-        this.addEventListener('set-plan-for-shop', event => {
-                _this.selectedShop = event.detail;
-                console.log("open-balance in addEventListener: ", event.detail);
-                this.shopList.forEach(shop => {
-                    if (shop.uuid = _this.selectedShop.uuid){
-                        shop.pricingPlan = _this.selectedShop.pricingPlan
-                    }
-                });
-                this.showBalanceContainer();
-            }
-        );
+
 
 
     }
@@ -537,6 +528,7 @@ class DashBoard extends LitElement {
         this.isShowPricePlanListContainer = false;
         this.isShowPricePlanMainContainer = false;
         this.setSelectedState(event.currentTarget);
+
     }
 
     setSelectedState(clickedMenuItem) {

@@ -270,14 +270,7 @@ class BalanceContainer extends LitElement {
            this.transactionList = data.coinAccount.transactionList;
            this.shop = data;
        }
-       this.dispatchEvent(new CustomEvent('set-plan-for-shop',
-            {
-                bubbles: true,
-                composed: true,
-                detail: this.shop
-            })
-       );
-        console.log('dispatchEvent set-plan-for-shop, ', this.shop);
+
     }
 
     setBalanceForThisShop(data){
