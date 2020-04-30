@@ -101,18 +101,24 @@ class BalanceContainer extends LitElement {
                     
                 </section>
                 <span class="line"></span>
+
+
                 <section class="administration-container">
-                    <!--<p>Адміністрування:</p>-->
-                    <p>Зарахування офлайн поповнення</p>
-                    <div class="row-container">
-                        <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}">
-                        <button @click="${this.refillAdminPayment}">поповнити</button>
-                    </div>
+
+                    ${this.isHiddenOfflinePaymentSection ? html `` : html `
+                        <p>Зарахування офлайн поповнення</p>
+                        <div class="row-container">
+                            <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}">
+                            <button @click="${this.refillAdminPayment}">поповнити</button>
+                        </div>
+                    `}
+
                     <div class="transaction-table-container">
                         <p>Транзакції</p>
                             <table-transaction .shop="${this.shop}" .transactionList="${this.coinAccount.transactionList}"></table-transaction>
-                        </div>
+                    </div>
                 </section>
+
     
                 <div class="payment-form-container" hidden>
                     <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
@@ -156,8 +162,11 @@ class BalanceContainer extends LitElement {
             pricePlanList: {
                 type: Array
             },
-            errorForPricingPlan:{
+            errorForPricingPlan: {
                 type: String
+            },
+            isHiddenOfflinePaymentSection: {
+                type: Boolean
             }
         };
     }
@@ -173,7 +182,22 @@ class BalanceContainer extends LitElement {
         this.offlinePayment = 0;
         this.pricePlanList = [];
         this.getPricingPlanList();
+        this.isHiddenOfflinePaymentSection = true;
+        this.isUserSuperAdminThenHideOfflinePaymentSection();
+        console.log('this.isUserSuperAdminThenHideOfflinePaymentSection();');
 
+    }
+
+    isUserSuperAdminThenHideOfflinePaymentSection(){
+            console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
+        const _this = this;
+        let token = localStorage.getItem('JWT_TOKEN');
+        let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
+        let playLoad = JSON.parse(window.atob(tokenPlayLoad));
+        if (playLoad.isSuperAdmin == true){
+        console.log('JSON playload for balance: ', playLoad.isSuperAdmin);
+        _this.isHiddenOfflinePaymentSection = false;
+        }
     }
 
     updated(changedProperties) {
@@ -191,8 +215,6 @@ class BalanceContainer extends LitElement {
         const url = `/api/dashboard/shop/info?shopUuid=${this.shop.uuid}`;
         this.generateGetRequest(url);
     }
-
-
 
     _getPlanName(plan) {
         if(plan) return plan.name;
