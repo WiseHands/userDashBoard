@@ -4,8 +4,8 @@ class TableTransaction extends LitElement {
 
     render(){
         return html`
-            <style>               
-                
+            <style>
+
                 .container{
                     height: 100%;
                     width: 100%;
@@ -13,18 +13,19 @@ class TableTransaction extends LitElement {
                 *{
                   box-sizing: border-box;
                 }
-                
+
                 .wrapper {
                   width: 100%;
+                  height: 50%
                   max-width: 1000px;
                   margin: 1em auto;
                   padding: 1em;
                 }
-                
+
                 .is-striped {
                   background-color: rgba(233, 200, 147, 0.2);
                 }
-                
+
                 /* Table column sizing
                 ================================== */
                 .date-cell {
@@ -141,12 +142,12 @@ class TableTransaction extends LitElement {
                 .no-flexbox .Rtable.Rtable-cell {
                   width: 100%;
                 }
-                
+
                 .reference-link {
                     font-size: 1em !important;
                 }
             </style>
-            
+
             <div class="container">
               <div class="wrapper">
                 <div class="Rtable Rtable--5cols Rtable--collapse">
@@ -157,8 +158,8 @@ class TableTransaction extends LitElement {
                     <div class="Rtable-cell amount-cell column-heading">Сума</div>
                     <div class="Rtable-cell status-cell column-heading">Статус</div>
                   </div>
-                    ${this.transactionList.map(item => html`    
-                       
+                    ${this.transactionList.map(item => html`
+
                        <div class="Rtable-row">
                       <div class="Rtable-cell date-cell">
                         <div class="Rtable-cell--heading">Дата</div>
@@ -174,8 +175,8 @@ class TableTransaction extends LitElement {
                             <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
                           ` : html `
                             <p>${this.formatType(item)}</p>
-                          `}           
-                        </div>                        
+                          `}
+                        </div>
                       </div>
                       <div class="Rtable-cell amount-cell">
                         <div class="Rtable-cell--heading">Сума</div>
@@ -186,12 +187,12 @@ class TableTransaction extends LitElement {
                         <div class="Rtable-cell--content status-content">${this.formatStatus(item.status)}</div>
                       </div>
                     </div>
-                                        
-                    `)}                       
+
+                    `)}
                 </div>
               </div>
             </div>
-                  
+
 `;}
 
     static get properties() {

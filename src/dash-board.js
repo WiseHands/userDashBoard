@@ -24,7 +24,7 @@ class DashBoard extends LitElement {
                 .dash-block {
                     max-width: 900px;
                     margin: 0 auto;
-                }    
+                }
                 .header-profile-container{
                     position: fixed;
                     top: 0;
@@ -64,12 +64,12 @@ class DashBoard extends LitElement {
                         .profile-info{
                             display: flex;
                             flex-direction: column;
-                            align-items: flex-end; 
+                            align-items: flex-end;
                         }
                         .profile-info p{
                             margin: 0;
-                        } 
-                         
+                        }
+
                 #overlay-mobile {
                     display: none;
                     background-color: rgba(0,0,0,0);
@@ -111,7 +111,7 @@ class DashBoard extends LitElement {
                     from {
                         transform: translate3d(0, 0, 0);
                     }
-                
+
                     to {
                         visibility: hidden;
                         transform: translate3d(-100%, 0, 0);
@@ -164,13 +164,13 @@ class DashBoard extends LitElement {
                     width: 25%;
                     top: 63px;
 
-                }                                                                                               
+                }
                     .menu-item {
                         display: flex;
                         align-items: center;
                         height: 4em;
                         font-family: 'Roboto', 'Helvetica', sans-serif;
-                        padding-left: 1rem; 
+                        padding-left: 1rem;
                         margin: 0.5rem;
                         border-radius: 5px;
                     }
@@ -197,7 +197,7 @@ class DashBoard extends LitElement {
                     .inner-container{
                         display: flex;
                         flex-wrap: wrap;
-                        
+
                     }
                         .create-shop-element{
                             display: flex;
@@ -210,9 +210,9 @@ class DashBoard extends LitElement {
                         }
                         .create-shop-element:hover {
                             cursor: pointer;
-                        }                                           
+                        }
                         .create-shop-text-container{
-                            display: flex;                            
+                            display: flex;
                             align-items: center;
                             padding-top: 10px;
                             height: 40px;
@@ -224,7 +224,7 @@ class DashBoard extends LitElement {
                                 height: 24px;
                                 width: 24px;
                             }
-                    
+
                         .shop-name{
                                 display: flex;
                                 justify-content: center;
@@ -238,7 +238,7 @@ class DashBoard extends LitElement {
                                 .shop-name p{
                                     font-size: 2em;
                                 }
-                                
+
                     shop-tile{
                         display: flex;
                         flex-direction: column;
@@ -247,8 +247,8 @@ class DashBoard extends LitElement {
                         margin: 15px;
                         height: 200px;
                         width: 200px;
-                    }                        
-                                                                    
+                    }
+
                     subcription-container{
                         width: 100%;
                         height: 100%;
@@ -257,7 +257,7 @@ class DashBoard extends LitElement {
                     balance-container{
                         display: flex;
                         width: 100%;
-                    } 
+                    }
                     price-plan-container{
                         display: flex;
                         width: 100%;
@@ -266,22 +266,22 @@ class DashBoard extends LitElement {
                     .dash-block, .header-dash-block {
                     max-width: 1300px;
                     }
-                }    
+                }
                 @media screen and (max-width: 768px) {
                     .tools-dash-board-container, .logo-container  {
                         display: none;
                     }
                     .work-place-dash-board-container {
                         width: 100%
-                    }     
+                    }
                     .mobile-logo-container {
                         display: flex;
                         align-items: center;
                     }
                 }
-                        
+
             </style>
-            
+
              <div  id="overlay-mobile" class="null-style" @click="${this.closeSidebar}">
                 <div class="sidebar-mobile sibebar-swipe-off" @click="${this.showSidebar}">
                     <a class="link" href="/dashboard">
@@ -310,23 +310,23 @@ class DashBoard extends LitElement {
                     </div>
                 </div>
                 <div class="blur-block">
-        
+
                 </div>
             </div>
             <div class="main-container ">
-                                
+
                 <div class="header-profile-container border">
                     <div class="header-dash-block">
                         <div class="logo-container">
                             <img class="logo" src="/wisehands/assets/images/dashboard/main_logo_black.png">
                             <p class="product-name">WSTORE</p>
-                        </div>                                                      
+                        </div>
                         <div class="mobile-logo-container" @click="${this.showSideMenu}">
                             <img class="logo" src="wisehands/assets/images/dashboard/menu.svg">
                         </div>
-                        <profile-picture .user="${this.user}"></profile-picture>   
+                        <profile-picture .user="${this.user}"></profile-picture>
 
-                    </div>                 
+                    </div>
                 </div>
 
                 <div class="body-dash-board-container dash-block">
@@ -351,7 +351,7 @@ class DashBoard extends LitElement {
                         </div>
                     </div>
                     <div class="work-place-dash-board-container">
-                        ${this.isShowShopListContainer ? html`                                            
+                        ${this.isShowShopListContainer ? html`
                         <div class="shop-list-container">
                              <div class="inner-container">
                                 <a @click="${this.creatingShopThroughWizard}">
@@ -366,27 +366,27 @@ class DashBoard extends LitElement {
                                 </a>
                                 ${this.shopList.map(item => html`
                                      <shop-tile .shop="${item}"></shop-tile>
-                                `)}   
-                             </div>                 
-                        </div>` : html ``} 
-                        
+                                `)}
+                             </div>
+                        </div>` : html ``}
+
                         ${this.isShowBalanceContainer ? html `
                             <balance-container .shop="${this.selectedShop}"></balance-container>
                         ` : html ``}
-                        
+
                         ${this.isShowPricePlanListContainer ? html `
                             <price-plan-list-container></price-plan-list-container>
                         ` : html ``}
-                        
+
                         ${this.isShowPricePlanMainContainer ? html `
                             <price-plan-main-container .pricePlan="${this.selectedPricePlan}"></price-plan-main-container>
                         ` : html ``}
-                        
+
                     </div>
                 </div>
             </div>
-                           
-            
+
+
     `;
   }
 
@@ -430,7 +430,7 @@ class DashBoard extends LitElement {
     this.isShowShopListContainer = true;
     this.isHiddenPlansBlockInMenu = true;
     this.checkIfUserIsLogIn();
-    this.isUserSuperAdminThanHidePlansBlockInMenu();
+    this.hidePlansBlockInMenu();
     this.openBalanceContainer();
     this.openPricingPlan();
     this.openPricingPlanList();
@@ -439,7 +439,7 @@ class DashBoard extends LitElement {
 
   }
 
-  isUserSuperAdminThanHidePlansBlockInMenu() {
+  hidePlansBlockInMenu() {
     const _this = this;
     let token = localStorage.getItem('JWT_TOKEN');
     let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
@@ -451,10 +451,9 @@ class DashBoard extends LitElement {
   }
 
   openBalanceContainer() {
-    const _this = this;
     this.addEventListener('show-balance-container', event => {
         console.log("show-balance-container in addEventListener: ", event.detail);
-        _this.selectedShop = event.detail;
+        this.selectedShop = event.detail;
         this.showBalanceContainer();
       }
     );

@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import './table-transaction.js'
+import './google-setting.js'
 
 class BalanceContainer extends LitElement {
 
@@ -20,7 +21,7 @@ class BalanceContainer extends LitElement {
                 }
                 .main-balance-container p {
                     margin: 5px;
-                } 
+                }
                     .balance-container{
                         display: flex;
                         flex-direction: column;
@@ -30,7 +31,6 @@ class BalanceContainer extends LitElement {
                             flex-direction: column;
                             align-items: flex-start;
                             margin: 2.5px;
-
                         }
                         .row-container{
                             display: flex;
@@ -53,7 +53,7 @@ class BalanceContainer extends LitElement {
                     .administration-container{
                         display: flex;
                         flex-direction: column;
-                    }    
+                    }
                     .payment-form-container form{
                         display: flex;
                         flex-direction: column;
@@ -64,9 +64,12 @@ class BalanceContainer extends LitElement {
                     select{
                         width: -webkit-fill-available;
                     }
-                                     
+                google-setting{
+                  width: 100%;
+                }
+
             </style>
-            
+
             <div class="main-balance-container">
                 <p>Магазин: ${this.shop.shopName}</p>
                 <!--<p>Інформація:</p>-->
@@ -76,7 +79,7 @@ class BalanceContainer extends LitElement {
                     <div class="row-container">
                         <p>Поповнити на суму:</p>
                         <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
-                        <button @click="${this.generateSignatureForPayment}">поповнити</button>  
+                        <button @click="${this.generateSignatureForPayment}">поповнити</button>
                     </div>
                 </section>
                 <span class="line"></span>
@@ -111,16 +114,22 @@ class BalanceContainer extends LitElement {
                         <div class="row-container">
                             <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}">
                             <button @click="${this.refillAdminPayment}">поповнити</button>
+
                         </div>
                     `}
 
                     <div class="transaction-table-container">
+                      <span class="line"></span>
                         <p>Транзакції</p>
                             <table-transaction .shop="${this.shop}" .transactionList="${this.coinAccount.transactionList}"></table-transaction>
                     </div>
+                    <span class="line"></span>
                 </section>
 
-    
+                <google-setting .shop="${this.shop}"></google-setting>
+
+
+
                 <div class="payment-form-container" hidden>
                     <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
                         <input id="account" name="merchantAccount" value="">
@@ -139,8 +148,8 @@ class BalanceContainer extends LitElement {
                     </form>
                 </div>
             </div>
-                
-    
+
+
 `;}
 
     static get properties() {
@@ -184,19 +193,24 @@ class BalanceContainer extends LitElement {
         this.pricePlanList = [];
         this.getPricingPlanList();
         this.isUserSuperAdmin = true;
-        this.isUserSuperAdminThenHideOfflinePaymentSection();
+        this.hideOfflinePaymentSection();
         console.log('this.constructor balance-container', this.shop);
+        this.addEventListener('show-balance-container', event => {
+            console.log("show-balance-container in addEventListener sent shop to google: ", event.detail);
+            this.shop = event.detail;
+          }
+        );
 
     }
 
-    isUserSuperAdminThenHideOfflinePaymentSection(){
+    hideOfflinePaymentSection(){
         console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
         const _this = this;
         let token = localStorage.getItem('JWT_TOKEN');
-        let tokenPlayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
-        let playLoad = JSON.parse(window.atob(tokenPlayLoad));
-        if (playLoad.isSuperAdmin == true){
-        console.log('JSON playload for balance: ', playLoad.isSuperAdmin);
+        let tokenPayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
+        let payLoad = JSON.parse(window.atob(tokenPayLoad));
+        if (payLoad.isSuperAdmin == true){
+        console.log('JSON playload for balance: ', payLoad.isSuperAdmin);
         _this.isUserSuperAdmin = false;
         }
     }
