@@ -468,6 +468,13 @@ class DashBoard extends LitElement {
     const shop = this.shopList.find(shop => shop.uuid === affectedShop.uuid);
     shop.pricingPlan = affectedShop.pricingPlan;
     shop.coinAccount.balance = affectedShop.coinAccount.balance;
+
+    shop.googleWebsiteVerificator = affectedShop.googleWebsiteVerificator;
+    shop.googleAnalyticsCode = affectedShop.googleAnalyticsCode;
+    shop.googleStaticMapsApiKey = affectedShop.googleStaticMapsApiKey;
+    shop.googleMapsApiKey = affectedShop.googleMapsApiKey;
+    shop.faceBookPixelApiKey = affectedShop.faceBookPixelApiKey;
+    console.log('updateShopListUsePricingPlan', affectedShop);
   }
 
   openPricingPlan() {

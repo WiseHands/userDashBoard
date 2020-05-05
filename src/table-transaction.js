@@ -180,7 +180,7 @@ class TableTransaction extends LitElement {
                       </div>
                       <div class="Rtable-cell amount-cell">
                         <div class="Rtable-cell--heading">Сума</div>
-                        <div class="Rtable-cell--content replay-link-content">${item.amount} ₴</div>
+                        <div class="Rtable-cell--content replay-link-content">${this.roundToTwo(item.amount)} ₴</div>
                       </div>
                       <div class="Rtable-cell Rtable-cell--foot status-cell">
                         <div class="Rtable-cell--heading">Статус</div>
@@ -209,6 +209,11 @@ class TableTransaction extends LitElement {
     constructor() {
         super();
         this.transactionList = [];
+        console.log("this.transactionList", this.transactionList);
+    }
+
+    roundToTwo(num) {
+      return +(Math.round(num + "e+2") + "e-2");
     }
 
     setDateTime(secs) {

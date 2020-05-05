@@ -11,6 +11,7 @@ class GoogleSetting extends LitElement {
                     width: 100%;
                     display: flex;
                     flex-direction: column;
+                    align-items: center;
                 }
                 .border{
                     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
@@ -52,33 +53,33 @@ class GoogleSetting extends LitElement {
 
             </style>
 
-            <div class="container">
-              <p>GoogleSetting</p>
+            <div class="container border">
+            <p>Налаштування</p>
               <div class="google-setting-container">
-                <div class="site-verification-container border">
-                  <p class="text">Site verification by Google</p>
-                  <input id="verification" type="text" .value="this.googleWebsiteVerificator" @input="${this.handleVerification}"
-                   placeholder="${this.shop.googleWebsiteVerificator}" @blur="${this.saveVerification}">
+                <div class="site-verification-container">
+                  <p>Підтвердження сайту Google</p>
+                  <input id="verification" type="text" .value="${this.shop.googleWebsiteVerificator}" @input="${this.handleVerification}"
+                    @blur="${this.saveVerification}">
                 </div>
-                <div class="analytic-container border">
-                  <p>analytic</p>
-                  <input id="analytics" type="text" .value="this.googleAnalyticsCode" @input="${this.handleAnalytics}"
-                   placeholder="${this.shop.googleAnalyticsCode}"  @blur="${this.saveAnalytics}">
+                <div class="analytic-container">
+                  <p>Google Аналітика</p>
+                  <input id="analytic" type="text" .value="${this.shop.googleAnalyticsCode}" @input="${this.handleAnalytics}"
+                    @blur="${this.saveAnalytics}">
                 </div>
-                <div class="static-map-key-container border">
-                  <p>Static Map API Key</p>
-                  <input id="staticMap" type="text" .value="this.googleStaticMapsApiKey" @input="${this.handleStativMapKey}"
-                   placeholder="${this.shop.googleStaticMapsApiKey}"  @blur="${this.saveStativMapKey}">
+                <div class="static-map-key-container">
+                  <p>Статичний ключ для Google карти</p>
+                  <input id="staticMap" type="text" .value="${this.shop.googleStaticMapsApiKey}" @input="${this.handleStativMapKey}"
+                   @blur="${this.saveStativMapKey}">
                 </div>
-                <div class="map-key-container border">
-                  <p>Map API Key</p>
-                  <input id="map" type="text" .value="this.googleMapsApiKey" @input="${this.handleMapKey}"
-                   placeholder="${this.shop.googleMapsApiKey}"  @blur="${this.saveMapKey}">
+                <div class="map-key-container">
+                  <p>Ключ для Google карти</p>
+                  <input id="map" type="text" .value="${this.shop.googleMapsApiKey}" @input="${this.handleMapKey}"
+                   @blur="${this.saveMapKey}">
                 </div>
-                <div class="facebook-key-container border">
+                <div class="facebook-key-container">
                   <p>Facebook Pixel API Key</p>
-                  <input id="faceBookPixelApiKey" type="text" .value="this.faceBookPixelApiKey" @input="${this.handleFaceBookApiKey}"
-                   placeholder="${this.shop.faceBookPixelApiKey}"  @blur="${this.saveFaceBookApiKey}">
+                  <input id="faceBookPixelApiKey" type="text" .value="${this.shop.faceBookPixelApiKey}" @input="${this.handleFaceBookApiKey}"
+                    @blur="${this.saveFaceBookApiKey}">
                 </div>
               </div>
             </div>
@@ -95,7 +96,7 @@ class GoogleSetting extends LitElement {
 
     constructor() {
         super();
-        console.log('google-analytics-page: ', this.shop);
+        console.log('google-setting-page: ', this.shop);
     }
 
     handleVerification(event){
@@ -103,11 +104,8 @@ class GoogleSetting extends LitElement {
     }
 
     saveVerification(event){
-      console.log("googleWebsiteVerificator", this.googleWebsiteVerificator, this.shop);
       const params = `?googleWebsiteVerificator=${this.googleWebsiteVerificator}`;
-      console.log("googleWebsiteVerificator", this.googleWebsiteVerificator, params);
       this.saveGoogleSetting(params);
-
     }
 
     handleAnalytics(event){
@@ -116,6 +114,8 @@ class GoogleSetting extends LitElement {
 
     saveAnalytics(event){
       console.log("googleAnalyticsCode", this.googleAnalyticsCode);
+      const params = `?googleAnalyticsCode=${this.googleAnalyticsCode}`;
+      this.saveGoogleSetting(params);
     }
 
     handleStativMapKey(event){
@@ -124,6 +124,8 @@ class GoogleSetting extends LitElement {
 
     saveStativMapKey(event){
       console.log("googleStaticMapsApiKey", this.googleStaticMapsApiKey);
+      const params = `?googleStaticMapsApiKey=${this.googleStaticMapsApiKey}`;
+      this.saveGoogleSetting(params);
     }
 
     handleMapKey(event){
@@ -132,6 +134,8 @@ class GoogleSetting extends LitElement {
 
     saveMapKey(event){
       console.log("googleMapsApiKey", this.googleMapsApiKey);
+      const params = `?googleMapsApiKey=${this.googleMapsApiKey}`;
+      this.saveGoogleSetting(params);
     }
 
     handleFaceBookApiKey(event){
@@ -140,6 +144,8 @@ class GoogleSetting extends LitElement {
 
     saveFaceBookApiKey(event){
       console.log("faceBookPixelApiKey", this.faceBookPixelApiKey);
+      const params = `?faceBookPixelApiKey=${this.faceBookPixelApiKey}`;
+      this.saveGoogleSetting(params);
     }
 
     saveGoogleSetting(params){
@@ -149,7 +155,14 @@ class GoogleSetting extends LitElement {
             console.log("response response: ", response);
             return response.json();
         }).then(data => {
-            this.shop = data);
+          console.log("response saveGoogleSetting: ", data);
+          this.dispatchEvent(new CustomEvent('update-shop-list',
+              {
+                  bubbles: true,
+                  composed: true,
+                  detail: data
+              })
+          );
         });
     }
 

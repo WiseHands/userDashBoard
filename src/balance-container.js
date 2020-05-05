@@ -75,7 +75,7 @@ class BalanceContainer extends LitElement {
                 <!--<p>Інформація:</p>-->
                 <span class="line"></span>
                 <section class="balance-container">
-                    <p> Баланс: ${this.coinAccount.balance} UAH</p>
+                    <p> Баланс: ${this.roundToTwo(this.coinAccount.balance)} UAH</p>
                     <div class="row-container">
                         <p>Поповнити на суму:</p>
                         <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}" pattern="[0-9]+([\.,][0-9]+)?">
@@ -99,7 +99,7 @@ class BalanceContainer extends LitElement {
                                 </select>
                             </div>
                             <div class="row-container">
-                              <button @click="${this.changePlaneForShop}">змінити</button>
+                              <button @click="${this.changePricingPlanForShop}">змінити</button>
                               <p style="color: red">${this.errorForPricingPlan}</p>
                             </div>
                         </div>
@@ -203,6 +203,10 @@ class BalanceContainer extends LitElement {
 
     }
 
+    roundToTwo(num) {
+      return +(Math.round(num + "e+2") + "e-2");
+    }
+
     hideOfflinePaymentSection(){
         console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
         const _this = this;
@@ -249,7 +253,7 @@ class BalanceContainer extends LitElement {
         })
     }
 
-    changePlaneForShop(){
+    changePricingPlanForShop(){
         const plansList = this.shadowRoot.querySelector('#plans');
         const selectedUuidByIndex = plansList.selectedIndex;
         const pricingPlanUuid = plansList.querySelectorAll('option')[selectedUuidByIndex].id;
@@ -260,15 +264,13 @@ class BalanceContainer extends LitElement {
     }
 
     setPricingPlanToThisShop(url){
-        let _this = this;
         fetch(url, {
             method: 'POST'
-        }).then(function (response) {
-            console.log("response response: ", response);
+        }).then( response => {
             return response.json();
-        }).then(function (data) {
+        }).then( data=> {
             console.log('data from setPricingPlanToThisShop: ', data);
-            _this.setPlanForShop(data);
+            this.setPlanForShop(data);
         });
     }
 
@@ -312,7 +314,9 @@ class BalanceContainer extends LitElement {
     }
 
     handleOfflinePayment(e){
-        this.offlinePayment = e.target.value;
+         this.offlinePayment = e.target.value;
+         this.roundToTwo(this.offlinePayment);
+        console.log(`handleOfflinePayment${this.offlinePayment}`)
     }
 
     generateSignatureForPayment(){
