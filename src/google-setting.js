@@ -57,28 +57,28 @@ class GoogleSetting extends LitElement {
               <div class="google-setting-container">
                 <div class="site-verification-container border">
                   <p class="text">Site verification by Google</p>
-                  <input id="verification" type="text" .value="this.googleWebsiteVerificator" @input="${this.handleInput}"
-                   placeholder="${this.shop.googleWebsiteVerificator}">
+                  <input id="verification" type="text" .value="this.googleWebsiteVerificator" @input="${this.handleVerification}"
+                   placeholder="${this.shop.googleWebsiteVerificator}" @blur="${this.saveVerification}">
                 </div>
                 <div class="analytic-container border">
                   <p>analytic</p>
-                  <input id="analytics" type="text" .value="this.googleAnalyticsCode" @input="${this.handleInput}"
-                   placeholder="${this.shop.googleAnalyticsCode}">
+                  <input id="analytics" type="text" .value="this.googleAnalyticsCode" @input="${this.handleAnalytics}"
+                   placeholder="${this.shop.googleAnalyticsCode}"  @blur="${this.saveAnalytics}">
                 </div>
                 <div class="static-map-key-container border">
                   <p>Static Map API Key</p>
-                  <input id="staticMap" type="text" .value="this.googleStaticMapsApiKey" @input="${this.handleInput}"
-                   placeholder="${this.shop.googleStaticMapsApiKey}">
+                  <input id="staticMap" type="text" .value="this.googleStaticMapsApiKey" @input="${this.handleStativMapKey}"
+                   placeholder="${this.shop.googleStaticMapsApiKey}"  @blur="${this.saveStativMapKey}">
                 </div>
                 <div class="map-key-container border">
                   <p>Map API Key</p>
-                  <input id="map" type="text" .value="this.googleMapsApiKey" @input="${this.handleInput}"
-                   placeholder="${this.shop.googleMapsApiKey}">
+                  <input id="map" type="text" .value="this.googleMapsApiKey" @input="${this.handleMapKey}"
+                   placeholder="${this.shop.googleMapsApiKey}"  @blur="${this.saveMapKey}">
                 </div>
                 <div class="facebook-key-container border">
                   <p>Facebook Pixel API Key</p>
-                  <input id="faceBookPixelApiKey" type="text" .value="this.faceBookPixelApiKey" @input="${this.handleInput}"
-                   placeholder="${this.shop.faceBookPixelApiKey}">
+                  <input id="faceBookPixelApiKey" type="text" .value="this.faceBookPixelApiKey" @input="${this.handleFaceBookApiKey}"
+                   placeholder="${this.shop.faceBookPixelApiKey}"  @blur="${this.saveFaceBookApiKey}">
                 </div>
               </div>
             </div>
@@ -88,19 +88,69 @@ class GoogleSetting extends LitElement {
     static get properties() {
         return {
             shop: {
-                type: Object,
+              type: Object,
             }
         };
     }
 
     constructor() {
         super();
-
         console.log('google-analytics-page: ', this.shop);
     }
 
-    handleInput(event){
+    handleVerification(event){
       this.googleWebsiteVerificator =  event.target.value;
+    }
+
+    saveVerification(event){
+      console.log("googleWebsiteVerificator", this.googleWebsiteVerificator, this.shop);
+      const params = `?googleWebsiteVerificator=${this.googleWebsiteVerificator}`;
+      console.log("googleWebsiteVerificator", this.googleWebsiteVerificator, params);
+      this.saveGoogleSetting(params);
+
+    }
+
+    handleAnalytics(event){
+      this.googleAnalyticsCode =  event.target.value;
+    }
+
+    saveAnalytics(event){
+      console.log("googleAnalyticsCode", this.googleAnalyticsCode);
+    }
+
+    handleStativMapKey(event){
+      this.googleStaticMapsApiKey =  event.target.value;
+    }
+
+    saveStativMapKey(event){
+      console.log("googleStaticMapsApiKey", this.googleStaticMapsApiKey);
+    }
+
+    handleMapKey(event){
+      this.googleMapsApiKey =  event.target.value;
+    }
+
+    saveMapKey(event){
+      console.log("googleMapsApiKey", this.googleMapsApiKey);
+    }
+
+    handleFaceBookApiKey(event){
+      this.faceBookPixelApiKey =  event.target.value;
+    }
+
+    saveFaceBookApiKey(event){
+      console.log("faceBookPixelApiKey", this.faceBookPixelApiKey);
+    }
+
+    saveGoogleSetting(params){
+        fetch(`/api/dashboard/shop/setting${params}`, {
+            method: 'PUT'
+        }).then(response => {
+            console.log("response response: ", response);
+            return response.json();
+        }).then(data => {
+            this.shop = data);
+        });
     }
 
 

@@ -78,7 +78,7 @@ class BalanceContainer extends LitElement {
                     <p> Баланс: ${this.coinAccount.balance} UAH</p>
                     <div class="row-container">
                         <p>Поповнити на суму:</p>
-                        <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}">
+                        <input id="amountPayment" .value=${this.amountPayment} @input="${this.handleAmountPayment}" pattern="[0-9]+([\.,][0-9]+)?">
                         <button @click="${this.generateSignatureForPayment}">поповнити</button>
                     </div>
                 </section>
@@ -112,7 +112,7 @@ class BalanceContainer extends LitElement {
                     ${this.isUserSuperAdmin ? html `` : html `
                         <p>Зарахування офлайн поповнення</p>
                         <div class="row-container">
-                            <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}">
+                            <input id="adminPayment" .value=${this.offlinePayment} @input="${this.handleOfflinePayment}" pattern="^\d*(\.\d{0,2})?$" step=".01">
                             <button @click="${this.refillAdminPayment}">поповнити</button>
 
                         </div>
