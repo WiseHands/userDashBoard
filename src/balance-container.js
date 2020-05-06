@@ -128,8 +128,6 @@ class BalanceContainer extends LitElement {
 
                 <google-setting .shop="${this.shop}"></google-setting>
 
-
-
                 <div class="payment-form-container" hidden>
                     <form id="payment-form" method="post" action="https://secure.wayforpay.com/pay">
                         <input id="account" name="merchantAccount" value="">

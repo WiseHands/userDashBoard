@@ -29,7 +29,7 @@ class TableTransaction extends LitElement {
                 /* Table column sizing
                 ================================== */
                 .date-cell {
-                  width: 22%;
+                  width: 20%;
                 }
                 .topic-cell {
                   width: 20%;
@@ -38,7 +38,10 @@ class TableTransaction extends LitElement {
                   width: 20%;
                 }
                 .amount-cell {
-                  width: 18%;
+                  width: 10%;
+                }
+                .balance-cell{
+                  width: 10%;
                 }
                 .status-cell {
                   width: 20%;
@@ -156,6 +159,7 @@ class TableTransaction extends LitElement {
                     <div class="Rtable-cell topic-cell column-heading">Магазин</div>
                     <div class="Rtable-cell type-cell column-heading">Тип</div>
                     <div class="Rtable-cell amount-cell column-heading">Сума</div>
+                    <div class="Rtable-cell balance-cell column-heading">Баланс</div>
                     <div class="Rtable-cell status-cell column-heading">Статус</div>
                   </div>
                     ${this.transactionList.map(item => html`
@@ -181,6 +185,10 @@ class TableTransaction extends LitElement {
                       <div class="Rtable-cell amount-cell">
                         <div class="Rtable-cell--heading">Сума</div>
                         <div class="Rtable-cell--content replay-link-content">${this.roundToTwo(item.amount)} ₴</div>
+                      </div>
+                      <div class="Rtable-cell balance-cell">
+                        <div class="Rtable-cell--heading">Баланс</div>
+                        <div class="Rtable-cell--content replay-link-content">${item.transactionBalance} ₴</div>
                       </div>
                       <div class="Rtable-cell Rtable-cell--foot status-cell">
                         <div class="Rtable-cell--heading">Статус</div>
