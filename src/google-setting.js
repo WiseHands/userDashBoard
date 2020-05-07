@@ -145,7 +145,7 @@ class GoogleSetting extends LitElement {
     setSetting(params){
         fetch(`/api/dashboard/shop/setting${params}`, {
             method: 'PUT'
-        }).then(response => return response.json())
+        }).then(response => {return response.json()})
         .then(data => this.updateShopObject(data));
     }
 
