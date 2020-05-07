@@ -139,10 +139,10 @@ class GoogleSetting extends LitElement {
                       &googleMapsApiKey=${this.googleMapsApiKey}
                       &faceBookPixelApiKey=${this.faceBookPixelApiKey}`;
 
-      this.setSetting(params);
+      this.setSettings(params);
     }
 
-    setSetting(params){
+    setSettings(params){
         fetch(`/api/dashboard/shop/setting${params}`, {
             method: 'PUT'
         }).then(response => {return response.json()})
