@@ -8,7 +8,7 @@ class ShopTile extends LitElement {
                 .border{
                     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
                 }
-                
+
                 .container{
                     height: 100%;
                     width: 100%;
@@ -61,16 +61,16 @@ class ShopTile extends LitElement {
                     background-color: darkgray;
                     cursor: pointer;
                 }
-                
+
                 img:hover {
                 transform: scale(1.1);
                 }
-                                     
+
             </style>
               <div class="container border">
                 <a class="shop-name" href="${this._buildUrlForShop(this.shop)}">
                     <p>${this.shop.shopName}</p>
-                </a>    
+                </a>
                 <div class="shop-info-container">
                      <div class="shop-balance">
                         <img class="menu-item-logo"
@@ -79,11 +79,11 @@ class ShopTile extends LitElement {
                     </div>
                     <a class="shop-link" href="${this._buildUrlForShop(this.shop)}">
                          <img class="menu-item-logo"
-                         src="wisehands/assets/images/dashboard/link.png">                         
+                         src="wisehands/assets/images/dashboard/link.png">
                     </a>
                 </div>
               </div>
-           
+
 
     `;}
 
@@ -108,7 +108,7 @@ class ShopTile extends LitElement {
     }
 
     showBalanceWidgetForShop(){
-        console.log('showBalanceWidgetForShop show-balance-container');
+        console.log('showBalanceWidgetForShop show-balance-container', this.shop);
         this.dispatchEvent(new CustomEvent('show-balance-container',
             {
                 bubbles: true,

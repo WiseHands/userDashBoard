@@ -61,6 +61,9 @@ class TableTransaction extends LitElement {
                   display: -webkit-box;
                   display: flex;
                 }
+                .Rtable-row{
+                  align-items:baseline;
+                }
                 .Rtable .Rtable-row .Rtable-cell {
                   box-sizing: border-box;
                   -webkit-box-flex: 1;
@@ -164,37 +167,37 @@ class TableTransaction extends LitElement {
                   </div>
                     ${this.transactionList.map(item => html`
 
-                       <div class="Rtable-row">
-                      <div class="Rtable-cell date-cell">
-                        <div class="Rtable-cell--heading">Дата</div>
-                        <div class="Rtable-cell--content date-content"><span class="webinar-date">${this.setDateTime(item.time)}</div>
-                      </div>
-                      <div class="Rtable-cell topic-cell">
-                        <div class="Rtable-cell--content title-content">${this.shop.shopName}</div>
-                      </div>
-                      <div class="Rtable-cell type-cell">
-                        <div class="Rtable-cell--heading">Тип</div>
-                        <div class="Rtable-cell--content access-link-content">
-                          ${!!item.orderUuid ? html`
-                            <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
-                          ` : html `
-                            <p>${this.formatType(item)}</p>
-                          `}
+                      <div class="Rtable-row">
+                        <div class="Rtable-cell date-cell">
+                          <div class="Rtable-cell--heading">Дата</div>
+                          <div class="Rtable-cell--content date-content"><span class="webinar-date">${this.setDateTime(item.time)}</div>
+                        </div>
+                        <div class="Rtable-cell topic-cell">
+                          <div class="Rtable-cell--content title-content">${this.shop.shopName}</div>
+                        </div>
+                        <div class="Rtable-cell type-cell">
+                          <div class="Rtable-cell--heading">Тип</div>
+                          <div class="Rtable-cell--content access-link-content">
+                            ${!!item.orderUuid ? html `
+                              <a class="reference-link" href="${this._buildUrlForOrderTransaction(item, this.shop)}">${this.formatType(item)}</a>
+                              ` : html `
+                                <p>${this.formatType(item)}</p>
+                            `}
+                          </div>
+                        </div>
+                        <div class="Rtable-cell amount-cell">
+                          <div class="Rtable-cell--heading">Сума</div>
+                          <div class="Rtable-cell--content replay-link-content">${this.roundToTwo(item.amount)} ₴</div>
+                        </div>
+                        <div class="Rtable-cell balance-cell">
+                          <div class="Rtable-cell--heading">Баланс</div>
+                          <div class="Rtable-cell--content replay-link-content">${item.transactionBalance} ₴</div>
+                        </div>
+                        <div class="Rtable-cell Rtable-cell--foot status-cell">
+                          <div class="Rtable-cell--heading">Статус</div>
+                          <div class="Rtable-cell--content status-content">${this.formatStatus(item.status)}</div>
                         </div>
                       </div>
-                      <div class="Rtable-cell amount-cell">
-                        <div class="Rtable-cell--heading">Сума</div>
-                        <div class="Rtable-cell--content replay-link-content">${this.roundToTwo(item.amount)} ₴</div>
-                      </div>
-                      <div class="Rtable-cell balance-cell">
-                        <div class="Rtable-cell--heading">Баланс</div>
-                        <div class="Rtable-cell--content replay-link-content">${item.transactionBalance} ₴</div>
-                      </div>
-                      <div class="Rtable-cell Rtable-cell--foot status-cell">
-                        <div class="Rtable-cell--heading">Статус</div>
-                        <div class="Rtable-cell--content status-content">${this.formatStatus(item.status)}</div>
-                      </div>
-                    </div>
 
                     `)}
                 </div>
@@ -254,12 +257,9 @@ class TableTransaction extends LitElement {
             status = `Зміна трафного плану: ${this.shop.pricingPlan.name}`
         } else if (transaction.type === 'ORDER_CANCELLED'){
             status = `Повернення комісії за куплений товар`
-
         } else if (transaction.type === 'COMMISSION_FEE') {
             status = 'Комісія за куплений товар'
-
         }
-
         return status;
     }
 

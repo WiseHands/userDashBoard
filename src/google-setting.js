@@ -40,6 +40,9 @@ class GoogleSetting extends LitElement {
                     border-width: 1px;
                     border-bottom-style: solid;
                   }
+                  .facebook-key-container{
+                    margin-bottom: 10px;
+                  }
 
                 .save-setting-container{
                   display: flex;
@@ -111,34 +114,13 @@ class GoogleSetting extends LitElement {
         console.log('google-setting-page: ', this.shop);
     }
 
-    handleVerification(event){
-      this.googleWebsiteVerificator =  event.target.value;
-    }
-
-    handleAnalytics(event){
-      this.googleAnalyticsCode =  event.target.value;
-    }
-
-    handleStativMapKey(event){
-      this.googleStaticMapsApiKey =  event.target.value;
-    }
-
-    handleMapKey(event){
-      this.googleMapsApiKey =  event.target.value;
-    }
-
-    handleFaceBookApiKey(event){
-      this.faceBookPixelApiKey =  event.target.value;
-    }
-
     saveSettings(){
-
-      const params = `?googleWebsiteVerificator=${this.googleWebsiteVerificator}
-                      &googleAnalyticsCode=${this.googleAnalyticsCode}
-                      &googleStaticMapsApiKey=${this.googleStaticMapsApiKey}
-                      &googleMapsApiKey=${this.googleMapsApiKey}
-                      &faceBookPixelApiKey=${this.faceBookPixelApiKey}`;
-
+      const verification = this.shadowRoot.getElementById('verification').value;
+      const analytic = this.shadowRoot.getElementById('analytic').value;
+      const staticMapApiKey = this.shadowRoot.getElementById('staticMap').value;
+      const mapsApiKeythis = this.shadowRoot.getElementById('map').value;
+      const faceBookPixelApiKey = this.shadowRoot.getElementById('faceBookPixelApiKey').value;
+      const params = `?shopUuid=${this.shop.uuid}&googleWebsiteVerificator=${verification}&googleAnalyticsCode=${analytic}&googleStaticMapsApiKey=${staticMapApiKey}&googleMapsApiKey=${mapsApiKeythis}&faceBookPixelApiKey=${faceBookPixelApiKey}`;
       this.setSettings(params);
     }
 
@@ -146,7 +128,9 @@ class GoogleSetting extends LitElement {
         fetch(`/api/dashboard/shop/setting${params}`, {
             method: 'PUT'
         }).then(response => {return response.json()})
-        .then(data => this.updateShopObject(data));
+        .then(data => {
+            this.updateShopObject(data)
+          });
     }
 
     updateShopObject(data){

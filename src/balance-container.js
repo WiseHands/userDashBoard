@@ -206,13 +206,11 @@ class BalanceContainer extends LitElement {
     }
 
     hideOfflinePaymentSection(){
-        console.log('inside this.isUserSuperAdminThenHideOfflinePaymentSection')
         const _this = this;
         let token = localStorage.getItem('JWT_TOKEN');
         let tokenPayLoad = token.split('.')[1].replace('-', '+').replace('_', '/');
         let payLoad = JSON.parse(window.atob(tokenPayLoad));
         if (payLoad.isSuperAdmin == true){
-        console.log('JSON playload for balance: ', payLoad.isSuperAdmin);
         _this.isUserSuperAdmin = false;
         }
     }
@@ -285,15 +283,13 @@ class BalanceContainer extends LitElement {
            this.transactionList = data.coinAccount.transactionList;
            this.shop = data;
        }
-       console.log('updating-pricing-plan-in-unique-shop', this.shop);
-            this.dispatchEvent(new CustomEvent('update-shop-list',
-                {
-                    bubbles: true,
-                    composed: true,
-                    detail: this.shop
-                })
-            );
-
+       this.dispatchEvent(new CustomEvent('update-shop-list',
+           {
+               bubbles: true,
+               composed: true,
+               detail: this.shop
+           })
+       );
     }
 
     setBalanceForThisShop(data){

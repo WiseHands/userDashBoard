@@ -431,10 +431,11 @@ class DashBoard extends LitElement {
     this.isHiddenPlansBlockInMenu = true;
     this.checkIfUserIsLogIn();
     this.hidePlansBlockInMenu();
+    this.updateShopList();
     this.openBalanceContainer();
     this.openPricingPlan();
     this.openPricingPlanList();
-    this.updateShopListUsePricingPlan();
+
     console.log('this.constructor dash-board-container', this.shop);
 
   }
@@ -459,7 +460,7 @@ class DashBoard extends LitElement {
     );
   }
 
-  updateShopListUsePricingPlan() {
+  updateShopList() {
     this.addEventListener('update-shop-list', this._updateShopListHandler);
   }
 
@@ -474,7 +475,6 @@ class DashBoard extends LitElement {
     shop.googleStaticMapsApiKey = affectedShop.googleStaticMapsApiKey;
     shop.googleMapsApiKey = affectedShop.googleMapsApiKey;
     shop.faceBookPixelApiKey = affectedShop.faceBookPixelApiKey;
-    console.log('updateShopListUsePricingPlan', affectedShop);
   }
 
   openPricingPlan() {
