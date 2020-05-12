@@ -475,6 +475,8 @@ class DashBoard extends LitElement {
     shop.googleStaticMapsApiKey = affectedShop.googleStaticMapsApiKey;
     shop.googleMapsApiKey = affectedShop.googleMapsApiKey;
     shop.faceBookPixelApiKey = affectedShop.faceBookPixelApiKey;
+
+    
   }
 
   openPricingPlan() {
@@ -516,7 +518,6 @@ class DashBoard extends LitElement {
     this.shadowRoot.querySelector(".sidebar-mobile").classList.add('sibebar-swipe-off');
     setTimeout(this.setDisplayNoneToSidebarOverlay, 300);
     this.shadowRoot.querySelector("#overlay-mobile").style.display = 'none';
-
   }
 
   showSidebar(e) {
@@ -565,7 +566,6 @@ class DashBoard extends LitElement {
     this.isShowBalanceContainer = false;
     this.isShowPricePlanMainContainer = false;
     this.setSelectedState(event.currentTarget);
-
   }
 
   showPricingPlanMainContainer() {
@@ -574,11 +574,9 @@ class DashBoard extends LitElement {
     this.isShowBalanceContainer = false;
     this.isShowPricePlanListContainer = false;
     this.isShowPricePlanMainContainer = true;
-
   }
 
   getShopList() {
-    const _this = this;
     const url = '/api/dashboard/shops';
     let token = localStorage.getItem('JWT_TOKEN');
     fetch(url, {
@@ -586,15 +584,11 @@ class DashBoard extends LitElement {
       headers: {
         authorization: 'Bearer ' + token
       }
-    }).then(function (response) {
-      console.log("response response: ", response);
+    }).then(response => {
       return response.json();
-    }).then(function (data) {
-      console.log('data for shopList: ', data);
-      if (data) {
-        _this.shopList = data;
-      }
-
+    }).then(data  => {
+      console.log('getShopList: ', data);
+      this.shopList = data;
     });
   }
 
