@@ -467,6 +467,7 @@ class DashBoard extends LitElement {
   _updateShopListHandler(event) {
     const affectedShop = event.detail;
     const shop = this.shopList.find(shop => shop.uuid === affectedShop.uuid);
+    shop.shopName = affectedShop.shopName;
     shop.pricingPlan = affectedShop.pricingPlan;
     shop.coinAccount.balance = affectedShop.coinAccount.balance;
 

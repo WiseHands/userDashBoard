@@ -22,56 +22,77 @@ class BalanceContainer extends LitElement {
                 .main-balance-container p {
                     margin: 5px;
                 }
-                    .balance-container{
-                        display: flex;
-                        flex-direction: column;
-                    }
-                        .column-container{
-                            display: flex;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            margin: 2.5px;
-                        }
-                        .row-container{
-                            display: flex;
-                            flex-direction: row;
-                            justify-content: flex-start;
-                            align-items: center;
-                            margin: 2.5px;
-                        }
-                        .row-container input, button{
-                            margin: 5px;
-                        }
-                        .drop-down-list{
-                            display: flex;
-                            margin: 10px;
-                        }
-                    .status-plane-container{
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    .administration-container{
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    .payment-form-container form{
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    option{
-                        width: 100%;
-                    }
-                    select{
-                        width: -webkit-fill-available;
-                    }
-                google-setting{
-                  width: 100%;
+                .shop-name-container{
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
                 }
+                .show-shop-name{
+                  margin: 3px;
+                }
+                .edit-shop-name{
+                  margin: 3px;
+                  display: flex;
+                }
+                .balance-container{
+                    display: flex;
+                    flex-direction: column;
+                }
+                    .column-container{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        margin: 2.5px;
+                    }
+                    .row-container{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        margin: 2.5px;
+                    }
+                    .row-container input, button{
+                        margin: 5px;
+                    }
+                    .drop-down-list{
+                        display: flex;
+                        margin: 10px;
+                    }
+                .status-plane-container{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .administration-container{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .payment-form-container form{
+                    display: flex;
+                    flex-direction: column;
+                }
+                option{
+                    width: 100%;
+                }
+                select{
+                    width: -webkit-fill-available;
+                }
+            google-setting{
+              width: 100%;
+            }
 
             </style>
 
             <div class="main-balance-container">
-                <p>Магазин: ${this.shop.shopName}</p>
+              <div class="shop-name-container">
+                <div class="show-shop-name">
+                  <p>Магазин: ${this.shop.shopName}</p>
+                  </div>
+                <div class="edit-shop-name">
+                  <p>Змінити назву магазину:</p>
+                  <input id="shopName" .value=${this.shopName} @input="${this.handleShopName}">
+                  <button @click="${this.saveShopName}">Зберегти</button>
+                </div>
+              </div>
                 <!--<p>Інформація:</p>-->
                 <span class="line"></span>
                 <section class="balance-container">
@@ -163,6 +184,9 @@ class BalanceContainer extends LitElement {
             shop: {
                 type: Object,
             },
+            shopName: {
+                type: String
+            },
             plan: {
                 type: String
             },
@@ -188,6 +212,7 @@ class BalanceContainer extends LitElement {
         this.amountPayment = 0;
         this.offlinePayment = 0;
         this.pricePlanList = [];
+        this.shopName = '';
         this.getPricingPlanList();
         this.isUserSuperAdmin = true;
         this.hideOfflinePaymentSection();
@@ -197,6 +222,31 @@ class BalanceContainer extends LitElement {
 
     roundToTwo(num) {
       return +(Math.round(num + "e+2") + "e-2");
+    }
+
+    handleShopName(e){
+        this.shopName = e.target.value;
+        this.shop.shopName = this.shopName
+    }
+
+    saveShopName(){
+        const url = `/api/dashboard/shop/save-name?shopUuid=${this.shop.uuid}&shopName=${this.shop.shopName}`;
+        fetch(url, {
+            method: 'PUT'
+        }).then(response => {return response.json()})
+        .then(data => {
+            this.updateShopObject(data)
+        });
+    }
+
+    updateShopObject(data){
+    this.dispatchEvent(new CustomEvent('update-shop-list',
+        {
+            bubbles: true,
+            composed: true,
+            detail: data
+        })
+      );
     }
 
     hideOfflinePaymentSection(){
@@ -215,7 +265,6 @@ class BalanceContainer extends LitElement {
                 this.isBalanceRetrieved = true;
                 this.getBalanceForThisShop();
                 this.getFirstTenTransactions();
-
             }
             console.log(`${propName} changed. oldValue: ${oldValue}`);
         });
@@ -236,15 +285,13 @@ class BalanceContainer extends LitElement {
     }
 
     getPricingPlanList(){
-        let _this = this;
         const url = '/api/pricing-plan/get-list';
         fetch(url, {
             method: 'GET'
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            console.log('get getPricingPlanList from drop-down', data);
-            _this.pricePlanList = data;
+        }).then(response => { return response.json();
+        }).then(data => {
+           console.log('get getPricingPlanList from drop-down', data);
+           this.pricePlanList = data;
         })
     }
 
@@ -300,6 +347,13 @@ class BalanceContainer extends LitElement {
         }
     }
 
+    updateShopObject(data){
+      console.log("updateShopObject data ", data);
+        if (data.shopName){
+            this.shop.shopName = data.shopName
+        }
+    }
+
     handleAmountPayment(e){
         this.amountPayment = e.target.value;
     }
@@ -327,7 +381,10 @@ class BalanceContainer extends LitElement {
         }
         fetch(url, getParams).then(response => {
             return response.json();
-        }).then(data => this.updateCoinAccount(data));
+        }).then(data => {
+            this.updateShopObject(data);
+            this.updateCoinAccount(data);
+        });
     }
 
     generatePostRequestForWayForPayForm(url){
