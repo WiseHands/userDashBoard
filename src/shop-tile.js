@@ -30,6 +30,8 @@ class ShopTile extends LitElement {
                             font-size: 2em;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                            padding: 0.5rem;
+                            margin: 0; 
                         }
                     .shop-info-container{
                         display: flex;
@@ -65,7 +67,24 @@ class ShopTile extends LitElement {
                 img:hover {
                 transform: scale(1.1);
                 }
-
+                
+                @media screen and (max-width: 768px) {
+                    .shop-name {
+                        margin: 15px auto 0 auto;
+                    } 
+                    .shop-name p {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        padding: 0.5rem;
+                        text-align: center;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        white-space: normal;
+                        word-break: break-all;
+                        line-height: 1.2;
+                    }
+                }    
             </style>
               <div class="container border">
                 <a class="shop-name" href="${this._buildUrlForShop(this.shop)}">

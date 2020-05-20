@@ -25,6 +25,7 @@ class DashBoard extends LitElement {
                     max-width: 900px;
                     margin: 0 auto;
                 }
+                
                 .header-profile-container{
                     position: fixed;
                     top: 0;
@@ -271,8 +272,15 @@ class DashBoard extends LitElement {
                     .tools-dash-board-container, .logo-container  {
                         display: none;
                     }
-                    .work-place-dash-board-container {
+                    .work-place-dash-board-container, shop-tile, .create-shop-element {
                         width: 100%
+                    }
+                    shop-tile, .create-shop-element {
+                        height: 250px;
+                    }
+                    .shop-name {
+                        height: 70%;
+                        width: 90%;
                     }
                     .mobile-logo-container {
                         display: flex;
@@ -354,16 +362,16 @@ class DashBoard extends LitElement {
                         ${this.isShowShopListContainer ? html`
                         <div class="shop-list-container">
                              <div class="inner-container">
-                                <a @click="${this.creatingShopThroughWizard}">
                                     <div class="create-shop-element border">
-                                        <div class="shop-name">
-                                            <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
-                                        </div>
+                                        <a @click="${this.creatingShopThroughWizard}" class="shop-name">
+                                          <div>
+                                              <img class="create-shop-plus-logo" src="wisehands/assets/images/dashboard/plus.png">
+                                          </div>
+                                        </a>
                                         <div class="create-shop-text-container">
                                             <p>Створити магазин</p>
                                         </div>
-                                    </div>
-                                </a>
+                                    </div>                            
                                 ${this.shopList.map(item => html`
                                      <shop-tile .shop="${item}"></shop-tile>
                                 `)}
